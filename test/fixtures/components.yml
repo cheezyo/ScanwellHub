@@ -1,0 +1,19 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  comp_id: MyString
+  last_check: 2013-10-13
+  unit_id: 1
+  type_id: 1
+  available: false
+  calibrated: false
+  commet: MyText
+
+two:
+  comp_id: MyString
+  last_check: 2013-10-13
+  unit_id: 1
+  type_id: 1
+  available: false
+  calibrated: false
+  commet: MyText

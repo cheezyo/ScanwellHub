@@ -1,0 +1,84 @@
+<%- model_class = Component -%>
+<div class="page-header">
+  <h1><%= Brand.find(@component.brand_id).name + " " + @component.comp_id %></h1>
+ <% total = get_comp_todos(@component).count %>
+  <!-- <%= link_to todos_path(:comp_id => @component.id), :class => "btn btn-primary" do %>
+  To do
+  <span class="badge <% if total > 0 %>badge-red <% end %>"><%= total %></span>
+<% end %>
+-->
+
+
+<div class="btn-group">
+ <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+    To do <span class="badge <% if total > 0 %>badge-red <% end %>"><%= total %></span>
+  </button>
+  <ul class="dropdown-menu grey" role="menu" >
+
+
+    <% get_comp_todos(@component).each do |c|%>
+	   <li><%= link_to c do %>
+    	<%= c.title %>
+    	<% if c.level == "high" %>
+    	<% color = "badge-red" %>
+    	<% elsif c.level == "medium"%>
+    	<% color = "badge-orange" %>
+    	<% elsif c.level == "low"%>
+    	<% color = "badge-green" %>
+    	<% end %>
+    	<span class="badge <%= color %>"> </span>
+    	<% end %>
+	</li>
+     <li class="divider"></li>
+    
+    <% end %>
+    <% if total > 1%>
+   <li><%= link_to 'Show all...', todos_path(:unit_id => @unit.id)%></li>
+   <% end %>
+   </ul>
+ </div>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong>Serial number:</strong></dt>
+  <dd><%= @component.comp_id %></dd>
+  <dt>Location:</dt>
+  <dd><% if @component.location != nil %> <%= Location.find(@component.location).name %> <% else %> ... <% end %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:last_check) %>:</strong></dt>
+  <dd><%= @component.last_check %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:unit_id) %>:</strong></dt>
+  <% if @component.unit_id != nil && Unit.exists?(@component.unit_id) %>
+  <dd><%= Unit.find(@component.unit_id).unit_id %></dd>
+  <% else %>
+   <dd>Not assigned</dd>
+  <% end %>
+  <dt><strong><%= model_class.human_attribute_name(:available) %>:</strong></dt>
+  <dd><% if @component.available %>
+  	Yes
+  	<% else %>
+  	No
+  	<% end %>
+  </dd>
+  <dt><strong><%= model_class.human_attribute_name(:calibrated) %>:</strong></dt>
+  <dd><% if @component.calibrated %>
+  	Yes
+  	<% else %>
+  	No
+  	<% end %>
+  </dd>
+  <dt><strong><%= model_class.human_attribute_name(:commet) %>:</strong></dt>
+  <dd><%= @component.commet %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              components_path, :class => 'btn'  %>
+  <%= link_to "Add task", new_comp_todo_path(:comp_id => @component.id), :class => 'btn btn-primary' %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_component_path(@component), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              component_path(@component),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

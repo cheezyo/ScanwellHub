@@ -1,0 +1,49 @@
+<h1>Edit components </h1>
+
+<%= form_tag update_individual_components_path, method: :put do %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+	<th>Component to edit</th>
+      <th>Unit selected</th>
+       <th> Date of last control</th>
+        <th> Calibrated</th>
+    </tr>
+  </thead>
+  <tbody>
+  	
+        
+<% @components.each do |c| %>
+
+<% c.errors.full_messages.each do |msg| %>
+        <div class="alert alert-danger">
+          <%= msg %>
+          </div>
+        <% end %>
+    
+
+	<%= fields_for "components[]", c do |f| %>
+	
+
+	<tr>
+		<td><%= Brand.find(c.brand_id).name %> <%= c.comp_id %></td>
+		<td id="small"><%= f.collection_select :unit_id, Unit.all, :id, :unit_id, :include_blank => "Select a unit" %></td>
+		<td id="small"> <%= f.date_select :last_check, :class => 'text_field_small' %></td>
+		<td><%= f.check_box  :calibrated, :class => 'text_field' %></td>
+	</tr>
+ 	
+  
+  
+<% end %>
+
+<% end %>
+
+</tbody>
+</table>
+  <div class="form-actions">
+    <%= submit_tag "Update", :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                components_path, :class => 'btn' %>
+  </div>
+<% end %>
+

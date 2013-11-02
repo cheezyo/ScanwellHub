@@ -1,0 +1,94 @@
+<%- model_class = Company -%>
+<div class="page-header">
+  <h1><%= @company.name %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @company.name %></dd>
+</dl>
+<table class="table table-striped">
+  <thead>
+    <tr>
+     
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
+    
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @company.units.each do |unit| %>
+      <tr>
+        
+        <td><%= link_to unit.unit_id, unit %></td>
+         <% if unit.company_id != nil %>
+       <% company = Company.find(unit.company_id) %>
+        <td><%= company.name  %></td>
+        <% else %>
+        <td>No owner</td>
+        <% end %>
+        
+        <% location = Location.find(unit.location) %>
+        <td><%= link_to location.name, location  %></td> 
+        
+        <td><%= unit.last_check %></td>
+        <td><%= unit.last_check + 1.year %>
+        	<% days = (unit.last_check + 1.year)- DateTime.now %>
+        	<% if days > 90 %>
+        	<span style="color:#00ff00;">
+        	<% elsif days < 90 && days > 30 %>
+        	<span style="color:#FF9900;">
+        	<% else %>
+        	<span style="color:#bb0000;">
+        	<% end %>
+        	(in <%= days.to_i%> days)
+        	</span>
+        </td>
+        <td><% if unit.approved %>
+        	Yes
+        	<% else %>
+        	No
+        	<% end %>
+        </td>
+        <td><%= unit.comment.truncate(15) %></td>
+       
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_unit_path(unit), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      unit_path(unit),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              companies_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_company_path(@company), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              company_path(@company),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

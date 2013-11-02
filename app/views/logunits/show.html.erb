@@ -1,0 +1,35 @@
+<%- model_class = Logunit -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:unit_id) %>:</strong></dt>
+  <dd><%= @logunit.unit_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:send_date) %>:</strong></dt>
+  <dd><%= @logunit.send_date %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:sent_by) %>:</strong></dt>
+  <dd><%= @logunit.sent_by %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:sent_from) %>:</strong></dt>
+  <dd><%= @logunit.sent_from %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:sent_to) %>:</strong></dt>
+  <dd><%= @logunit.sent_to %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:arrive_date) %>:</strong></dt>
+  <dd><%= @logunit.arrive_date %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:recived_by) %>:</strong></dt>
+  <dd><%= @logunit.recived_by %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:status) %>:</strong></dt>
+  <dd><%= @logunit.status %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              logunits_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_logunit_path(@logunit), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              logunit_path(@logunit),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

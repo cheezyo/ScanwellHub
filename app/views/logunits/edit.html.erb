@@ -1,0 +1,64 @@
+<%- model_class = Logunit -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.titleize %></h1>
+</div>
+<%= form_for @logunit, :html => { :class => 'form-horizontal' } do |f| %>
+ <div class="control-group">
+    <%= f.label :unit_id, :class => 'control-label' %>
+    <div class="controls">
+     <%= f.collection_select :unit_id, Unit.all, :id, :unit_id, :include_blank => "Select a unit" %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :send_date, :class => 'control-label' %>
+    <div class="controls">
+    <%= f.date_select :send_date, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :sent_by, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.collection_select :sent_by, User.all, :id, :first_name, :include_blank => "Select a person" %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :sent_from, :class => 'control-label' %>
+    <div class="controls">
+       <%= f.collection_select :sent_from, Location.all, :id, :name, :include_blank => "Select a location" %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :sent_to, :class => 'control-label' %>
+    <div class="controls">
+        <%= f.collection_select :sent_to, Location.all, :id, :name, :include_blank => "Select a destination" %>
+    </div>
+  </div>
+  
+  <div class="control-group">
+    <%= f.label :arrive_date, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.date_select :arrive_date, {:include_blank => true, :default => nil}, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :recived_by, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.collection_select :recived_by, User.all, :id, :first_name, :include_blank => "Select a person" %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :status, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.collection_select :status, Status.all, :id, :name, :include_blank => "Select a status" %>
+    </div>
+  </div>
+
+  
+  <div class="form-actions">
+    <%= f.submit "Update log", :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                logunits_path, :class => 'btn' %>
+  </div>
+<% end %>
+
+

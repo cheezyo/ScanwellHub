@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  todo_id: 1
+  level: MyString
+  task: MyText
+
+two:
+  todo_id: 1
+  level: MyString
+  task: MyText

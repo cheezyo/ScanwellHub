@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  unit_id: 1
+  location: 1
+  last_check: 2013-10-13
+  approved: false
+  comment: MyText
+
+two:
+  unit_id: 1
+  location: 1
+  last_check: 2013-10-13
+  approved: false
+  comment: MyText

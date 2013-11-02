@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+
+  <% Unit.all.each do |unit| %>
+  <Worksheet ss:Name="<%= unit.unit_id %>">
+  	
+    <Table>
+    	
+      <Row>
+      	 <Cell><Data ss:Type="Date"><%= DateTime.now.to_formatted_s(:long) %></Data></Cell>
+      </Row>
+       <Row>
+        <Cell><Data ss:Type="String" >Unit id</Data></Cell>
+        <Cell><Data ss:Type="String"><%= unit.unit_id %></Data></Cell>
+      </Row>
+     <% lines = 3 %>
+     
+     <% while lines > 0 do %>
+     	<Row>
+     	</Row>
+     	<% lines =  lines - 1%>
+     <% end %>
+     
+      
+      <Row>
+        <Cell><Data ss:Type="String" >Action</Data></Cell>
+        <Cell><Data ss:Type="String">From</Data></Cell>
+        <Cell><Data ss:Type="String">To</Data></Cell>
+        <Cell><Data ss:Type="String">Status</Data></Cell>
+        <Cell><Data ss:Type="String">Date</Data></Cell>
+        <Cell><Data ss:Type="String">By</Data></Cell>
+      </Row>
+    <% Tracking.where("unit_id = ?", unit.unit_id).order("created_at desc").each do |t| %>
+      <Row>
+        <Cell><Data ss:Type="String"><%= t.action_name.capitalize %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= Location.find(t.from).name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= Location.find(t.to).name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= Status.find(t.status_id).name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= t.created_at.strftime("%d %B, %Y") %></Data></Cell>
+        <% if t.user_id != nil %>
+        <Cell><Data ss:Type="String"><%= User.find(t.user_id).first_name  %></Data></Cell>
+        <% else %>
+         <Cell><Data ss:Type="String">...</Data></Cell>
+         <% end %>
+      </Row>
+	 <% end %>
+    </Table>
+  </Worksheet>
+  	
+  <% end %>   
+</Workbook>

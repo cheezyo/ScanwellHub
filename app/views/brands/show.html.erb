@@ -1,0 +1,73 @@
+<%- model_class = Brand -%>
+<div class="page-header">
+  <h1><%= @brand.name %></h1>
+</div>
+
+<dl class="dl-horizontal">
+
+</dl>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+       <th>Type</th>
+      <th>Serial number</th>
+      <th>Last check</th>
+       <th>Unit</th>
+        <th>Available</th>
+         <th>Calibrated</th>
+          <th>Comments</th>
+     
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% Component.where(brand_id: @brand.id).each do |component| %>
+      <tr>
+        <td><%= Brand.find(component.brand_id).name %></td>
+        <td><%= component.comp_id %></td>
+        <td><%= component.last_check %></td>
+        <% if Unit.exists?(component.unit_id)%>
+        <td><%= Unit.find(component.unit_id).unit_id %></td>
+        <% else %>
+        <td>Not assigned</td>
+        <% end %>
+        <td><% if component.available %>
+        	Yes
+        	<% else %>
+        	No
+        	<% end %>
+        </td>
+        <td><% if component.calibrated %>
+        	Yes
+        	<% else %>
+        	No
+        	<% end %>
+        </td>
+        <td><%= component.commet %></td>
+       
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_component_path(component), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      component_path(component),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              brands_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_brand_path(@brand), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              brand_path(@brand),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

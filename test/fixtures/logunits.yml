@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  unit_id: 1
+  send_date: 2013-11-01
+  sent_by: 1
+  sent_from: 1
+  sent_to: 1
+  arrive_date: 2013-11-01
+  recived_by: 1
+  status: 1
+
+two:
+  unit_id: 1
+  send_date: 2013-11-01
+  sent_by: 1
+  sent_from: 1
+  sent_to: 1
+  arrive_date: 2013-11-01
+  recived_by: 1
+  status: 1

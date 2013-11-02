@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+      	 <Cell><Data ss:Type="Date"><%= DateTime.now.to_formatted_s(:long) %></Data></Cell>
+      </Row>
+     <% lines = 3 %>
+     
+     <% while lines > 0 do %>
+     	<Row>
+     	</Row>
+     	<% lines =  lines - 1%>
+     <% end %>
+      <Row>
+        <Cell><Data ss:Type="String">Unit id</Data></Cell>
+        <Cell><Data ss:Type="String">Owner</Data></Cell>
+        <Cell><Data ss:Type="String">Last check</Data></Cell>
+        <Cell><Data ss:Type="String">Next check</Data></Cell>
+        <Cell><Data ss:Type="String">Location</Data></Cell>
+        <Cell><Data ss:Type="String">Status</Data></Cell>
+      </Row>
+    <% @units.each do |unit| %>
+      <Row>
+        <Cell><Data ss:Type="Number"><%= unit.unit_id %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= Company.find(unit.company_id).name %></Data></Cell>
+        <Cell><Data ss:Type="Date"><%= unit.last_check %></Data></Cell>
+        <Cell><Data ss:Type="Date"><%= unit.last_check + 1.year %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= Location.find(unit.location).name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= Status.find(Tracking.find(unit.tracking_id).status_id).name %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>

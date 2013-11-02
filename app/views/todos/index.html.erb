@@ -1,0 +1,69 @@
+<%- model_class = Todo -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+
+<% if ! @todos.empty? %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:done) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%= model_class.human_attribute_name(:updated_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @todos.each do |todo| %>
+      <tr>
+        <td><%= link_to todo.id, todo_path(todo) %></td>
+        <td><%= todo.done %></td>
+        <td><%=l todo.created_at %></td>
+        <td><%=l todo.updated_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_todo_path(todo), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      todo_path(todo),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% elsif @show_unit %>
+	<%= form_tag update_individual_todos_path, method: :put do %>
+	
+		<% @unit_todos.each do |u| %>
+			<% if ! Todo.find(u.todo_id).done %>
+			<p><%= check_box_tag "todo_ids[]", u.todo_id%>
+				<%= u.title %></p>
+			<% end %>
+		<% end %>
+		
+		
+		<% @comp_todos.each do |c| %>
+			
+			<% if ! Todo.find(c.todo_id).done %>
+				<p><%= check_box_tag "todo_ids[]", c.todo_id%>
+					<%= c.title %></p>
+			<% end %>
+		<% end %>
+	<div class="form-actions">
+		<%= submit_tag "Done", :class => "btn" %>
+	</div>
+	<% end %>
+<% elsif @show_comp %>
+<% @comp_todos.each do |c| %>
+		
+			<% if ! Todo.find(c.todo_id).done %>
+				<p><%= c.title %></p>
+			<% end %>
+	<% end %>
+<% end %>
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_todo_path,
+            :class => 'btn btn-primary' %>

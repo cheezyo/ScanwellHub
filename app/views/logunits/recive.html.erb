@@ -1,0 +1,23 @@
+<%= form_for @logunit, :html => { :class => 'form-horizontal' } do |f| %>
+
+<h3>Confirmation: </h3>
+<% unit=  Unit.find(@logunit.unit_id)%>
+<p>Unit <%= unit.unit_id %> was sent from <%= Location.find(@logunit.sent_from).name %> to <%= Location.find(@logunit.sent_to).name %> on <%= @logunit.send_date %> the current status is  
+	<%= Status.find(@logunit.status).name %> please change the status and confirm.
+	</p>
+
+<div class="control-group">
+    <%= f.label :status, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.collection_select :status, Status.all, :id, :name, :include_blank => "Select a status" %>
+    </div>
+  </div>
+
+<%= f.hidden_field :arrive_date, :value => DateTime.now %>
+<%= f.hidden_field :recived_by, :value => current_user.id %>
+<div class="form-actions">
+    <%= f.submit "Confirm", :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                logunits_path, :class => 'btn' %>
+  </div>
+<% end %>

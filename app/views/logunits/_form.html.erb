@@ -1,0 +1,30 @@
+
+<div class="page-header">
+  <h1> Send unit <%= Unit.find(@unit_id.to_i).unit_id if Unit.exists?(@unit_id.to_i)%></h1>
+</div>
+
+<%= form_for @logunit, :html => { :class => 'form-horizontal' } do |f| %>
+
+  <div class="control-group">
+    <%= f.label "From", :class => 'control-label' %>
+    <div class="controls">
+       <%= f.collection_select :sent_from, Location.all, :id, :name, :include_blank => "Select a location" %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label "To", :class => 'control-label' %>
+    <div class="controls">
+        <%= f.collection_select :sent_to, Location.all, :id, :name, :include_blank => "Select a destination" %>
+    </div>
+  </div>
+  
+  
+
+  <%= f.hidden_field :unit_id, :value => @unit_id.to_i %>
+  <%= f.hidden_field :sent_by, :value => current_user.id %>
+  <div class="form-actions">
+    <%= f.submit "Send unit", :class => 'btn btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                logunits_path, :class => 'btn' %>
+  </div>
+<% end %>
