@@ -3,39 +3,33 @@
   <h1><%= @company.name %></h1>
 </div>
 
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
-  <dd><%= @company.name %></dd>
-</dl>
-<table class="table table-striped">
+
+<table class="table table-striped" id="units">
   <thead>
     <tr>
      
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
+      <th>Unit id</th>
+      <th>Status</th>
+      <th>Location</th>
+      
+      <th>Last check</th>
+      <th>Next check</th>
+      
+      <th>Comment</th>
     
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
+  </thead>
   </thead>
   <tbody>
     <% @company.units.each do |unit| %>
       <tr>
         
         <td><%= link_to unit.unit_id, unit %></td>
-         <% if unit.company_id != nil %>
-       <% company = Company.find(unit.company_id) %>
-        <td><%= company.name  %></td>
-        <% else %>
-        <td>No owner</td>
-        <% end %>
+
         
-        <% location = Location.find(unit.location) %>
-        <td><%= link_to location.name, location  %></td> 
+        <td><%= Status.find(unit.logunits.last.status).name if Status.exists?(unit.logunits.last.status) %></td>
+        <td><%= Location.find(unit.logunits.last.sent_to).name if Location.exists?(unit.logunits.last.sent_to)  %></td> 
         
         <td><%= unit.last_check %></td>
         <td><%= unit.last_check + 1.year %>
@@ -50,12 +44,7 @@
         	(in <%= days.to_i%> days)
         	</span>
         </td>
-        <td><% if unit.approved %>
-        	Yes
-        	<% else %>
-        	No
-        	<% end %>
-        </td>
+        
         <td><%= unit.comment.truncate(15) %></td>
        
         <td>
