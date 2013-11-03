@@ -35,7 +35,7 @@ class UnitsController < ApplicationController
     respond_to do |format|
       if @unit.save
         
-        setup_new_registration_for_tracking
+        
         
         format.html { redirect_to @unit, notice: 'Unit was successfully created.' }
         format.json { render action: 'show', status: :created, location: @unit }
@@ -73,16 +73,7 @@ class UnitsController < ApplicationController
 
   private
   
-    def setup_new_registration_for_tracking
-    tracking = Tracking.new
-    tracking.unit_id = @unit.unit_id
-    tracking.action_name = "New registration"
-    tracking.from = @unit.location
-    tracking.to = @unit.location
-    status = Status.find_by_name("On land")
-    tracking.status_id = status.id
-    tracking.save
-    end
+   
     # Use callbacks to share common setup or constraints between actions.
     def set_unit
       @unit = Unit.find(params[:id])
@@ -115,14 +106,14 @@ class UnitsController < ApplicationController
           
       @status = params[:status_id]
       @status_name = Status.find(params[:status_id]).name
-      
+      units = Unit.all
+      @units = Array.new
       units.each do |u|
-        track = Tracking.find(u.tracking_id)
-          if(track.status_id == params[:status_id].to_i)
-            @units << u
-          end
-       
+       if u.logunits.last.status == @status
+         @units << u
+        end
       end
+      
     else 
       @units = units
     end

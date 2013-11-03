@@ -2,7 +2,10 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
-$(document).ready () ->
-jQuery ->
+ready = ->
   $('#users').dataTable
    bJQueryUI: true
+
+$(document).ready(ready)
+$(document).on('page:load', ready)
+$(document).on('page:restore', ready)
