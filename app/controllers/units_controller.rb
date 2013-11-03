@@ -109,7 +109,7 @@ class UnitsController < ApplicationController
       units = Unit.all
       @units = Array.new
       units.each do |u|
-       if u.logunits.last.status == @status
+       if u.logunits.last.status == @status.to_i
          @units << u
         end
       end
