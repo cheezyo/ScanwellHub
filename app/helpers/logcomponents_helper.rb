@@ -1,0 +1,2 @@
+module LogcomponentsHelper
+end

@@ -5,8 +5,8 @@ class Unit < ActiveRecord::Base
   has_many :components
   has_many :unit_todos
   has_many :logunits
-  accepts_nested_attributes_for :components
-   after_save :logunit
+ 
+ after_save :logunit
    
   def self.to_csv(options = {})
   CSV.generate(options) do |csv|

@@ -15,8 +15,18 @@ module ApplicationHelper
      else
        return true  
     end
+  end
+
+ def is_in_transit_comp(comp)
+    
+      log = comp.logcomponents.last
+      if(log.arrive_date == nil)
+       return false
+       else
+         return true  
+      end
+     
     
     
   end
- 
 end

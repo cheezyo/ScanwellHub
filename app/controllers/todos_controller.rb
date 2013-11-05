@@ -7,7 +7,7 @@ class TodosController < ApplicationController
     @todos = Array.new
     
     if(params[:unit_id] != nil && params[:unit_id] != "" && Unit.exists?(params[:unit_id]))
-      @show_unit = true
+      @unit_id = params[:unit_id]
       unit = Unit.find(params[:unit_id])
       @unit_todos = unit.unit_todos
       comps = Component.where("unit_id = ?", unit.id)
@@ -22,7 +22,7 @@ class TodosController < ApplicationController
       @comp_todos = Component.find(params[:comp_id]).comp_todos
       
     else  
-      @todos = Todo.all
+     
     end 
   end
   def update_individual
@@ -63,9 +63,11 @@ class TodosController < ApplicationController
   # PATCH/PUT /todos/1
   # PATCH/PUT /todos/1.json
   def update
+    unit_id = 
     respond_to do |format|
       if @todo.update(todo_params)
-        format.html { redirect_to @todo, notice: 'Todo was successfully updated.' }
+       
+        format.html { redirect_to todos_url , notice: 'Todo was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

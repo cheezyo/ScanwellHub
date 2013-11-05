@@ -1,69 +1,96 @@
 <%- model_class = Todo -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+ 
 </div>
-
-<% if ! @todos.empty? %>
-<table class="table table-striped">
+<h3> Incompleted tasks</h3>
+<table class="table table-striped" id="incompleted-tasks">
   <thead>
     <tr>
-      <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:done) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
-      <th><%= model_class.human_attribute_name(:updated_at) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @todos.each do |todo| %>
-      <tr>
-        <td><%= link_to todo.id, todo_path(todo) %></td>
-        <td><%= todo.done %></td>
-        <td><%=l todo.created_at %></td>
-        <td><%=l todo.updated_at %></td>
-        <td>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_todo_path(todo), :class => 'btn btn-mini' %>
-          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      todo_path(todo),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
-        </td>
+     
+      <th></th>
+      <th>Title</th>
+      <th>Date</th>
+      <th>Task</th>
+      
       </tr>
-    <% end %>
-  </tbody>
-</table>
-<% elsif @show_unit %>
-	<%= form_tag update_individual_todos_path, method: :put do %>
-	
-		<% @unit_todos.each do |u| %>
-			<% if ! Todo.find(u.todo_id).done %>
-			<p><%= check_box_tag "todo_ids[]", u.todo_id%>
-				<%= u.title %></p>
-			<% end %>
-		<% end %>
-		
-		
-		<% @comp_todos.each do |c| %>
-			
-			<% if ! Todo.find(c.todo_id).done %>
-				<p><%= check_box_tag "todo_ids[]", c.todo_id%>
-					<%= c.title %></p>
-			<% end %>
-		<% end %>
-	<div class="form-actions">
-		<%= submit_tag "Done", :class => "btn" %>
-	</div>
-	<% end %>
-<% elsif @show_comp %>
-<% @comp_todos.each do |c| %>
-		
-			<% if ! Todo.find(c.todo_id).done %>
-				<p><%= c.title %></p>
-			<% end %>
-	<% end %>
+    </thead>
+<tbody>
+
+<%= form_tag update_individual_todos_path, method: :put do %>
+ 
+  <% @unit_todos.each do |u|%>
+	<% todo = Todo.find(u.todo_id) %>
+	<% if ! todo.done %>
+	<tr>
+        
+        
+	<td><%= check_box_tag "todo_ids[]", todo.id %></td>	
+  	<td><%= link_to u.title, unit_todo_path(u)%> </td>
+  	<td><%= u.created_at %></td>
+  	<td><%= u.task %></td>
+</tr>
+  <% end %>
 <% end %>
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_todo_path,
-            :class => 'btn btn-primary' %>
+ <% @comp_todos.each do |u|%>
+	<% todo = Todo.find(u.todo_id) %>
+	<% if ! todo.done %>
+	
+  <tr>
+        
+        
+	  <td><%= check_box_tag "todo_ids[]", todo.id %></td>
+	 <td> <%= link_to u.title, comp_todo_path(u)%></td>
+	 <td><%= u.created_at %></td>
+  	<td><%= u.task %></td>
+  	</tr>
+  
+  <% end %>
+<% end %>
+</tbody>
+</table>
+<div class="form-actions">
+  <%= submit_tag "Done checked", :class => "btn" %>
+</div>
+<% end %>
+
+<h3>Comlpete Tasks</h3>
+<table class="table table-striped" id="completed-tasks">
+  <thead>
+      <tr>
+	      <th>Title</th>
+	      <th>Date</th>
+	      <th>Task</th>
+      </tr>
+    </thead>
+<tbody>
+
+   <% @unit_todos.each do |u|%>
+	<% todo = Todo.find(u.todo_id) %>
+	<% if todo.done %>
+	<tr>
+	
+  <td> <%= link_to u.title, unit_todo_path(u)%></td>
+ <td><%= u.created_at %></td>
+  	<td><%= u.task %></td>
+  	</tr>
+  	
+  <% end %>
+<% end %>
+   <% @comp_todos.each do |u|%>
+	<% todo = Todo.find(u.todos_id) %>
+	<% if todo.done %>
+	
+  	<tr>
+	  	<td> <%= link_to u.title, comp_todo_path(u)%></td>
+	 	<td><%= u.created_at %></td>
+  		<td><%= u.task %></td>
+  	</tr>
+
+  
+  	</div>
+  	<% end %>
+  <% end %>
+</tbody>
+</table>
+
+

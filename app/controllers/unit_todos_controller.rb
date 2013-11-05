@@ -29,7 +29,7 @@ class UnitTodosController < ApplicationController
 
     respond_to do |format|
       if @unit_todo.save
-        format.html { redirect_to @unit_todo, notice: 'Unit todo was successfully created.' }
+        format.html { redirect_to unit_path(@unit_todo.unit_id), notice: 'Task added' }
         format.json { render action: 'show', status: :created, location: @unit_todo }
       else
         format.html { render action: 'new' }

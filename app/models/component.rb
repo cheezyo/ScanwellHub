@@ -1,11 +1,24 @@
 class Component < ActiveRecord::Base
-  attr_accessible :available, :calibrated, :commet, :comp_id, :last_check, :brand_id, :unit_id, :location
+  attr_accessible :available, :calibrated, :commet, :comp_id, :last_check, :brand_id, :unit_id, :company_id
   validates :comp_id, :uniqueness => {:scope => :comp_id}
   belongs_to :unit
+  belongs_to :company
   has_many :comp_todos
-  
+  has_many :logcomponents
   validate :setAvilability
+  after_save :set_up_log
   
+  
+  def set_up_log
+    log = Logcomponent.new
+    log.component_id = self.id
+    log.sent_from = 4
+    log.sent_to = 4
+    log.send_date = DateTime.now
+    log.arrive_date = DateTime.now
+    log.status = 4
+    log.save
+  end
   
   private 
   

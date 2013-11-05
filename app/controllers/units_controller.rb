@@ -34,9 +34,6 @@ class UnitsController < ApplicationController
     
     respond_to do |format|
       if @unit.save
-        
-        
-        
         format.html { redirect_to @unit, notice: 'Unit was successfully created.' }
         format.json { render action: 'show', status: :created, location: @unit }
       else

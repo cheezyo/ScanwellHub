@@ -6,11 +6,22 @@
     <small> 
     <% if @unit.logunits.count > 0 %>
     	<%= Status.find(@unit.logunits.last.status).name if Status.exists?(@unit.logunits.last.status)%>
+    	@ <%= Location.find(@unit.logunits.last.sent_to).name %> 
     <% end %>
     (<%= days.to_i %> days)
 	
 	</small>
   </h1>
+
+ <%= link_to t('.back', :default => t("helpers.links.back")),
+              units_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_unit_path(@unit), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              unit_path(@unit),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
 
   <% total = get_total(@unit)%>
  <!--
@@ -19,6 +30,16 @@
   <span class="badge <% if total > 0 %>badge-red <% end %>"><%= total %></span>
 <% end %>
 -->
+
+<div class="form-actions">
+	<%= link_to "History log", logunits_path(:unit_id => @unit.id), :class => 'btn btn-primary' %>
+	<% if ! is_in_transit(@unit) %>
+	<a data-toggle="modal" href="#check-unit" class="btn btn-primary">Check in unit</a>
+	<% else  %>
+	<a data-toggle="modal" href="#send-unit" class="btn btn-primary">Send in unit</a>
+	<% end %>
+	
+	<a data-toggle="modal" href="#add-task" class="btn btn-primary">Add a task</a>
 <div class="btn-group">
  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
     To do <span class="badge <% if total > 0 %>badge-red <% end %>"><%= total %></span>
@@ -57,11 +78,125 @@
      <li class="divider"></li>
     
     <% end %>
-    <% if total > 1%>
+
    <li><%= link_to 'Show all...', todos_path(:unit_id => @unit.id)%></li>
-   <% end %>
+
     </ul>
  </div> 
+</div>
+   <!-- Modal -->
+  <div class="modal fade" id="send-unit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Send unit</h4>
+        </div>
+        <div class="modal-body">
+			<% @logunit = Logunit.new %>
+			<%= form_for @logunit, :html => { :class => 'form-horizontal', :role => "form" } do |f| %>
+			<div class="control-group">
+		    <%= f.label "From", :class => 'control-label' %>
+		    <div class="controls">
+		       <%= f.collection_select :sent_from, Location.all, :id, :name, :include_blank => "Select a location" %>
+		    </div>
+		  </div>
+		  <div class="control-group">
+		    <%= f.label "To", :class => 'control-label' %>
+		    <div class="controls">
+		        <%= f.collection_select :sent_to, Location.all, :id, :name, :include_blank => "Select a destination" %>
+		    </div>
+		  </div>
+		  <%= f.hidden_field :unit_id, :value => @unit.id %>
+		  <%= f.hidden_field :sent_by, :value => current_user.id %>
+        </div>
+        <div class="modal-footer">
+          <%= f.submit "Send", :class => 'btn btn-primary' %>
+		  <% end %>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+ <!-- Modal -->
+  <div class="modal fade" id="check-unit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Check in unit</h4>
+        </div>
+        <div class="modal-body">
+			<% @logunit_edit = @unit.logunits.last %>
+			<%= form_for @logunit_edit, :html => { :class => 'form-horizontal', :role => "form" } do |f| %>
+			<div class="control-group">
+		    <%= f.label :status, :class => 'control-label' %>
+		    <div class="controls">
+		      <%= f.collection_select :status, Status.all, :id, :name, :include_blank => "Select a status" %>
+		    </div>
+		  </div>
+		<%= f.hidden_field :arrive_date, :value => DateTime.now %>
+		<%= f.hidden_field :recived_by, :value => current_user.id %>
+			
+        </div>
+        <div class="modal-footer">
+          <%= f.submit "Check in", :class => 'btn btn-primary' %>
+		  <% end %>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+  <!-- Modal -->
+  <div class="modal fade" id="add-task" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Add a task</h4>
+        </div>
+        <div class="modal-body">
+			<% @unit_todo = UnitTodo.new %>
+			<%= form_for @unit_todo, :html => { :class => 'form-horizontal', :role => "form" } do |f| %>
+			<div class="control-group">
+				
+			    <%= f.label :title, :class => 'control-label' %>
+			    <div class="controls">
+			      <%= f.text_field :title, :class => 'text_field' %>
+			      <%= f.hidden_field :unit_id, :value => @unit.id %>
+			      </div>
+			</div>
+			<div class="control-group">
+				
+			    <%= f.label :level, :class => 'control-label' %>
+			    <div class="controls">
+			       <select name="unit_todo[level]">
+				  <option value="">Please select</option>
+				  <option value="high" selected="selected">High</option>
+				  <option value="medium">Medium</option>
+				  <option value="low">Low</option>
+				</select>
+			</div>
+			</div>
+			<div class="control-group">
+				 <%= f.label :task, :class => 'control-label' %>
+			<div class="controls">
+			      <%= f.text_area :task, :class => 'text_field' %>
+			</div>
+			</div>
+			
+
+        </div>
+        <div class="modal-footer">
+          <%= f.submit "Create task", :class => 'btn btn-primary' %>
+		  <% end %>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
 </div>
 <dl class="dl-horizontal">
 	<% if @unit.company_id != nil %>
@@ -84,13 +219,12 @@
 
 </dl>
 <h5>Components on this unit</h5>
-
-<table class="table table-striped">
+	<%= form_tag edit_individual_components_path, method: :get do %>
+<table class="table table-striped" id="unit-comps">
   <thead>
     <tr>
-      
+      	<th></th>
       	<th>Serial number</th>
-   
 	    <th>Type</th>
 	    <th>Last check</th>
 	    <th>Calibrated</th>
@@ -100,10 +234,11 @@
     </tr>
   </thead>
   <tbody>
+  
     <% @unit.components.order("brand_id desc").each do |c|%>
     
       <tr>
-        
+        <td><%= check_box_tag "component_ids[]", c.id%></td>
         <td><%= link_to c.comp_id, c %></td>
          <td><%= Brand.find(c.brand_id).name %></td>
         <td><%= c.last_check %></td>
@@ -114,25 +249,12 @@
         </td>
         </tr>
         
-        <% end %>
+      
+	   <% end %>
         </tbody>
         </table>
 <div class="form-actions">
-	<%= link_to "History log", logunits_path(:unit_id => @unit.id), :class => 'btn btn-primary' %>
-	<% if ! is_in_transit(@unit) %>
-	<%= link_to "Check in unit", recive_logunits_path(:logunit_id => @unit.logunits.last.id ), :class => 'btn btn-primary' %>
-	<% else  %>
-	<%= link_to "Send unit", new_logunit_path( :unit_id => @unit.id ), :class => 'btn btn-primary'  %>
-	<% end %>
-	<%= link_to "Add task", new_unit_todo_path(:unit_id => @unit.id), :class => 'btn btn-primary' %>
-	
-  <%= link_to t('.back', :default => t("helpers.links.back")),
-              units_path, :class => 'btn'  %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_unit_path(@unit), :class => 'btn' %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-              unit_path(@unit),
-              :method => 'delete',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-              :class => 'btn btn-danger' %>
+	<%= submit_tag "Edit Checked", :class => "btn" %>
+	  <% end %>
 </div>
+

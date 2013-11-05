@@ -1,4 +1,6 @@
 RegisterTest2::Application.routes.draw do
+  resources :logcomponents
+
   resources :logunits do
     collection do
       get :recive

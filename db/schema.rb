@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131101190207) do
+ActiveRecord::Schema.define(version: 20131105011634) do
 
   create_table "activity_logs", force: true do |t|
     t.integer  "user_id"
@@ -56,12 +56,26 @@ ActiveRecord::Schema.define(version: 20131101190207) do
     t.text     "commet"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "location"
+    t.integer  "company_id"
   end
 
   create_table "locations", force: true do |t|
     t.string   "name"
     t.string   "more"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "logcomponents", force: true do |t|
+    t.integer  "component_id"
+    t.date     "send_date"
+    t.integer  "sent_from"
+    t.integer  "sent_by"
+    t.integer  "sent_to"
+    t.integer  "on_unit"
+    t.date     "arrive_date"
+    t.integer  "recived_by"
+    t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

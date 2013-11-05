@@ -1,0 +1,78 @@
+<%- model_class = Logcomponent -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<script>
+	function getComponent()
+	{
+		var e = document.getElementById("component");
+		var value = e.options[e.selectedIndex].value;
+		console.log(value);
+		if(value != "")
+		window.location.replace("/logcomponents?component_id=" + value)
+	}
+</script>
+    <div class="controls">
+    	<select id="component" style="margin:0px 0 0 0">
+    		<option value="">Search by component:</option>
+    		<% Component.all.order("brand_id asc").each do |c| %>
+    		<option value="<%= c.id %>">
+    			 <%= Brand.find(c.brand_id).name %> | <%= c.comp_id %>
+    		</option>
+    		<% end %>
+    	</select>
+    	<a href="#" class="btn btn-primary" onclick="getComponent()">Search</a>
+      	<%= link_to "Show all", logcomponents_path, :class => "btn btn-primary"%>
+    </div>
+
+
+
+<table class="table table-striped" id="logcomponents">
+  <thead>
+    <tr>
+
+      <th>Serial number</th>
+      <th><%= model_class.human_attribute_name(:send_date) %></th>
+   	  <th><%= model_class.human_attribute_name(:sent_by) %></th>     
+	  <th><%= model_class.human_attribute_name(:sent_from) %></th>
+      <th><%= model_class.human_attribute_name(:sent_to) %></th>
+      <th><%= model_class.human_attribute_name(:on_unit) %></th>
+      <th><%= model_class.human_attribute_name(:arrive_date) %></th>
+      <th><%= model_class.human_attribute_name(:recived_by) %></th>
+      <th><%= model_class.human_attribute_name(:status) %></th>
+     
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @logcomponents.each do |logcomponent| %>
+      <tr>
+        
+        <td><%= Component.find(logcomponent.component_id).comp_id if Component.exists?(logcomponent.component_id) %></td>
+        <td><%= logcomponent.send_date if logcomponent.send_date != nil %></td>
+          <td><%= User.find(logcomponent.sent_by).first_name if User.exists?(logcomponent.sent_by) %></td>
+      
+        <td><%= Location.find(logcomponent.sent_from).name if Location.exists?(logcomponent.sent_from) %></td>
+        <td><%= Location.find(logcomponent.sent_to).name if Location.exists?(logcomponent.sent_to) %></td>
+        <td><%= Unit.find(logcomponent.on_unit).unit_id if Unit.exists?(logcomponent.on_unit)%></td>
+        <td><%= logcomponent.arrive_date if logcomponent.arrive_date != nil  %></td>
+        <td><%= User.find(logcomponent.recived_by).first_name if User.exists?(logcomponent.recived_by) %></td>
+        <td><%= Status.find(logcomponent.status).name if Status.exists?(logcomponent.status) %></td>
+       
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_logcomponent_path(logcomponent), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      logcomponent_path(logcomponent),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_logcomponent_path,
+            :class => 'btn btn-primary' %>

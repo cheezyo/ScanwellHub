@@ -3,7 +3,7 @@
   <h1><%= @company.name %></h1>
 </div>
 
-
+<h3>Units</h3>
 <table class="table table-striped" id="units">
   <thead>
     <tr>
@@ -60,8 +60,64 @@
     <% end %>
   </tbody>
 </table>
-
-
+<h3> Components </h3>
+<table class="table table-striped" id="components">
+  <thead>
+    <tr>
+    	<th></th>
+      <th>Serial number</th>
+      <th>Type</th>
+      <th>Last check</th>
+      <th>Unit id</th>
+      
+      <th>Available</th>
+      <th>Calibrated</th>
+      <th>Comment</th>
+     
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    <% @company.components.each do |component| %>
+      <tr>
+      	<td><%= check_box_tag "component_ids[]", component.id%></td>
+      	<td><%= link_to component.comp_id, component %></td>
+      	<% brand = Brand.find(component.brand_id) %>
+        <td><%= link_to brand.name, brand %></td>
+        <td><%= component.last_check %></td>
+        <% if component.unit_id != nil && Unit.exists?(component.unit_id)%>
+        <% unit =  Unit.find(component.unit_id)%>
+        <td><%= link_to unit.unit_id, unit %></td>
+        <% else %>
+        <td>No assigned</td>
+        
+        <% end %>
+        
+        
+        <td><% if component.available %>
+        	Yes
+        	<% else %>
+        	No
+        	<% end %>
+        </td>
+        <td><% if component.calibrated %>
+        	Yes
+        	<% else %>
+        	No
+        	<% end %>
+        </td>
+        <td><% if component.commet != nil %>
+        	<%= component.commet.truncate(15)%>
+        	<% end %>
+        </td>
+       
+        <td>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
 
 
 
