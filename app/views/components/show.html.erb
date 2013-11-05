@@ -14,13 +14,13 @@
 <div class="form-actions">
 <%= link_to "History log", logcomponents_path(:component_id => @component.id), :class => 'btn btn-primary' %>
 
-
+<% if @component.unit_id == nil %>
 	<% if ! is_in_transit_comp(@component) %>
 	<a data-toggle="modal" href="#check-component" class="btn btn-primary">Check in component</a>
 	<% else  %>
 	<a data-toggle="modal" href="#send-component" class="btn btn-primary">Send component</a>
 	<% end %>	
-
+<% end %>
 <a data-toggle="modal" href="#add-task-comp" class="btn btn-primary">Add a task</a>
 <!-- Modal -->
   <div class="modal fade" id="add-task-comp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

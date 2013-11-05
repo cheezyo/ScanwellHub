@@ -21,12 +21,10 @@
   <% @unit_todos.each do |u|%>
 	<% todo = Todo.find(u.todo_id) %>
 	<% if ! todo.done %>
-	<tr>
-        
-        
+<tr>  
 	<td><%= check_box_tag "todo_ids[]", todo.id %></td>	
   	<td><%= link_to u.title, unit_todo_path(u)%> </td>
-  	<td><%= u.created_at %></td>
+  	<td><%= u.created_at.strftime("%d %B %Y") %></td>
   	<td><%= u.task %></td>
 </tr>
   <% end %>
@@ -35,14 +33,12 @@
 	<% todo = Todo.find(u.todo_id) %>
 	<% if ! todo.done %>
 	
-  <tr>
-        
-        
+  <tr>  
 	  <td><%= check_box_tag "todo_ids[]", todo.id %></td>
 	 <td> <%= link_to u.title, comp_todo_path(u)%></td>
-	 <td><%= u.created_at %></td>
+	 <td><%= u.created_at.strftime("%d %B %Y") %></td>
   	<td><%= u.task %></td>
-  	</tr>
+ </tr>
   
   <% end %>
 <% end %>
@@ -70,19 +66,19 @@
 	<tr>
 	
   <td> <%= link_to u.title, unit_todo_path(u)%></td>
- <td><%= u.created_at %></td>
+ <td><%= u.created_at.strftime("%d %B %Y") %></td>
   	<td><%= u.task %></td>
   	</tr>
   	
   <% end %>
 <% end %>
    <% @comp_todos.each do |u|%>
-	<% todo = Todo.find(u.todos_id) %>
+	<% todo = Todo.find(u.todo_id)%>
 	<% if todo.done %>
 	
   	<tr>
 	  	<td> <%= link_to u.title, comp_todo_path(u)%></td>
-	 	<td><%= u.created_at %></td>
+	 	<td><%= u.created_at.strftime("%d %B %Y") %></td>
   		<td><%= u.task %></td>
   	</tr>
 

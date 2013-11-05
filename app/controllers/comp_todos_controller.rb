@@ -29,7 +29,7 @@ class CompTodosController < ApplicationController
 
     respond_to do |format|
       if @comp_todo.save
-        format.html { redirect_to @comp_todo, notice: 'Comp todo was successfully created.' }
+        format.html { redirect_to component_path(@comp_todo.component_id), notice: 'Task was successfully created.' }
         format.json { render action: 'show', status: :created, location: @comp_todo }
       else
         format.html { render action: 'new' }
