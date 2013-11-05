@@ -24,7 +24,12 @@
     </div>
   </div>
   
-<%= f.hidden_field :location, :value => 4 %>
+   <div class="control-group">
+    <%= f.label :company_id, :class => 'control-label' %>
+    <div class="controls">
+    <%= f.collection_select :company_id, Company.all, :id, :name, :include_blank => "Select owner" %>
+    </div>
+  </div>
 
 
   <div class="control-group">
