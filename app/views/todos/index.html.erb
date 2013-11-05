@@ -2,6 +2,39 @@
 <div class="page-header">
  
 </div>
+<div class="control-group">
+<script>
+	function getByUnitOrComp()
+	{
+		var unit = document.getElementById("todo-unit-id");
+		var unit_id = unit.options[unit.selectedIndex].value;
+		var comp = document.getElementById("todo-comp-id");
+		var comp_id = unit.options[comp.selectedIndex].value;
+		window.location.replace("/todos?unit_id=" + unit_id + "&comp_id=" + comp_id  )
+	}
+</script>
+    <div class="controls">
+    	<select id="todo-unit-id" style="margin:0px 0 0 0">
+    		<option value="">Search by status:</option>
+    		<% Unit.all.each do |u| %>
+    		<option value="<%= u.id %>">
+    			<%= u.unit_id %>
+    		</option>
+    		<% end %>
+    	</select>
+    		<select id="todo-comp-id" style="margin:0px 0 0 0">
+    		<option value="">Search by owner:</option>
+    		<% Component.all.each do |c| %>
+    		<option value="<%= c.id %>">
+    			<%= c.comp_id %>
+    		</option>
+    		<% end %>
+    	</select>
+    	<a href="#" class="btn btn-primary" onclick="getByUnitOrComp()">Search</a>
+      	<%= link_to "Show all", todos_path, :class => 'btn btn-primary' %>
+    </div>
+  </div>
+
 <h3> Incompleted tasks</h3>
 <%= form_tag update_individual_todos_path, method: :put do %>
 <table class="table table-striped" id="incompleted-tasks">
