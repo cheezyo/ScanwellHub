@@ -18,30 +18,10 @@ class LogunitsController < ApplicationController
   end
 
   # GET /logunits/new
-  def new
-    if(Unit.exists?(params[:unit_id]))
-      @unit = Unit.find(params[:unit_id])
-    
-      if ! is_in_transit
-        
-        redirect_to recive_logunits_path(:logunit_id => @unit.logunits.last.id),:flash => { :error => 'This unit is stil in transfere you can not send it again'}
-        
-      end
-      @logunit = Logunit.new
-      @unit_id = params[:unit_id]
-   else 
-      redirect_to root_url, :flash => { :error => "Sorry no match"} 
-   end    
-    
+  def new    
+      redirect_to root_url, notice: "Sorry no access"  
   end
-  def recive
-    if(Logunit.exists?(params[:logunit_id]))
-    @logunit = Logunit.find(params[:logunit_id])
-    
-    else
-       redirect_to root_url, :flash => { :error => "Sorry no match"} 
-    end
-  end
+  
 
   # GET /logunits/1/edit
   def edit

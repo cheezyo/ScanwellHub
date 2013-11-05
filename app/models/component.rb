@@ -1,6 +1,12 @@
 class Component < ActiveRecord::Base
   attr_accessible :available, :calibrated, :commet, :comp_id, :last_check, :brand_id, :unit_id, :company_id
-  validates :comp_id, :uniqueness => {:scope => :comp_id}
+  validate :serial_number  
+  validates :comp_id, :uniqueness => {:scope => :comp_id,
+    message: "Serial number must be unique" }
+  validate :brand_id_present
+  validate :company_exists
+  
+  
   belongs_to :unit
   belongs_to :company
   has_many :comp_todos
@@ -8,7 +14,7 @@ class Component < ActiveRecord::Base
   validate :setAvilability
   after_save :set_up_log
   
-  
+
   def set_up_log
     log = Logcomponent.new
     log.component_id = self.id
@@ -21,6 +27,22 @@ class Component < ActiveRecord::Base
   end
   
   private 
+  def company_exists
+    if company_id.blank?
+      errors.add(:base, "You must choose an owner") 
+    end
+  end
+  def brand_id_present
+    if brand_id.blank?
+        errors.add(:base, "You must choose type of component")        
+    end
+  end
+  
+  def serial_number
+    if comp_id.blank?
+     errors.add(:base, "Serialnumber can not be blank")   
+    end
+  end
   
   def setAvilability
     if self.unit_id == nil || self.unit_id == ""

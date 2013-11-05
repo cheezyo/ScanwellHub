@@ -1,23 +1,33 @@
 <%= form_for @comp_todo, :html => { :class => 'form-horizontal' } do |f| %>
+   <% if @comp_todo.errors.any? %>
+    <div class="error_messages">
+      <h4><%= pluralize(@comp_todo.errors.count, "error") %> prohibited this task from being saved:</h4>
+      <ul>
+      <% @comp_todo.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
   <div class="control-group">
     <%= f.label :title, :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :title, :class => 'text_field' %>
     </div>
   </div>
-  <div class="control-group">
-    <%= f.label :level, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :level, :class => 'text_field' %>
-    </div>
-  </div>
+  	<div class="control-group">
+   	 <%= f.label :level, :class => 'control-label' %>
+    	<div class="controls">
+   	 		<%= f.select :level, options_for_select([["Low", "low"], ["Medium", "medium"],["High", "high"]]) %>
+		</div>
+	</div>
   <div class="control-group">
     <%= f.label :task, :class => 'control-label' %>
     <div class="controls">
       <%= f.text_field :task, :class => 'text_field' %>
     </div>
   </div>
- <%= f.hidden_field :component_id, :value => @comp_id %>
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

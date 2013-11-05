@@ -20,6 +20,9 @@ class UnitsController < ApplicationController
 
   # GET /units/new
   def new
+    if Company.all.empty?
+      redirect_to new_company_path, alert: "You need to create a company before creating a unit."
+    end
     @unit = Unit.new
   end
 
@@ -63,7 +66,7 @@ class UnitsController < ApplicationController
   def destroy
     @unit.destroy
     respond_to do |format|
-      format.html { redirect_to units_url }
+      format.html { redirect_to units_url, notice: "Unit was deleted." }
       format.json { head :no_content }
     end
   end

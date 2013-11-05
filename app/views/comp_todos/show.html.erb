@@ -1,22 +1,33 @@
 <%- model_class = CompTodo -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+<h2><%= @comp_todo.title %></h2>
 </div>
 
 <dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:todo_id) %>:</strong></dt>
-  <dd><%= @comp_todo.todo_id %></dd>
+   <dt><strong>Component:</strong></dt>
+  <dd><%= Brand.find(@comp_todo.component.brand_id).name %> | <%= @comp_todo.component.comp_id %></dd>
   <dt><strong><%= model_class.human_attribute_name(:level) %>:</strong></dt>
-  <dd><%= @comp_todo.level %></dd>
+  <dd><%= @comp_todo.level.capitalize %></dd>
   <dt><strong><%= model_class.human_attribute_name(:task) %>:</strong></dt>
   <dd><%= @comp_todo.task %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:component_id) %>:</strong></dt>
-  <dd><%= @comp_todo.component_id %></dd>
+   
 </dl>
 
 <div class="form-actions">
+<% if ! Todo.find(@comp_todo.todo_id).done %>
+	<%= form_tag task_done_comp_todos_path, method: :put do %>
+		<%= hidden_field_tag "todo_id", @comp_todo.todo_id %>
+		<%=submit_tag "Done", :class => "btn btn-primary" %>
+	<% end %>
+<% else %>
+	<%= form_tag undo_task_comp_todos_path, method: :put do %>
+		<%= hidden_field_tag "todo_id", @comp_todo.todo_id %>
+		<%=submit_tag "Undo task", :class => "btn btn-primary" %>
+	<% end %>
+
+<% end %>
   <%= link_to t('.back', :default => t("helpers.links.back")),
-              comp_todos_path, :class => 'btn'  %>
+              component_path(@comp_todo.component), :class => 'btn'  %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
               edit_comp_todo_path(@comp_todo), :class => 'btn' %>
   <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

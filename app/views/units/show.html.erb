@@ -172,12 +172,7 @@
 				
 			    <%= f.label :level, :class => 'control-label' %>
 			    <div class="controls">
-			       <select name="unit_todo[level]">
-				  <option value="">Please select</option>
-				  <option value="high" selected="selected">High</option>
-				  <option value="medium">Medium</option>
-				  <option value="low">Low</option>
-				</select>
+			    <%= f.select :level, options_for_select([["Low", "low"], ["Medium", "medium"],["High", "high"]]) %>
 			</div>
 			</div>
 			<div class="control-group">

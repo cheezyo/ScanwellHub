@@ -33,6 +33,7 @@
         <div class="modal-body">
 			<% @comp_todo = CompTodo.new %>
 			<%= form_for @comp_todo, :html => { :class => 'form-horizontal', :role => "form" } do |f| %>
+			
 			<div class="control-group">
 				
 			    <%= f.label :title, :class => 'control-label' %>
@@ -45,12 +46,7 @@
 				
 			    <%= f.label :level, :class => 'control-label' %>
 			    <div class="controls">
-			       <select name="unit_todo[level]">
-				  <option value="">Please select</option>
-				  <option value="high" selected="selected">High</option>
-				  <option value="medium">Medium</option>
-				  <option value="low">Low</option>
-				</select>
+			    <%= f.select :level, options_for_select([["Low", "low"], ["Medium", "medium"],["High", "high"]]) %>
 			</div>
 			</div>
 			<div class="control-group">
@@ -171,7 +167,7 @@
 <dl class="dl-horizontal">
   <dt><strong>Serial number:</strong></dt>
   <dd><%= @component.comp_id %></dd>
-  <dt><strong>Location:</strong></dt>
+  <dt><strong>Owner:</strong></dt>
   <dd><%= Company.find(@component.company_id).name if Company.exists?(@component.company_id) %></dd>
   <dt><strong><%= model_class.human_attribute_name(:last_check) %>:</strong></dt>
   <dd><%= @component.last_check %></dd>

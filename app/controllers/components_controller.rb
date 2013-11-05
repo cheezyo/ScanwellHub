@@ -36,6 +36,13 @@ class ComponentsController < ApplicationController
 
   # GET /components/new
   def new
+    if Brand.all.empty?
+     redirect_to new_brand_path, alert: "You need to create a type of component before creating a component."
+     
+    elsif Company.all.empty?
+      redirect_to new_company_path, alert: "You need to create a company before creating a component."
+      
+    end
     @component = Component.new
   end
 
@@ -56,7 +63,7 @@ class ComponentsController < ApplicationController
     @components.reject! { |c| c.errors.empty? }
     if @components.empty?
       
-      redirect_to components_url, notice: "Components updated successfully"
+      redirect_to components_url, notice: "Components were updated successfully"
     else 
       render "edit_individual"
     end
@@ -102,7 +109,7 @@ class ComponentsController < ApplicationController
   def destroy
     @component.destroy
     respond_to do |format|
-      format.html { redirect_to components_url }
+      format.html { redirect_to components_url, notice: "Component deleted" }
       format.json { head :no_content }
     end
   end

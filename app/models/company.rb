@@ -4,5 +4,7 @@ class Company < ActiveRecord::Base
   has_many :users
   has_many :components
   attr_accessible :name
-  accepts_nested_attributes_for :units, :users
+  validates :name, presence: true
+  validates :name, :uniqueness => {:scope => :name}
+
   end

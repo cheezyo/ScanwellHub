@@ -20,7 +20,7 @@ class LogcomponentsController < ApplicationController
 
   # GET /logcomponents/new
   def new
-    @logcomponent = Logcomponent.new
+   redirect_to root_url, notice: "No access"
   end
 
   # GET /logcomponents/1/edit

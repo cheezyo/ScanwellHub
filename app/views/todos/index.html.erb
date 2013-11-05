@@ -3,6 +3,7 @@
  
 </div>
 <h3> Incompleted tasks</h3>
+<%= form_tag update_individual_todos_path, method: :put do %>
 <table class="table table-striped" id="incompleted-tasks">
   <thead>
     <tr>
@@ -16,7 +17,7 @@
     </thead>
 <tbody>
 
-<%= form_tag update_individual_todos_path, method: :put do %>
+
  
   <% @unit_todos.each do |u|%>
 	<% todo = Todo.find(u.todo_id) %>
@@ -45,7 +46,7 @@
 </tbody>
 </table>
 <div class="form-actions">
-  <%= submit_tag "Done checked", :class => "btn" %>
+  <%= submit_tag "Done checked", :class => "btn btn-primary" %>
 </div>
 <% end %>
 

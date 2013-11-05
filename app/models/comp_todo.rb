@@ -1,11 +1,15 @@
 class CompTodo < ActiveRecord::Base
   has_one :todo
   belongs_to :component
-  
-  attr_accessible :todo_id, :component_id, :level, :task,:title
-  
   before_save :new_todo
   before_destroy :destroy_todo
+  
+  attr_accessible :todo_id, :component_id, :level, :task,:title
+  validates :component_id, presence: true
+  validates :level, presence: true
+  validates :task, presence: true
+  validates :title, presence: true
+  
   
   
   private 

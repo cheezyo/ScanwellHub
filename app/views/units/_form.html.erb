@@ -1,4 +1,14 @@
 <%= form_for @unit, :html => { :class => 'form-horizontal' } do |f| %>
+ 		<% if @unit.errors.any? %>
+		    <div class="alert">
+		      <h4><%= pluralize(@unit.errors.count, "error") %> prohibited this type of component from being saved:</h4>
+		      <ul>
+		      <% @unit.errors.full_messages.each do |msg| %>
+		        <li><%= msg %></li>
+		      <% end %>
+		      </ul>
+		    </div>
+  		<% end %>
   <div class="control-group">
     <%= f.label :unit_id, :class => 'control-label' %>
     <div class="controls">

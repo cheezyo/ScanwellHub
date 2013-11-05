@@ -1,4 +1,15 @@
 <%= form_for @component, :html => { :class => 'form-horizontal' } do |f| %>
+  	 <% if @component.errors.any? %>
+    <div class="alert">
+      <h4><%= pluralize(@component.errors.count, "error") %> prohibited this type of component from being saved:</h4>
+      <ul>
+      <% @component.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+  
   <div class="control-group">
     <%= f.label 'Serial number', :class => 'control-label' %>
     <div class="controls">
@@ -6,7 +17,7 @@
     </div>
   </div>
     <div class="control-group">
-    <%= f.label :brand_id, :class => 'control-label' %>
+    <%= f.label "Type of component", :class => 'control-label' %>
     <div class="controls">
     <%= f.collection_select :brand_id, Brand.all, :id, :name, :include_blank => "Select a type" %>
     </div>
@@ -25,7 +36,7 @@
   </div>
   
    <div class="control-group">
-    <%= f.label :company_id, :class => 'control-label' %>
+    <%= f.label "Owner", :class => 'control-label' %>
     <div class="controls">
     <%= f.collection_select :company_id, Company.all, :id, :name, :include_blank => "Select owner" %>
     </div>

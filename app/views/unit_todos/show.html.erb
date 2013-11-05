@@ -1,20 +1,31 @@
 <%- model_class = UnitTodo -%>
 <div class="page-header">
-  <h1><%=t '.title', :default => model_class.model_name.human.titleize %></h1>
+  <h1><%= @unit_todo.title.capitalize %></h1>
 </div>
 
 <dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:todo_id) %>:</strong></dt>
-  <dd><%= @unit_todo.todo_id %></dd>
+  <dt><strong>Unit:</strong></dt>
+  <dd><%= @unit_todo.unit.unit_id%></dd>
   <dt><strong><%= model_class.human_attribute_name(:level) %>:</strong></dt>
-  <dd><%= @unit_todo.level %></dd>
+  <dd><%= @unit_todo.level.capitalize %></dd>
   <dt><strong><%= model_class.human_attribute_name(:task) %>:</strong></dt>
   <dd><%= @unit_todo.task %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:unit_id) %>:</strong></dt>
-  <dd><%= @unit_todo.unit_id %></dd>
+
 </dl>
 
 <div class="form-actions">
+	<% if ! Todo.find(@unit_todo.todo_id).done %>
+	<%= form_tag task_done_unit_todos_path, method: :put do %>
+		<%= hidden_field_tag "todo_id", @unit_todo.todo_id %>
+		<%=submit_tag "Done", :class => "btn btn-primary" %>
+	<% end %>
+<% else %>
+	<%= form_tag undo_task_unit_todos_path, method: :put do %>
+		<%= hidden_field_tag "todo_id", @unit_todo.todo_id %>
+		<%=submit_tag "Undo task", :class => "btn btn-primary" %>
+	<% end %>
+
+<% end %>
   <%= link_to t('.back', :default => t("helpers.links.back")),
               unit_todos_path, :class => 'btn'  %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),

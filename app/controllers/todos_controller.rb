@@ -41,7 +41,7 @@ class TodosController < ApplicationController
   end
   def update_individual
      Todo.update_all({done: true}, {id: params[:todo_ids]})
-     redirect_to todos_url
+     redirect_to todos_path, notice: "Tasks done"
     
   end
   # GET /todos/1

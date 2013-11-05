@@ -1,6 +1,6 @@
 class UnitTodosController < ApplicationController
   before_action :set_unit_todo, only: [:show, :edit, :update, :destroy]
-
+  helper_method :get_unit_todo
   # GET /unit_todos
   # GET /unit_todos.json
   def index
@@ -21,7 +21,18 @@ class UnitTodosController < ApplicationController
   # GET /unit_todos/1/edit
   def edit
   end
-
+  def task_done
+    get_unit_todo
+    @todo.update({done: true})
+    #Todo.update_all({done: true}, {id: params[:todo_ids]})
+    redirect_to unit_path(@unit_todo.unit_id), notice: 'Task is done'
+  end
+  
+  def undo_task
+    get_unit_todo
+    @todo.update({done: false})
+    redirect_to unit_path(@unit_todo.unit_id), notice: 'Task is un-done'
+  end
   # POST /unit_todos
   # POST /unit_todos.json
   def create
@@ -63,6 +74,10 @@ class UnitTodosController < ApplicationController
   end
 
   private
+   def get_unit_todo
+    @todo = Todo.find(params[:todo_id])
+    @unit_todo = UnitTodo.where("todo_id = ?", @todo.id).first
+  end
     # Use callbacks to share common setup or constraints between actions.
     def set_unit_todo
       @unit_todo = UnitTodo.find(params[:id])

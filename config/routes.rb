@@ -1,16 +1,21 @@
 RegisterTest2::Application.routes.draw do
   resources :logcomponents
 
-  resources :logunits do
+  resources :logunits
+
+  resources :comp_todos do
     collection do
-      get :recive
+      put :task_done
+      put :undo_task
     end
   end
 
-  resources :comp_todos
-
-  resources :unit_todos
-
+  resources :unit_todos do
+     collection do
+      put :task_done
+      put :undo_task
+    end
+  end
   resources :statuses
 
   resources :trackings

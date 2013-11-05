@@ -1,6 +1,9 @@
 class Unit < ActiveRecord::Base
     attr_accessible :approved, :comment, :last_check, :location, :unit_id, :company_id, :tracking_id
-    validates :unit_id, :uniqueness => {:scope => :unit_id}
+    validates :unit_id, presence: true
+    validates :unit_id, :uniqueness => {:scope => :unit_id,message: "id allreday taken. Must be unique."}
+    validate :company_exists
+
   belongs_to :company
   has_many :components
   has_many :unit_todos
@@ -24,4 +27,12 @@ def logunit
   log.sent_to = 4
   log.save
 end
+
+private 
+
+ def company_exists
+    if company_id.blank?
+      errors.add(:base, "You must choose an owner") 
+    end
+  end
 end
