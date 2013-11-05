@@ -40,7 +40,7 @@ class Component < ActiveRecord::Base
    
     if(component_on_unit.count < brand.total_per_unit)
       self.available = false
-      self.location = unit.location
+      
       return true
       
     else 
