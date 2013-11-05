@@ -1,6 +1,13 @@
 <%- model_class = Todo -%>
 <div class="page-header">
- 
+
+<% if @unit != nil %>
+<h3>Task on unit <%= @unit.unit_id %> <small>and components assigned to this unit</small></h3>
+<% elsif @comp != nil  %>
+<h3>Tasks on component <%= Brand.find(@comp.brand_id).name %> | <%= @comp.comp_id %></h3>
+<% else %>
+<h3>Full list</h3>
+<% end %>
 </div>
 <div class="control-group">
 <script>
@@ -15,15 +22,16 @@
 </script>
     <div class="controls">
     	<select id="todo-unit-id" style="margin:0px 0 0 0">
-    		<option value="">Search by status:</option>
+    		<option value="">Search by unit:</option>
     		<% Unit.all.each do |u| %>
+    		
     		<option value="<%= u.id %>">
     			<%= u.unit_id %>
     		</option>
     		<% end %>
     	</select>
     		<select id="todo-comp-id" style="margin:0px 0 0 0">
-    		<option value="">Search by owner:</option>
+    		<option value="">Search by component:</option>
     		<% Component.all.each do |c| %>
     		<option value="<%= c.id %>">
     			<%= c.comp_id %>
@@ -35,7 +43,7 @@
     </div>
   </div>
 
-<h3> Incompleted tasks</h3>
+<h4> Incompleted tasks</h4>
 <%= form_tag update_individual_todos_path, method: :put do %>
 <table class="table table-striped" id="incompleted-tasks">
   <thead>
@@ -83,7 +91,7 @@
 </div>
 <% end %>
 
-<h3>Comlpete Tasks</h3>
+<h4>Comlpete Tasks</h4>
 <table class="table table-striped" id="completed-tasks">
   <thead>
       <tr>
