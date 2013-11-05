@@ -12,11 +12,11 @@ class Component < ActiveRecord::Base
   def set_up_log
     log = Logcomponent.new
     log.component_id = self.id
-    log.sent_from = 4
-    log.sent_to = 4
+    log.sent_from = 1
+    log.sent_to = 1
     log.send_date = DateTime.now
     log.arrive_date = DateTime.now
-    log.status = 4
+    log.status = 2
     log.save
   end
   
