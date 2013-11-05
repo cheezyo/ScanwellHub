@@ -43,7 +43,7 @@ class UnitTodosController < ApplicationController
         format.html { redirect_to unit_path(@unit_todo.unit_id), notice: 'Task added' }
         format.json { render action: 'show', status: :created, location: @unit_todo }
       else
-        format.html { render action: 'new' }
+        format.html { redirect_to unit_path(@unit_todo.unit_id), alert: 'Task was not created please fill inn all the fields when making a task.' }
         format.json { render json: @unit_todo.errors, status: :unprocessable_entity }
       end
     end

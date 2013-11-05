@@ -7,6 +7,10 @@ class UnitTodo < ActiveRecord::Base
   before_create :new_todo
   before_destroy :destroy_todo
   
+  validates :unit_id, presence: true
+  validates :level, presence: true
+  validates :task, presence: true
+  validates :title, presence: true
   
   private 
   
