@@ -2,7 +2,7 @@
 <div class="page-header">
   <h1><%= Brand.find(@component.brand_id).name + " " + @component.comp_id %> 
   	<small>
-  	<%= Status.find(@component.logcomponents.last.status).name %>
+  	<%= Status.find(@component.logcomponents.last.status).name if Status.exists?(@component.logcomponents.last.status) %>
   	@
   	<%= Location.find(@component.logcomponents.last.sent_to).name %>		
   	</small>
