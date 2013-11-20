@@ -6,15 +6,15 @@ class Component < ActiveRecord::Base
   
   attr_accessible :available, :calibrated, :commet, :comp_id, :last_check, :brand_id, :unit_id, :company_id, :range
   
-  before_validation :has_unit_changed
+ 
   validate :serial_number  
   validates :comp_id, :uniqueness => {:scope => :comp_id,
     message: "Serial number must be unique" }
   validate :brand_id_present
   validate :company_id_present
   validate :set_avilability
-
-  after_save :set_up_log
+  after_validation :save_old_unit_id
+  after_save :has_unit_changed #:set_up_log_first_time
   
 
   
@@ -31,36 +31,57 @@ class Component < ActiveRecord::Base
 
   
   private 
+  
+    def save_old_unit_id
+       @old_unit_id = self.unit_id_was
+    end
     #Log if component changes unit
     def has_unit_changed
-    
-    if self.unit_id != self.unit_id_was && ! self.unit_id.blank?
-      log = Logcomponent.new
+      
+      
+    if self.unit_id != @old_unit_id && ! self.unit_id.blank?
       new_unit = Unit.find(self.unit_id)
       
+      log = Logcomponent.new
       log.component_id = self.id
-      log.sent_from = self.logcomponents.last.sent_to
+      if self.logcomponents.empty?
+        log.sent_from = RegisterTest2::Application::LOCATION_SCANWELL_NO
+      else 
+        log.sent_from = self.logcomponents.last.sent_to
+      end
+      
       log.sent_to = new_unit.logunits.last.sent_to
       log.send_date = DateTime.now
-      log.arrive_date = DateTime.now
       log.on_unit = new_unit.id
-      log.status = new_unit.logunits.last.status
+      if log.sent_from == log.sent_to
+          log.arrive_date = DateTime.now
+          log.status = new_unit.logunits.last.status 
+      else
+          log.status = 2
+      end 
       log.save
+    #elsif ! self.unit_id_was.blank? && self.unit_id.blank?
+      
+    elsif self.unit_id.blank? && self.logcomponents.empty?
+        set_up_log_first_time
+        
     end
+   
   end
   
     #Set up log for component on create
-  def set_up_log
-    if(self.logcomponents.empty?)
+  def set_up_log_first_time
+    #if(self.logcomponents.empty?)
       log = Logcomponent.new
       log.component_id = self.id
       log.sent_from = RegisterTest2::Application::LOCATION_SCANWELL_NO
       log.sent_to = RegisterTest2::Application::LOCATION_SCANWELL_NO
       log.send_date = DateTime.now
       log.arrive_date = DateTime.now
+      #log.on_unit = self.unit_id
       log.status = RegisterTest2::Application::STATUS_ON_LAND
       log.save
-    end 
+    #end 
   end
   
   #Validations
