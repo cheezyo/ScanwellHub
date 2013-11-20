@@ -35,10 +35,10 @@ class Component < ActiveRecord::Base
     def save_old_unit_id
        @old_unit_id = self.unit_id_was
     end
+    
     #Log if component changes unit
     def has_unit_changed
-      
-      
+        
     if self.unit_id != @old_unit_id && ! self.unit_id.blank?
       new_unit = Unit.find(self.unit_id)
       
@@ -57,7 +57,7 @@ class Component < ActiveRecord::Base
           log.arrive_date = DateTime.now
           log.status = new_unit.logunits.last.status 
       else
-          log.status = 2
+          log.status = RegisterTest2::Application::STATUS_IN_TRANSIT
       end 
       log.save
     #elsif ! self.unit_id_was.blank? && self.unit_id.blank?
