@@ -28,7 +28,7 @@ def logunit
   log.send_date = DateTime.now
   log.sent_from = RegisterTest2::Application::LOCATION_SCANWELL_NO
   log.sent_to = RegisterTest2::Application::LOCATION_SCANWELL_NO
-  log.status = Status.find(Location.find(RegisterTest2::Application::LOCATION_SCANWELL_NO).status)
+  log.status = Status.find(Location.find(RegisterTest2::Application::LOCATION_SCANWELL_NO).status).id
   log.arrive_date = DateTime.now
   log.save
 end
@@ -38,7 +38,7 @@ def set_available
 end
 private 
 
- def company_exists
+def company_exists
     if company_id.blank?
       errors.add(:base, "You must choose an owner") 
     end
