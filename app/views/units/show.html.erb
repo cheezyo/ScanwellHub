@@ -32,13 +32,10 @@
 -->
 
 <div class="form-actions">
-	<%= link_to "History log", logunits_path(:unit_id => @unit.id), :class => 'btn btn-primary' %>
-	<% if ! is_in_transit(@unit) %>
-	<a data-toggle="modal" href="#check-unit" class="btn btn-primary">Check in unit</a>
-	<% else  %>
-	<a data-toggle="modal" href="#send-unit" class="btn btn-primary">Send in unit</a>
+	<% if is_in_transit_unit(@unit) %>
+		<%= link_to "Go to package", @unit.logunits.last.package, :class => 'btn btn-primary' %>
 	<% end %>
-	
+	<%= link_to "History log", logunits_path(:unit_id => @unit.id), :class => 'btn btn-primary' %>
 	<a data-toggle="modal" href="#add-task" class="btn btn-primary">Add a task</a>
 <div class="btn-group">
  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
@@ -84,41 +81,7 @@
     </ul>
  </div> 
 </div>
-   <!-- Modal -->
-  <div class="modal fade" id="send-unit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Send unit</h4>
-        </div>
-        <div class="modal-body">
-			<% @logunit = Logunit.new %>
-			<%= form_for @logunit, :html => { :class => 'form-horizontal', :role => "form" } do |f| %>
-			<div class="control-group">
-		    <%= f.label "From", :class => 'control-label' %>
-		    <div class="controls">
-		       <%= f.collection_select :sent_from, Location.all, :id, :name, :include_blank => "Select a location" %>
-		    </div>
-		  </div>
-		  <div class="control-group">
-		    <%= f.label "To", :class => 'control-label' %>
-		    <div class="controls">
-		        <%= f.collection_select :sent_to, Location.all, :id, :name, :include_blank => "Select a destination" %>
-		    </div>
-		  </div>
-		  <%= f.hidden_field :unit_id, :value => @unit.id %>
-		  <%= f.hidden_field :sent_by, :value => current_user.id %>
-        </div>
-        <div class="modal-footer">
-          <%= f.submit "Send", :class => 'btn btn-primary' %>
-		  <% end %>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-
+  
  <!-- Modal -->
   <div class="modal fade" id="check-unit" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -201,8 +164,8 @@
   
   <dt><strong><%= model_class.human_attribute_name(:last_check) %>:</strong></dt>
   <dd><%= @unit.last_check %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:approved) %>:</strong></dt>
-  <dd><% if @unit.approved %>
+  <dt><strong><%= model_class.human_attribute_name(:available) %>:</strong></dt>
+  <dd><% if @unit.available %>
   	Yes
   	<% else %>
   	No

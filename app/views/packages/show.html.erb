@@ -1,0 +1,63 @@
+<%- model_class = Package -%>
+<div class="page-header">
+  <h3>Package <%= @package.pack_nr || "no package number"%></h3>
+  <% if @package.arrival_date == nil %>
+  <%= form_tag recive_packages_path, method: :put do %>
+  	  <%= hidden_field_tag :id, @package.id %>
+	  <%= hidden_field_tag :arrival_date, DateTime.now %>
+	  <%= hidden_field_tag :reciver, current_user.id %>
+	  <%= submit_tag "Check in package",
+	  :confirm => DateTime.now.strftime("%d %B %Y") + ' Are you sure you have recived this package?',
+      :class => 'btn btn-primary' %>
+  <% end %>
+<% end %>
+</div>
+
+<p>Sent from <%= Location.find(@package.origin).name %> --> <%= Location.find(@package.destiantion).name %> </p>
+<p>Date: <%= @package.created_at.strftime("%d %B %Y") %></p>
+<p>Status: <%= Status.find(@package.status).name %></p>
+<% if @package.arrival_date != nil %>
+<p>Recived: <%= @package.arrival_date.strftime("%d %B %Y")%> </p>
+<% else %>
+<p>Recived: Not arrived</p>
+<% end %>
+<p>PO: <%= @package.po || "not set"%></p>
+<p>Referance: <%= @package.ref || "not set"%></p>
+<p> Comment:</p>
+<p><%= @package.coment %></p>
+
+<% components = Array.new %>
+<% if @package.components_ids != nil %>
+	<% components = Component.find(@package.components_ids) %>
+<% end %>
+
+<% units = Array.new %>
+<% if @package.unit_ids != nil %>
+	<% units = Unit.find(@package.unit_ids) %>
+<% end %>
+<%  count = units.count + components.count %>
+<h4>Contains <%= pluralize(count, "item") %>:</h4>
+
+<ul>
+	<% units.each do |u|%>
+	<li><%= u.unit_id %></li>
+	<% end %>
+	<% components.find(@package.components_ids).each do |c| %>
+	<li><%= c.comp_id %> <%= Brand.find(c.brand_id).name %></li>
+	<% end %>
+</ul>
+
+
+
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              packages_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_package_path(@package), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              package_path(@package),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+</div>

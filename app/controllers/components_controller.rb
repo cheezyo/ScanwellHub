@@ -9,11 +9,11 @@ class ComponentsController < ApplicationController
       @components = unit.components
       @unit_id = unit.unit_id
     elsif(params[:brand_id] != nil && params[:brand_id] != "" && Brand.exists?(params[:brand_id]))
-      @components = Component.where("brand_id = ?", params[:brand_id])
+      @components = Component.where(brand_id: params[:brand_id])
     
       if(params[:available] != nil && params[:available] != "")
           @available = params[:available] == "true" ? true : false
-          @components = @components.where("available = ?", @available)
+          @components = @components.where(available: @available)
       end 
     
      
@@ -21,7 +21,7 @@ class ComponentsController < ApplicationController
     
     elsif (params[:avilable] != "" && params[:available] != nil)
       @available = params[:available] == "true" ? true : false
-      @components = Component.where("available = ?", @available)
+      @components = Component.where(available: @available)
       
     else  
       @components = Component.all
@@ -51,6 +51,7 @@ class ComponentsController < ApplicationController
 
   # GET /components/1/edit
   def edit
+     
   end
   
   def edit_individual

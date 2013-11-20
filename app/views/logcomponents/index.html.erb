@@ -32,7 +32,10 @@
     <tr>
 
       <th>Serial number</th>
+      <th>Owner</th>
+      <th>Client</th>
       <th><%= model_class.human_attribute_name(:send_date) %></th>
+      
    	  <th><%= model_class.human_attribute_name(:sent_by) %></th>     
 	  <th><%= model_class.human_attribute_name(:sent_from) %></th>
       <th><%= model_class.human_attribute_name(:sent_to) %></th>
@@ -49,6 +52,8 @@
       <tr>
         
         <td><%= Component.find(logcomponent.component_id).comp_id if Component.exists?(logcomponent.component_id) %></td>
+        <td><%= Component.find(logcomponent.component_id).company.name if Component.exists?(logcomponent.component_id)%></td>
+        <td>not</td>
         <td><%= logcomponent.send_date if logcomponent.send_date != nil %></td>
           <td><%= User.find(logcomponent.sent_by).first_name if User.exists?(logcomponent.sent_by) %></td>
       

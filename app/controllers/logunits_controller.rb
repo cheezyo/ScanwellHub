@@ -112,6 +112,6 @@ class LogunitsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def logunit_params
-      params.require(:logunit).permit(:unit_id, :send_date, :sent_by, :sent_from, :sent_to, :arrive_date, :recived_by, :status, :logunit_id)
+      params.require(:logunit).permit(:package_id, :unit_id, :send_date, :sent_by, :sent_from, :sent_to, :arrive_date, :recived_by, :status, :logunit_id, :client_id)
     end
 end

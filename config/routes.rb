@@ -1,4 +1,10 @@
 RegisterTest2::Application.routes.draw do
+  resources :packages do 
+    collection do
+      put :recive
+    end
+  end
+
   resources :logcomponents
 
   resources :logunits

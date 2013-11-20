@@ -21,16 +21,8 @@ end
 def total_todos
  
   @total_todos = 0
-  CompTodo.all.each do |c|
-    if ! Todo.find(c.todo_id).done
-      @total_todos += 1
-    end
-  
-  end
-  UnitTodo.all.each do |u|
-    if ! Todo.find(u.todo_id).done
-      @total_todos += 1
-    end
+  if ! Todo.all.empty?
+    @total_todos = Todo.where(done: false).count
   end
    @total_todos          
 end

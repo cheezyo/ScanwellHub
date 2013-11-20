@@ -7,23 +7,23 @@ module ApplicationHelper
   link_to title, {:sort => column, :direction => direction,:status_id => @status, :owner => @owner_id}, {:class => css_class}
   end
 
-  def is_in_transit(unit)
+  def is_in_transit_unit(unit)
     
     log = unit.logunits.last
-    if(log.arrive_date == nil)
-     return false
+    if(log.status == RegisterTest2::Application::STATUS_IN_TRANSIT)
+     return true
      else
-       return true  
+       return false  
     end
   end
 
  def is_in_transit_comp(comp)
     
       log = comp.logcomponents.last
-      if(log.arrive_date == nil)
-       return false
+      if(log.status == RegisterTest2::Application::STATUS_IN_TRANSIT)
+       return true
        else
-         return true  
+         return false  
       end   
   end
   

@@ -6,8 +6,9 @@
   <thead>
     <tr>
       
-      <th><%= model_class.human_attribute_name(:name) %></th>
-      <th><%= model_class.human_attribute_name(:more) %></th>
+      <th>Location</th>
+      <th>Company</th>
+      <th>Status</th>
      
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
@@ -17,8 +18,8 @@
       <tr>
        
         <td><%= link_to location.name, location %></td>
-        <td><%= location.more %></td>
-      
+        <td><%= location.company != nil ? location.company.name : "not set"  %></td>
+      	<td><%= Status.find(location.status).name || "Not set"%></td>
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_location_path(location), :class => 'btn btn-mini' %>

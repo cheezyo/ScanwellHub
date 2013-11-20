@@ -1,12 +1,13 @@
 class Component < ActiveRecord::Base
  belongs_to :unit
+ belongs_to :brand
   belongs_to :company
   has_many :comp_todos
   has_many :logcomponents
   
   attr_accessible :available, :calibrated, :commet, :comp_id, :last_check, :brand_id, :unit_id, :company_id, :range
   
- 
+
   validate :serial_number  
   validates :comp_id, :uniqueness => {:scope => :comp_id,
     message: "Serial number must be unique" }
@@ -14,7 +15,7 @@ class Component < ActiveRecord::Base
   validate :company_id_present
   validate :set_avilability
   after_validation :save_old_unit_id
-  after_save :has_unit_changed 
+  after_create :has_unit_changed 
   
 
   
@@ -66,10 +67,7 @@ class Component < ActiveRecord::Base
           log.status = RegisterTest2::Application::STATUS_IN_TRANSIT
       end 
       log.save
-      
-    #elsif ! @old_unit_id.blank? && self.unit_id.blank?
-
-      
+   
     elsif self.unit_id.blank? && self.logcomponents.empty?
        
         set_up_log_first_time
@@ -123,6 +121,7 @@ class Component < ActiveRecord::Base
     end
   end
   
+  
     #Validates if assigned unit has capacity to assign this type of component. Every Brand has a total_per_unit variable.
     def validate_unit_component_list
       unit = Unit.find(self.unit_id)
@@ -130,7 +129,7 @@ class Component < ActiveRecord::Base
       brand = Brand.find(self.brand_id)
      
       # If component can be assigned this unit availability of component is set to false.
-      if(components_on_unit.count < brand.total_per_unit || components_on_unit.includes(self) )
+      if(components_on_unit.count < brand.total_per_unit || self.unit_id == self.unit_id_was )
         self.available = false
         
         return true

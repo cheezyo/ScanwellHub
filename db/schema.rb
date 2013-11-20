@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131105212943) do
+ActiveRecord::Schema.define(version: 20131121221946) do
 
   create_table "activity_logs", force: true do |t|
     t.integer  "user_id"
@@ -65,6 +65,12 @@ ActiveRecord::Schema.define(version: 20131105212943) do
     t.string   "more"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "company_id"
+    t.string   "address"
+    t.string   "postal_code"
+    t.string   "city"
+    t.string   "country"
+    t.integer  "status"
   end
 
   create_table "logcomponents", force: true do |t|
@@ -79,6 +85,8 @@ ActiveRecord::Schema.define(version: 20131105212943) do
     t.integer  "status"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "client_id"
+    t.integer  "package_id"
   end
 
   create_table "logunits", force: true do |t|
@@ -90,6 +98,24 @@ ActiveRecord::Schema.define(version: 20131105212943) do
     t.date     "arrive_date"
     t.integer  "recived_by"
     t.integer  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "client_id"
+    t.integer  "package_id"
+  end
+
+  create_table "packages", force: true do |t|
+    t.integer  "origin"
+    t.integer  "destiantion"
+    t.date     "arrival_date"
+    t.integer  "reciver"
+    t.integer  "status"
+    t.string   "po"
+    t.string   "ref"
+    t.text     "coment"
+    t.string   "pack_nr"
+    t.text     "unit_ids"
+    t.text     "components_ids"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -132,7 +158,7 @@ ActiveRecord::Schema.define(version: 20131105212943) do
     t.integer  "unit_id"
     t.integer  "location"
     t.date     "last_check"
-    t.boolean  "approved"
+    t.boolean  "available"
     t.text     "comment"
     t.datetime "created_at"
     t.datetime "updated_at"

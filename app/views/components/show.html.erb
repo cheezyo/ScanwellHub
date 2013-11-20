@@ -12,14 +12,10 @@
  <% total = get_comp_todos(@component).count %>
 
 <div class="form-actions">
+<% if is_in_transit_comp(@component) %>
+		<%= link_to "Go to package", @component.logcomponents.last.package, :class => 'btn btn-primary' %>
+	<% end %>
 <%= link_to "History log", logcomponents_path(:component_id => @component.id), :class => 'btn btn-primary' %>
-
-
-	<% if ! is_in_transit_comp(@component) %>
-	<a data-toggle="modal" href="#check-component" class="btn btn-primary">Check in component</a>
-	<% else  %>
-	<a data-toggle="modal" href="#send-component" class="btn btn-primary">Send component</a>
-	<% end %>	
 
 <a data-toggle="modal" href="#add-task-comp" class="btn btn-primary">Add a task</a>
 <!-- Modal -->
@@ -67,42 +63,7 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
 
- <!-- Modal -->
-  <div class="modal fade" id="send-component" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Send component</h4>
-        </div>
-        <div class="modal-body">
-			<% @logcomponent = Logcomponent.new %>
-			<%= form_for @logcomponent, :html => { :class => 'form-horizontal', :role => "form" } do |f| %>
-			<div class="control-group">
-		    <%= f.label "From", :class => 'control-label' %>
-		    <div class="controls">
-		       <%= f.collection_select :sent_from, Location.all, :id, :name, :include_blank => "Select a location" %>
-		    </div>
-		  </div>
-		  <div class="control-group">
-		    <%= f.label "To", :class => 'control-label' %>
-		    <div class="controls">
-		        <%= f.collection_select :sent_to, Location.all, :id, :name, :include_blank => "Select a destination" %>
-		    </div>
-		  </div>
-		  <%= f.hidden_field :component_id, :value => @component.id %>
-		  <%= f.hidden_field :sent_by, :value => current_user.id %>
-		  <%= f.hidden_field :status, :value => 3 %>
-		  <%= f.hidden_field :send_date, :value => DateTime.now %>
-        </div>
-        <div class="modal-footer">
-          <%= f.submit "Send", :class => 'btn btn-primary' %>
-		  <% end %>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
+ 
 <!-- Modal -->
 <% if ! @component.logcomponents.empty?%>
   <div class="modal fade" id="check-component" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">

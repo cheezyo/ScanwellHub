@@ -1,0 +1,27 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  origin: 1
+  destiantion: 1
+  arrival_date: 
+  reciver: 1
+  status: 1
+  po: MyString
+  ref: MyString
+  coment: MyText
+  pack_nr: MyString
+  unit_ids: MyText
+  components_ids: MyText
+
+two:
+  origin: 1
+  destiantion: 1
+  arrival_date: 
+  reciver: 1
+  status: 1
+  po: MyString
+  ref: MyString
+  coment: MyText
+  pack_nr: MyString
+  unit_ids: MyText
+  components_ids: MyText

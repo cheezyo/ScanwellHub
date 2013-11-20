@@ -9,6 +9,18 @@
 		      </ul>
 		    </div>
   		<% end %>
+   <div class="control-group">
+    <%= f.label "Location for company: ", :class => 'control-label' %>
+    <div class="controls">
+    <%= f.collection_select :company_id, Company.all, :id, :name, :include_blank => "Select a owner" %>
+    </div>
+  </div>
+   <div class="control-group">
+    <%= f.label "Location status: ", :class => 'control-label' %>
+    <div class="controls">
+    <%= f.collection_select :status, Status.all, :id, :name, :include_blank => "Select a status" %>
+    </div>
+  </div>
   <div class="control-group">
     <%= f.label :name, :class => 'control-label' %>
     <div class="controls">
@@ -16,9 +28,27 @@
     </div>
   </div>
   <div class="control-group">
-    <%= f.label :more, :class => 'control-label' %>
+    <%= f.label :adress, :class => 'control-label' %>
     <div class="controls">
-      <%= f.text_field :more, :class => 'text_field' %>
+      <%= f.text_field :address, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :postal_code, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :postal_code, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :city, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :city, :class => 'text_field' %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= f.label :country, :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :country, :class => 'text_field' %>
     </div>
   </div>
 

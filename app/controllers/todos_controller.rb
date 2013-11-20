@@ -11,33 +11,23 @@ class TodosController < ApplicationController
 
       @unit = Unit.find(params[:unit_id])
       @unit_todos = @unit.unit_todos
-      comps = Component.where("unit_id = ?", @unit.id)
-      @comp_todos = Array.new()
-      comps.each do |c|
-        c.comp_todos.each do |a|
-          @comp_todos << a
-        end 
-      end
+      @comps = @unit.components
+      
+      @comp_todos =  CompTodo.where(id: @comps)
+      
+     
+     
     elsif (params[:comp_id] != nil && params[:comp_id] != "" && Component.exists?(params[:comp_id]))
-      @comp = Component.find(params[:comp_id])
+      @comp_todos = Component.find(params[:comp_id]).comptodos
       @unit_todos = Array.new
-      @comp_todos = @comp.comp_todos
+      
       
     else  
-      @unit_todos = Array.new
-      @comp_todos = Array.new
-      Unit.all.each do |u|
-        u.unit_todos.each do |t|
-          @unit_todos << t
-        end
-      end
       
-      Component.all.each do |c|
-        c.comp_todos.each do |t|
-          @comp_todos << t
-        end
-      end
-     
+      
+      @unit_todos = UnitTodo.all
+      @comp_todos = CompTodo.all
+      
     end 
   end
   def update_individual

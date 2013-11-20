@@ -143,6 +143,7 @@ DEPENDENCIES
   jquery-ui-rails
   pg
   protected_attributes
+  rails (= 4.0.0)
   sass-rails (~> 4.0.0)
   sdoc
   sqlite3

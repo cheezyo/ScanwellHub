@@ -3,6 +3,7 @@ class Company < ActiveRecord::Base
   has_many :units
   has_many :users
   has_many :components
+  has_many :locations
   attr_accessible :name
   validates :name, presence: true
   validates :name, :uniqueness => {:scope => :name}

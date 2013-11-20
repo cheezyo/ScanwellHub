@@ -1,0 +1,56 @@
+<%- model_class = Package -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:origin) %></th>
+      <th><%= model_class.human_attribute_name(:destiantion) %></th>
+      <th><%= model_class.human_attribute_name(:arrival_date) %></th>
+      <th><%= model_class.human_attribute_name(:reciver) %></th>
+      <th><%= model_class.human_attribute_name(:status) %></th>
+      <th><%= model_class.human_attribute_name(:po) %></th>
+      <th><%= model_class.human_attribute_name(:ref) %></th>
+      <th><%= model_class.human_attribute_name(:coment) %></th>
+      <th><%= model_class.human_attribute_name(:pack_nr) %></th>
+      <th><%= model_class.human_attribute_name(:unit_ids) %></th>
+      <th><%= model_class.human_attribute_name(:components_ids) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @packages.each do |package| %>
+      <tr>
+        <td><%= link_to package.id, package_path(package) %></td>
+        <td><%= package.origin %></td>
+        <td><%= package.destiantion %></td>
+        <td><%= package.arrival_date %></td>
+        <td><%= package.reciver %></td>
+        <td><%= package.status %></td>
+        <td><%= package.po %></td>
+        <td><%= package.ref %></td>
+        <td><%= package.coment %></td>
+        <td><%= package.pack_nr %></td>
+        <td><%= package.unit_ids %></td>
+        <td><%= package.components_ids %></td>
+        <td><%=l package.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_package_path(package), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      package_path(package),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_package_path,
+            :class => 'btn btn-primary' %>

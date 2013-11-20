@@ -1,6 +1,6 @@
 <%= form_for @brand, :html => { :class => 'form-horizontal' } do |f| %>
 	 <% if @brand.errors.any? %>
-    <div class="error_messages">
+    <div class="alert">
       <h4><%= pluralize(@brand.errors.count, "error") %> prohibited this type of component from being saved:</h4>
       <ul>
       <% @brand.errors.full_messages.each do |msg| %>

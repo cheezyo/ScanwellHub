@@ -11,19 +11,19 @@ module RegisterTest2
     
     #Status for LOG init 
     #Status id from STATUS Database
-    STATUS_IN_TRANSIT = 3 #2 local 3 live
-    STATUS_ON_LAND = 2 #4 local 2 live
+    #STATUS_IN_TRANSIT = 3 #2 local 3 live
+    #STATUS_ON_LAND = 2 #4 local 2 live
     
     #Location for LOG init
     #Location id from LOCATION Database
-    LOCATION_SCANWELL_NO = 1 #4 local 1 live
+    #LOCATION_SCANWELL_NO = 1 #4 local 1 live
     
     
-    #STATUS_IN_TRANSIT = 2 
-    #STATUS_ON_LAND = 4
+    STATUS_IN_TRANSIT = 2 
+    
     
    
-    #LOCATION_SCANWELL_NO = 4
+    LOCATION_SCANWELL_NO = 5
     
     
 

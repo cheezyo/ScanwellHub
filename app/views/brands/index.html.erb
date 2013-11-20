@@ -7,7 +7,7 @@
     <tr>
       
       <th><%= model_class.human_attribute_name(:name) %></th>
-      
+      <th>Max per unit</th>
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -16,6 +16,7 @@
       <tr>
        
         <td><%= link_to brand.name, brand %></td>
+        <td><%= brand.total_per_unit || "not set"%></td>
         
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),

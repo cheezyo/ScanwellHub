@@ -89,6 +89,6 @@ class LogcomponentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def logcomponent_params
-      params.require(:logcomponent).permit(:component_id, :send_date, :sent_from, :sent_by, :sent_to, :on_unit, :arrive_date, :recived_by, :status)
+      params.require(:logcomponent).permit(:package_id, :component_id, :send_date, :sent_from, :sent_by, :sent_to, :on_unit, :arrive_date, :recived_by, :status, :client_id)
     end
 end
