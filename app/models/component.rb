@@ -4,17 +4,21 @@ class Component < ActiveRecord::Base
   has_many :comp_todos
   has_many :logcomponents
   
-  
   attr_accessible :available, :calibrated, :commet, :comp_id, :last_check, :brand_id, :unit_id, :company_id, :range
+  
+  before_validation :has_unit_changed
   validate :serial_number  
   validates :comp_id, :uniqueness => {:scope => :comp_id,
     message: "Serial number must be unique" }
   validate :brand_id_present
-  validate :company_exists
+  validate :company_id_present
   validate :set_avilability
 
   after_save :set_up_log
   
+
+  
+  #Import from CSV file
   def self.import(file)
     CSV.foreach(file.path, headers: true) do |row|
       component = find_by_comp_id(row["comp_id"]) || new 
@@ -23,7 +27,29 @@ class Component < ActiveRecord::Base
 
     end
   end
+  
 
+  
+  private 
+    #Log if component changes unit
+    def has_unit_changed
+    
+    if self.unit_id != self.unit_id_was && ! self.unit_id.blank?
+      log = Logcomponent.new
+      new_unit = Unit.find(self.unit_id)
+      
+      log.component_id = self.id
+      log.sent_from = self.logcomponents.last.sent_to
+      log.sent_to = new_unit.logunits.last.sent_to
+      log.send_date = DateTime.now
+      log.arrive_date = DateTime.now
+      log.on_unit = new_unit.id
+      log.status = new_unit.logunits.last.status
+      log.save
+    end
+  end
+  
+    #Set up log for component on create
   def set_up_log
     if(self.logcomponents.empty?)
       log = Logcomponent.new
@@ -37,8 +63,9 @@ class Component < ActiveRecord::Base
     end 
   end
   
-  private 
-  def company_exists
+  #Validations
+  
+  def company_id_present
     if company_id.blank?
       errors.add(:base, "You must choose an owner") 
     end
@@ -54,6 +81,7 @@ class Component < ActiveRecord::Base
      errors.add(:base, "Serialnumber can not be blank")   
     end
   end
+  
   
   def set_avilability
     if self.unit_id == nil || self.unit_id == ""

@@ -68,9 +68,7 @@ class ComponentsController < ApplicationController
       redirect_to components_url, notice: "Components were updated successfully"
     else 
       render "edit_individual"
-    end
-    
-    
+    end   
   end
 
   # POST /components
