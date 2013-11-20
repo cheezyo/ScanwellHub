@@ -12,7 +12,7 @@ module RegisterTest2
     #Status for LOG init 
     #Status id from STATUS Database
     STATUS_IN_TRANSIT = 3
-    STATUS_ON_LAND = 3
+    STATUS_ON_LAND = 2
     
     #Location for LOG init
     #Location id from LOCATION Database
