@@ -23,8 +23,8 @@ end
 def logunit
   log = Logunit.new
   log.unit_id = self.id
-  log.sent_from = 4
-  log.sent_to = 4
+  log.sent_from = 1
+  log.sent_to = 1
   log.save
 end
 
