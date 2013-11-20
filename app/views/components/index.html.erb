@@ -135,3 +135,9 @@
             new_component_path,
             :class => 'btn btn-primary' %>
 </div>
+<h2>Import Products</h2>
+
+<%= form_tag import_components_path, multipart: true do %>
+  <%= file_field_tag :file %>
+  <%= submit_tag "Import" %>
+<% end %>

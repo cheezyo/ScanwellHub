@@ -39,6 +39,7 @@ RegisterTest2::Application.routes.draw do
     collection do 
       get :edit_individual
       put :update_individual
+      post :import
     end
   end
 

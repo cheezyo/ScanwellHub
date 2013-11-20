@@ -33,7 +33,10 @@ class ComponentsController < ApplicationController
   # GET /components/1.json
   def show
   end
-
+  def import
+    Component.import(params[:file])
+    redirect_to root_url, notice: "Component imported."
+  end
   # GET /components/new
   def new
     if Brand.all.empty?
@@ -61,8 +64,7 @@ class ComponentsController < ApplicationController
   def update_individual
     @components = Component.update(params[:components].keys, params[:components].values) 
     @components.reject! { |c| c.errors.empty? }
-    if @components.empty?
-      
+    if @components.empty?    
       redirect_to components_url, notice: "Components were updated successfully"
     else 
       render "edit_individual"
@@ -122,7 +124,7 @@ class ComponentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def component_params
-      params.require(:component).permit(:comp_id, :last_check, :unit_id, :brand_id, :available, :calibrated, :commet, :company_id, :component_ids, :components)
+      params.require(:component).permit(:comp_id, :last_check, :unit_id, :brand_id, :available, :calibrated, :commet, :company_id, :component_ids, :components, :range)
     end
     
       def sort_column

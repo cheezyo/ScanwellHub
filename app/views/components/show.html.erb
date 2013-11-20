@@ -1,7 +1,7 @@
 <%- model_class = Component -%>
 <div class="page-header">
   <h1><%= Brand.find(@component.brand_id).name + " " + @component.comp_id %> 
-  	<small>
+  	<small><br />
   	<%= Status.find(@component.logcomponents.last.status).name if Status.exists?(@component.logcomponents.last.status) %>
   	@
   	<%= Location.find(@component.logcomponents.last.sent_to).name %>		
@@ -14,13 +14,13 @@
 <div class="form-actions">
 <%= link_to "History log", logcomponents_path(:component_id => @component.id), :class => 'btn btn-primary' %>
 
-<% if @component.unit_id == nil %>
+
 	<% if ! is_in_transit_comp(@component) %>
 	<a data-toggle="modal" href="#check-component" class="btn btn-primary">Check in component</a>
 	<% else  %>
 	<a data-toggle="modal" href="#send-component" class="btn btn-primary">Send component</a>
 	<% end %>	
-<% end %>
+
 <a data-toggle="modal" href="#add-task-comp" class="btn btn-primary">Add a task</a>
 <!-- Modal -->
   <div class="modal fade" id="add-task-comp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -92,6 +92,8 @@
 		  </div>
 		  <%= f.hidden_field :component_id, :value => @component.id %>
 		  <%= f.hidden_field :sent_by, :value => current_user.id %>
+		  <%= f.hidden_field :status, :value => 2 %>
+		  <%= f.hidden_field :send_date, :value => DateTime.now %>
         </div>
         <div class="modal-footer">
           <%= f.submit "Send", :class => 'btn btn-primary' %>
@@ -170,7 +172,16 @@
   <dt><strong>Owner:</strong></dt>
   <dd><%= Company.find(@component.company_id).name if Company.exists?(@component.company_id) %></dd>
   <dt><strong><%= model_class.human_attribute_name(:last_check) %>:</strong></dt>
-  <dd><%= @component.last_check %></dd>
+  <dd><%= @component.last_check || "Not set" %></dd>
+  
+  <dt><strong>Calib due date:</strong></dt>
+  <% if @component.last_check != nil %>
+  <dd><%= @component.last_check + 1.year || "Not set" %>  (<%= ((@component.last_check + 1.year)- DateTime.now).to_i %> days ) </dd>
+	<% else %>
+  <dd>Not set</dd>
+  <% end %>
+  <dt><strong><%= model_class.human_attribute_name(:range) %>:</strong></dt>
+  <dd><%= @component.range || "Not set" %></dd>
   <dt><strong><%= model_class.human_attribute_name(:unit_id) %>:</strong></dt>
   <% if @component.unit_id != nil && Unit.exists?(@component.unit_id) %>
   <dd><%= Unit.find(@component.unit_id).unit_id %></dd>

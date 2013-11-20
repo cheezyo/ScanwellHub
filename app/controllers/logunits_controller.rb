@@ -34,8 +34,21 @@ class LogunitsController < ApplicationController
 
     respond_to do |format|
       if @logunit.save
-        unit = Unit.find(@logunit.unit_id)
-        format.html { redirect_to unit_path(unit), notice: 'Unit was sent' }
+          unit = Unit.find(@logunit.unit_id)
+        #log components
+        unit.components.each do |c|
+          logcomp = Logcomponent.new
+          logcomp.component_id = c.id
+          logcomp.send_date = @logunit.send_date
+          logcomp.sent_from = @logunit.sent_from
+          logcomp.sent_by = @logunit.sent_by
+          logcomp.sent_to = @logunit.sent_to       
+          logcomp.status = @logunit.status
+          logcomp.on_unit = @logunit.unit_id
+          logcomp.save
+        end
+       
+        format.html { redirect_to unit_path(unit), notice: 'Unit was successfully sent' }
         format.json { render action: 'show', status: :created, location: @logunit }
       else
         format.html { render action: 'new' }
@@ -50,8 +63,17 @@ class LogunitsController < ApplicationController
     respond_to do |format|
       if @logunit.update(logunit_params)
         unit = Unit.find(@logunit.unit_id)
-     
-        format.html { redirect_to unit_path(unit), notice: "Unit checked in" }
+        
+        #update component log
+        unit.components.each do |c|
+          logcomp = c.logcomponents.last
+          logcomp.update({arrive_date: @logunit.arrive_date})
+          logcomp.update({recived_by: @logunit.recived_by})
+          logcomp.update({status: @logunit.status})
+          
+        end
+        
+        format.html { redirect_to unit_path(unit), notice: "Unit checked successfully in" }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

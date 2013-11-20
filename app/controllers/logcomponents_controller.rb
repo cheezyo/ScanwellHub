@@ -1,12 +1,12 @@
 class LogcomponentsController < ApplicationController
   before_action :set_logcomponent, only: [:show, :edit, :update, :destroy]
-
+  helper_method :set_avialabilty_on_component
   # GET /logcomponents
   # GET /logcomponents.json
   def index
     @logcomponents = Array.new
     if params[:component_id] != nil
-      @logcomponents = Component.find(params[:component_id]).logcomponents if Component.exists?(params[:component_id])
+      @logcomponents = Component.find(params[:component_id]).logcomponents @comp = Component.find(params[:component_id]) if Component.exists?(params[:component_id])
     else
      @logcomponents = Logcomponent.all
     end
@@ -34,7 +34,10 @@ class LogcomponentsController < ApplicationController
 
     respond_to do |format|
       if @logcomponent.save
-        format.html { redirect_to component_path(@logcomponent.component_id), notice: 'Logcomponent was successfully created.' }
+        
+        set_avialabilty_on_component
+        
+        format.html { redirect_to component_path(@logcomponent.component_id), notice: 'Component was successfully send.' }
         format.json { render action: 'show', status: :created, location: @logcomponent }
       else
         format.html { render action: 'new' }
@@ -48,7 +51,10 @@ class LogcomponentsController < ApplicationController
   def update
     respond_to do |format|
       if @logcomponent.update(logcomponent_params)
-        format.html { redirect_to component_path(@logcomponent.component_id), notice: 'Logcomponent was successfully updated.' }
+        
+        set_avialabilty_on_component
+        
+        format.html { redirect_to component_path(@logcomponent.component_id), notice: 'Component was successfully checked inn.' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }
@@ -68,6 +74,14 @@ class LogcomponentsController < ApplicationController
   end
 
   private
+    
+    def set_avialabilty_on_component
+      comp = @logcomponent.component
+        if @logcomponent.on_unit != nil || @logcomponent.status == 2
+          comp.update({available: false})
+        end
+    end
+  
     # Use callbacks to share common setup or constraints between actions.
     def set_logcomponent
       @logcomponent = Logcomponent.find(params[:id])
