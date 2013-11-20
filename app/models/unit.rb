@@ -23,8 +23,8 @@ end
 def logunit
   log = Logunit.new
   log.unit_id = self.id
-  log.sent_from = 1
-  log.sent_to = 1
+  log.sent_from = RegisterTest2::Application::LOCATION_SCANWELL_NO
+  log.sent_to = RegisterTest2::Application::LOCATION_SCANWELL_NO
   log.save
 end
 

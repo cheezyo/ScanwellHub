@@ -28,11 +28,11 @@ class Component < ActiveRecord::Base
     if(self.logcomponents.empty?)
       log = Logcomponent.new
       log.component_id = self.id
-      log.sent_from = 1
-      log.sent_to = 1
+      log.sent_from = RegisterTest2::Application::LOCATION_SCANWELL_NO
+      log.sent_to = RegisterTest2::Application::LOCATION_SCANWELL_NO
       log.send_date = DateTime.now
       log.arrive_date = DateTime.now
-      log.status = 2
+      log.status = RegisterTest2::Application::STATUS_ON_LAND
       log.save
     end 
   end

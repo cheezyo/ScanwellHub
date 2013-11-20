@@ -10,7 +10,7 @@ class Logunit < ActiveRecord::Base
     self.send_date = DateTime.now
     self.arrive_date = nil
     self.recived_by = nil 
-    self.status = 3
+    self.status = RegisterTest2::Application::STATUS_IN_TRANSIT
   end
    
 end
