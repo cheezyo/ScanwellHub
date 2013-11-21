@@ -90,7 +90,7 @@
         <td><%= component.last_check %></td>
          <td><%= component.last_check + 1.year %>
         <% days = (component.last_check + 1.year)- DateTime.now %>
-        	(in <%= days.to_i%> days)
+        	<span style="color:#bb0000;">(in <%= days.to_i%> days)</span>
         
         </td>
         <% if component.unit_id != nil && Unit.exists?(component.unit_id)%>
