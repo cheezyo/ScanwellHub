@@ -46,9 +46,9 @@
     <% @logunits.each do |logunit| %>
       <tr>
        
-        <td><%= Unit.find(logunit.unit_id).unit_id if Unit.exists?(logunit.unit_id) %></td>
+        <td><%= logunit.unit.unit_id if logunit.unit != nil %></td>
         <td><%= Unit.find(logunit.unit_id).company.name if Unit.exists?(logunit.unit_id) %></td>
-        <td><%= Company.find(logunit.client_id).name if Company.exists?(logunit.client_id) %></td>
+        <td><%= Company.find(logunit.client_id).name if logunit.client_id != nil %></td>
         <td><%= logunit.send_date if logunit.send_date != nil %></td>
           <td><%= User.find(logunit.sent_by).first_name if User.exists?(logunit.sent_by) %></td>
       

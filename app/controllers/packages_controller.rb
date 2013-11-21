@@ -35,6 +35,7 @@ class PackagesController < ApplicationController
   def create
     @package = Package.new(package_params)
     add_items
+    set_client_id
     respond_to do |format|
       if @package.save
         format.html { redirect_to @package, notice: 'Package was successfully created.' }
@@ -76,7 +77,25 @@ class PackagesController < ApplicationController
     def set_package
       @package = Package.find(params[:id])
     end
-   
+   def set_client_id
+     if @package.unit_ids != nil
+      @package.unit_ids.each do |unit|
+         u = Unit.find(unit)
+         u.logunits.last.update_attributes(:client_id => params[:client_id])
+         if u.components != nil
+           u.components.each do |c|
+             c.logcomponents.last.update_attributes(:client_id => params[:client_id])
+           end
+         end
+       end
+     end
+     
+     if @package.components_ids != nil 
+       @package.components_ids.each do |c|
+         c.logcomponents.last.update_attributes(:client_id => params[:client_id])
+       end
+     end
+   end
    def update_logs(package, arrival_date, reciver, status)
    
      if package.unit_ids != nil
@@ -97,6 +116,7 @@ class PackagesController < ApplicationController
     if package.components_ids != nil 
       package.components_ids.each do |comp|
         c = Component.find(comp)
+       
         c.update_attributes(:available => true)
         c.logcomponents.last.update_attributes(:arrive_date => arrival_date, :recived_by => reciver, :status => status)
       end
