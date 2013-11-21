@@ -44,134 +44,113 @@
 				<div class="container">
 					<a class="btn btn-navbar" data-target=".nav-collapse" data-toggle="collapse"> <span class="icon-bar"> </span> <span class="icon-bar"></span> <span class="icon-bar"></span> </a>
 
-					<a class="brand" href="/units"><span style="color:#fff;background:#ff0000;padding:8px;border-radius:5px">ScanWell</span><small style="margin:0 0 0 10px;">Tracking System</small></a>
+					<a class="brand" href="/"><span style="color:#fff;background:#ff0000;padding:8px;border-radius:5px">ScanWell</span><small style="margin:0 0 0 10px;">Tracking System</small></a>
 					<div class="container nav-collapse">
 
 						<ul class="nav">
-							<%= drop_down "Menu" do %>
+							
+							<%= drop_down "Create new" do %>
 							<li>
-								<%= link_to 'Units', units_path%>
+								<%= link_to 'Unit', new_unit_path%>
 							</li>
 
 							<li>
-								<%= link_to 'Users', users_path %>
+								<%= link_to 'User', new_user_path %>
 							</li>
 							<li>
-								<%= link_to 'Components', components_path%>
-							</li>
-
-							<li>
-								<%= link_to 'Locations', locations_path%>
+								<%= link_to 'Component', new_component_path%>
 							</li>
 
 							<li>
-								<%= link_to 'Type  of components', brands_path%>
+								<%= link_to 'Location', new_location_path%>
 							</li>
 
 							<li>
-								<%= link_to 'Companies', companies_path %>
+								<%= link_to 'Type of component', new_brand_path%>
+							</li>
+
+							<li>
+								<%= link_to 'Company', new_company_path %>
 							</li>
 							<li>
-								<%= link_to 'Tracking', trackings_path %>
+								<%= link_to 'Status', new_status_path %>
 							</li>
 
 							<% end %>
 
 						</ul>
+						
+				
+						
 						<%= menu_group :pull => :right do %>
 						<% if current_user %>
-						<%= menu_item "Log Out" +" "+ current_user.first_name, "/logout" %></p>
+						<%= menu_item "Log Out" +" "+ current_user.first_name + " " + current_user.last_name, "/logout" %></p>
 						<% else %>
 						<%= menu_item "Log in", "/login" %>
 
 						<% end %>
 						<% end %>
+						
+						
+						<%= menu_group :pull => :right do %>
+							<a href="/todos" class="btn"><small>To do</small><span class="badge <% if total_todos > 5 %> badge-orange <% elsif total_todos > 10 %> badge-red <%else%> badge<% end %>"><%= total_todos %></span></a>
+							<a href="/reminders" class="btn"><small>Reminders</small><span class="badge <% if total_reminders > 0 %> badge-red <%end %>"><%= total_reminders %></span></a>
+							
+						
+						<% end %>
 					</div><!--/.nav-collapse -->
 				</div>
 			</div>
-		</div>
-
+		</div><!--nav -->
+		
+		<div class="container"
 		<div class="container">
 			<div class="row">
+	<div class="span2" style="margin-top:60px">
+		<ul class="nav nav-list">
+		    <li class="nav-header">Units:</li>
+		    <li><%= link_to "Units", units_path%></li>
+		    <li><%= link_to "Units log", logunits_path%></li>
+		    <li class="divider"></li>
+		    <li class="nav-header">Components:</li>
+		    <li><%= link_to "Components", components_path%></li>
+		    <li><%= link_to "Components log", logcomponents_path%></li>
+		   	<li><%= link_to "Type of components", brands_path%></li>
+		   	<li class="divider"></li>
+			<li class="nav-header">Other:</li>
+		    <li><%= link_to "Companies", companies_path%></li>
+		    <li><%= link_to "Locations", locations_path%></li>
+		    <li><%= link_to "Statuses", statuses_path%></li>
+		    <li><%= link_to "Users", users_path%></li>
+		    <li><a href="#">Export to Excel</a></li>
+		    <li class="divider"></li>
+		</ul>
+	</div>
 				<div class="span9">
 					<div id="flash" style="margin:50px 0 0 0;">
 						<%= bootstrap_flash %>
 					</div>
 					<%= yield %>
-				</div>
-
-				<div class="span3">
-					<div class="panel panel-primary">
-					  <div class="panel-heading">
-					    <h4 class="panel-title">Reminder</h4>
-					  </div>
-					  <div class="panel-body">
-						
-						<ul>
-						
-							<% Unit.all.each do |unit|%>
-
-							<% days = (unit.last_check + 1.year)- DateTime.now %>
-							<% if days.to_i < 31 %>
-							<li>
-								<a href="/units/<%= unit.id %>" style="color:#bb0000;"><%= unit.unit_id %> yearly check in <%= days.to_i %> days </a>
-							</li>
-							<% end %>
-
-							<% end %>
-
-						</ul>
-						</div>
 					</div>
-					<!--/.well -->
-					<div class="panel panel-primary">
-					  <div class="panel-heading">
-					  	<% count = 0%>
-					    <h4 class="panel-title">To do list</h4>
-					  </div>
-					  <div class="panel-body">
-   
-						<ul>
-							
-							<% CompTodo.all.each do |c| %>
-							<% if ! Todo.find(c.todo_id).done %>
-							<% count += 1 %>
-							<li>
-								<%= link_to c.title, c %>
-							</li>
-							<% end %>
-							<% end %>
-							<% UnitTodo.all.each do |u| %>
-							<% if ! Todo.find(u.todo_id).done %>
-							<% count += 1 %>
-							<li>
-								<%= link_to u.title, u %>
-							</li>
-							<% end %>
-							<% end %>
-						</ul>
-						<% if count == 0 %>
-						<p>
-							No work for you!
-						</p>
-						<% else %>
-						<p>
-							<%= count %> tasks
-						</p>
-						<% end %>
-					  </div>
-					</div>	
-				</div><!--/span-->
-			</div><!--/row-->
 
-			<footer>
+			
+		
+			
+		</div>	
+				
+		</div>
+		<div class="container" style="margin:60px auto;">
+		<div class="row">
+			<div class="span9">
+			<div class="footer">
 				<p>
 					&copy; ScanWell AS 2013
 				</p>
-			</footer>
-
+			</div>
 		</div>
-		<!-- /container -->
+		</div>
+		</div>
+				<!-- /container -->
 
 	</body>
 </html>

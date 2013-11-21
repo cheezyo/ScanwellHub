@@ -1,0 +1,123 @@
+<div class="page-header">
+<h1>Yearly control in less then 30 days</h1>
+</div>
+<% if ! @units.empty? %>
+<h2><small>Units:</small> </h2>
+<table class="table table-striped" id="units">
+  <thead>
+    <tr>
+     
+      <th>Unit id</th>
+      <th>Owner</th>
+      <th>Status</th>
+      <th>Location</th>
+      
+      <th>Last check</th>
+      <th>Next check</th>
+      
+      <th>Comment</th>
+    
+      
+    </tr>
+  </thead>
+  <tbody>
+    <% @units.each do |unit| %>
+      <tr>
+        
+        <td><%= link_to unit.unit_id, unit %></td>
+         <% if unit.company_id != nil %>
+       <% company = Company.find(unit.company_id) %>
+        <td><%= link_to company.name, company  %></td>
+        <% else %>
+        <td>No owner</td>
+        <% end %>
+        
+        <td><%= Status.find(unit.logunits.last.status).name if Status.exists?(unit.logunits.last.status) %></td>
+        <td><%= Location.find(unit.logunits.last.sent_to).name if Location.exists?(unit.logunits.last.sent_to)  %></td> 
+        
+        <td><%= unit.last_check %></td>
+        <td><%= unit.last_check + 1.year %>
+        	<% days = (unit.last_check + 1.year)- DateTime.now %>
+        	<% if days > 90 %>
+        	<span style="color:#00ff00;">
+        	<% elsif days < 90 && days > 30 %>
+        	<span style="color:#FF9900;">
+        	<% else %>
+        	<span style="color:#bb0000;">
+        	<% end %>
+        	(in <%= days.to_i%> days)
+        	</span>
+        </td>
+        
+        <td><%= unit.comment.truncate(15) %></td>
+       
+        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+<h2><small>Units are good at this time <%= DateTime.now.strftime("%d/%m/%Y")%></small></h2>
+
+<% end %>
+<% if ! @components.empty? %>
+<h2>Components:</h2>
+<table class="table table-striped" id="components">
+  <thead>
+    <tr>
+    	
+      <th>Serial number</th>
+      <th>Type</th>
+      <th>Last check</th>
+      <th>Unit id</th>
+      
+      <th>Available</th>
+      <th>Calibrated</th>
+      <th>Comment</th>
+     
+      
+      
+    </tr>
+  </thead>
+  <tbody>
+    <% @components.each do |component| %>
+      <tr>
+      	
+      	<td><%= link_to component.comp_id, component %></td>
+      	<% brand = Brand.find(component.brand_id) %>
+        <td><%= link_to brand.name, brand %></td>
+        <td><%= component.last_check %></td>
+        <% if component.unit_id != nil && Unit.exists?(component.unit_id)%>
+        <% unit =  Unit.find(component.unit_id)%>
+        <td><%= link_to unit.unit_id, unit %></td>
+        <% else %>
+        <td>No assigned</td>
+        
+        <% end %>
+        
+        
+        <td><% if component.available %>
+        	Yes
+        	<% else %>
+        	No
+        	<% end %>
+        </td>
+        <td><% if component.calibrated %>
+        	Yes
+        	<% else %>
+        	No
+        	<% end %>
+        </td>
+        <td><% if component.commet != nil %>
+        	<%= component.commet.truncate(15)%>
+        	<% end %>
+        </td>
+       
+        
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% else %>
+<h2><small>Components are good at this time <%= DateTime.now.strftime("%d/%m/%Y")%></small></h2>
+<% end %>

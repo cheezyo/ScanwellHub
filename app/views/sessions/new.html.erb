@@ -1,22 +1,10 @@
-<h1 style="margin:60px 0 20px 0;">Log in</h1>
-<%= form_tag sessions_path, class: 'form-horizontal'  do %>
-  <div class="control-group">
-
-    <%= label_tag :email,nil, class: 'control-label' %>
-    <div class="controls">
-      <%= text_field :email, nil, class: 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= label_tag :password, nil, class: 'control-label' %>
-    <div class="controls">
-          <%= password_field_tag :password%>
-    </div>
-  </div>
-  
-  <div class="form-actions">
-    <%= submit_tag "Log in", :class => 'btn btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                root_url, :class => 'btn' %>
-  </div>
+<div class="container">
+	<div class="span3">
+<%= form_tag sessions_path, class: 'form-signin'  do %>
+   <h2 class="form-signin-heading">Please sign in</h2>
+      <%= text_field :email, nil, class: 'form-control', :placeholder => "Email adress" , :autofocus => true%><br />
+      <%= password_field_tag :password%><br/>
+	  <%= submit_tag "Sign in", :class => 'btn btn-primary btn-block' %>
   <% end %>
+    </div>
+</div> 

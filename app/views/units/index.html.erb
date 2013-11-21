@@ -113,10 +113,3 @@
     <% end %>
   </tbody>
 </table>
-<div class="form-actions">
-<%= link_to t('.new', :default => t("helpers.links.new")),
-            new_unit_path,
-            :class => 'btn btn-primary' %>
-            
-<%= link_to "Export to Excel", units_path(:status_id => status_param, :owner => owner_param, format: "xls"), :class => "btn" %>
-</div>

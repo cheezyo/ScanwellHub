@@ -17,7 +17,7 @@
 	<% if ! Todo.find(@unit_todo.todo_id).done %>
 	<%= form_tag task_done_unit_todos_path, method: :put do %>
 		<%= hidden_field_tag "todo_id", @unit_todo.todo_id %>
-		<%=submit_tag "Done", :class => "btn btn-primary" %>
+		<%=submit_tag "Done task", :class => "btn btn-success" %>
 	<% end %>
 <% else %>
 	<%= form_tag undo_task_unit_todos_path, method: :put do %>

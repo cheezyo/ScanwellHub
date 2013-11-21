@@ -79,4 +79,32 @@ tr a:hover{
 	
 }
 
+.navbar{
+	z-index: 99999;
+}
 
+.modal.fade {
+	margin:-1000px 0 0 0;
+}
+
+.modal.in {
+	margin:0 0 0 -280px;
+}
+footer {
+	display: block;
+}
+
+.nav-list li a:hover{
+	background: #0078CC;
+	color:#fff;
+}
+.nav-list li a:visited{
+	color:none;
+}
+
+.index{
+
+	
+	margin-top:15px;
+	margin-bottom:15px;
+}

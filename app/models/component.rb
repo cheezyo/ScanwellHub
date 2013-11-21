@@ -14,7 +14,7 @@ class Component < ActiveRecord::Base
   validate :company_id_present
   validate :set_avilability
   after_validation :save_old_unit_id
-  after_save :has_unit_changed #:set_up_log_first_time
+  after_save :has_unit_changed 
   
 
   
@@ -31,12 +31,12 @@ class Component < ActiveRecord::Base
 
   
   private 
-  
+    
     def save_old_unit_id
        @old_unit_id = self.unit_id_was
     end
     
-    #Log if component changes unit
+    #Check if component is assigned a unit or is new and creates log entry according to status 
     def has_unit_changed
         
     if self.unit_id != @old_unit_id && ! self.unit_id.blank?
@@ -44,8 +44,10 @@ class Component < ActiveRecord::Base
       
       log = Logcomponent.new
       log.component_id = self.id
+      #If on creating component the component is directly assigned a unit send unit from primary location
       if self.logcomponents.empty?
         log.sent_from = RegisterTest2::Application::LOCATION_SCANWELL_NO
+      #Else take last location component was sent to and send from there
       else 
         log.sent_from = self.logcomponents.last.sent_to
       end
@@ -53,38 +55,44 @@ class Component < ActiveRecord::Base
       log.sent_to = new_unit.logunits.last.sent_to
       log.send_date = DateTime.now
       log.on_unit = new_unit.id
+      
+      #If unit assigned to component has same location check in directly
       if log.sent_from == log.sent_to
           log.arrive_date = DateTime.now
           log.status = new_unit.logunits.last.status 
+          
+      #Else not set arrive date and set status in transit so user must check in component on arrival
       else
           log.status = RegisterTest2::Application::STATUS_IN_TRANSIT
       end 
       log.save
-    #elsif ! self.unit_id_was.blank? && self.unit_id.blank?
+      
+    #elsif ! @old_unit_id.blank? && self.unit_id.blank?
+
       
     elsif self.unit_id.blank? && self.logcomponents.empty?
+       
         set_up_log_first_time
         
     end
    
   end
   
-    #Set up log for component on create
+    #Set up log for new component not assigned any unit
   def set_up_log_first_time
-    #if(self.logcomponents.empty?)
+    
       log = Logcomponent.new
       log.component_id = self.id
       log.sent_from = RegisterTest2::Application::LOCATION_SCANWELL_NO
       log.sent_to = RegisterTest2::Application::LOCATION_SCANWELL_NO
       log.send_date = DateTime.now
       log.arrive_date = DateTime.now
-      #log.on_unit = self.unit_id
       log.status = RegisterTest2::Application::STATUS_ON_LAND
       log.save
-    #end 
+     
   end
   
-  #Validations
+  #Custom Validations
   
   def company_id_present
     if company_id.blank?
@@ -114,60 +122,24 @@ class Component < ActiveRecord::Base
       
     end
   end
+  
+    #Validates if assigned unit has capacity to assign this type of component. Every Brand has a total_per_unit variable.
     def validate_unit_component_list
-    unit = Unit.find(self.unit_id)
-    component_on_unit = unit.components.where("brand_id = ?", self.brand_id)
-    brand = Brand.find(self.brand_id)
-   
-    if(component_on_unit.count < brand.total_per_unit)
-      self.available = false
-      
-      return true
-      
-    else 
-     errors[:base] << "Unit " + unit.unit_id.to_s +  " allready has " + brand.total_per_unit.to_s + " " + brand.name + " assigned to it."
-      return false
-    end 
-  end
-  
-  
-  #TODO 
-  def validate_component_update
-    old_unit_id = self.unit_id_was
-    new_unit_id = self.unit_id
-    
-    if old_unit_id == new_unit_id
-      return true
-    
-    elsif new_unit_id != nil 
-      components_on_unit = self.unit.components.where("brand_id = ?", self.brand_id)
+      unit = Unit.find(self.unit_id)
+      components_on_unit = unit.components.where("brand_id = ?", self.brand_id)
       brand = Brand.find(self.brand_id)
-      
-      if(components_on_unit.count < brand.total_per_unit)
-      
-        logcomp = Logcomponent.new
-        comp_location = self.logcomponents.last.sent_to
-        new_unit_location = self.unit.logunits.last.sent_to
-        
-        logcomp.send_date = DateTime.now
-        logcomp.sent_from = comp_location
-        logcomp.sent_to = new_unit_location
-        logcomp.status = 2
-        logcomp.save
-        return true 
-      
-      else
-          errors[:base] << "Unit " + unit.unit_id.to_s +  " allready has " + brand.total_per_unit.to_s + " " + brand.name + " assigned to it."
-          return false
-      end
-    
-    else
-        return true
      
-    end
+      # If component can be assigned this unit availability of component is set to false.
+      if(components_on_unit.count < brand.total_per_unit || components_on_unit.includes(self) )
+        self.available = false
+        
+        return true
+        
+      else 
+       # Rendering error message
+       errors[:base] << "Unit " + unit.unit_id.to_s +  " allready has " + brand.total_per_unit.to_s + " " + brand.name + " assigned to it."
+        return false
+      end 
   end
   
-
-  
-
-end
+end # end class

@@ -42,10 +42,12 @@ RegisterTest2::Application.routes.draw do
       post :import
     end
   end
-
+  
   resources :sessions
   resources :units
-  root :to => 'units#index'
+  root :to => 'pages#index'
+  get 'index', to: 'pages#index', as: 'home'
+  get 'reminders', to: 'pages#reminders'
   get 'register', to: 'users#new', as: 'signup'
   get 'login', to: 'sessions#new', as: 'login'
   get 'logout', to: 'sessions#destroy', as: 'logout'

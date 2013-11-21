@@ -1,0 +1,30 @@
+<div class="page-header">
+<h2>ScanWell tracking</h2>
+</div>
+<% row_count = 1 %>
+<% @companies.each do |c| %>
+<% if row_count.even? %>
+<div class="row">
+<% end %>
+<div class="span4 index">
+
+<h3><%= c.name %></h3>
+<ul class="list-group">
+  <li class="list-group-item">
+    Units:
+    <span class="badge"><%= c.units.count %></span> 
+  </li>
+    <li class="list-group-item">
+    Components:
+    <span class="badge"><%= c.components.count %></span> 
+  </li>
+</ul>
+
+<% if row_count.even?%>	
+</div>
+<% end %>
+</div>
+<% row_count += 1%>
+<% end %>
+
+

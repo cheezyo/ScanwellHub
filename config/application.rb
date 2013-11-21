@@ -19,6 +19,13 @@ module RegisterTest2
     LOCATION_SCANWELL_NO = 1 #4 local 1 live
     
     
+    #STATUS_IN_TRANSIT = 2 
+    #STATUS_ON_LAND = 4
+    
+   
+    #LOCATION_SCANWELL_NO = 4
+    
+    
 
   end
 end
