@@ -29,6 +29,8 @@
     <tr>
      
       <th><%= model_class.human_attribute_name(:unit_id) %></th>
+      <th>Owner</th>
+      <th>Client</th>
       <th><%= model_class.human_attribute_name(:send_date) %></th>
       <th><%= model_class.human_attribute_name(:sent_by) %></th>
       <th><%= model_class.human_attribute_name(:sent_from) %></th>
@@ -45,6 +47,8 @@
       <tr>
        
         <td><%= Unit.find(logunit.unit_id).unit_id if Unit.exists?(logunit.unit_id) %></td>
+        <td><%= Unit.find(logunit.unit_id).company.name if Unit.exists?(logunit.unit_id) %></td>
+        <td><%= Company.find(logunit.client_id).name if Company.exists?(logunit.client_id) %></td>
         <td><%= logunit.send_date if logunit.send_date != nil %></td>
           <td><%= User.find(logunit.sent_by).first_name if User.exists?(logunit.sent_by) %></td>
       

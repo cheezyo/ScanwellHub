@@ -1,5 +1,5 @@
 class Package < ActiveRecord::Base
-  attr_accessible :origin, :destiantion, :arrival_date, :reciver, :status, :po, :ref, :coment, :pack_nr, :unit_ids, :components_ids
+  attr_accessible :client_id, :origin, :destiantion, :arrival_date, :reciver, :status, :po, :ref, :coment, :pack_nr, :unit_ids, :components_ids
   serialize  :unit_ids
   serialize  :components_ids
   
@@ -20,7 +20,6 @@ class Package < ActiveRecord::Base
         l = Logunit.new
         l.unit_id = u.id
         l.sent_from = self.origin
-        #l.sent_by = current_user.id
         l.sent_to = self.destiantion
         l.send_date = self.created_at
         l.status = self.status
@@ -30,10 +29,8 @@ class Package < ActiveRecord::Base
         if u.components != nil 
           u.components.each do | c |
              l = Logcomponent.new 
-            
              l.component_id = c.id
              l.sent_from = self.origin
-             #l.sent_by = current_user.id
              l.sent_to = self.destiantion
              l.send_date = self.created_at
              l.status = self.status
@@ -50,7 +47,6 @@ class Package < ActiveRecord::Base
          l  = Logcomponent.new
         l.component_id = c.id
         l.sent_from = self.origin
-        #l.sent_by = current_user.id
         l.sent_to = self.destiantion
         l.send_date = self.created_at
         l.status = self.status
@@ -67,26 +63,27 @@ class Package < ActiveRecord::Base
   end
     
   def validate_items_locations
-    
-    if self.unit_ids != nil
-      self.unit_ids.each do |unit|
-        u = Unit.find(unit)
-        if self.origin != u.logunits.last.sent_to
-          errors.add(:base, "Unit " + u.unit_id.to_s + " is not located in the same location from where you are trying to send from. ")   
+    if self.arrival_date == nil 
+      if self.unit_ids != nil
+        self.unit_ids.each do |unit|
+          u = Unit.find(unit)
+          if self.origin != u.logunits.last.sent_to
+            errors.add(:base, "Unit " + u.unit_id.to_s + " is not located in the same location from where you are trying to send from. ")   
+          end
+          
         end
         
       end
       
-    end
-    
-    if self.components_ids != nil 
-      self.components_ids.each do |comp|
-        c = Component.find(comp)
-        if self.origin != c.logcomponents.last.sent_to
-          errors.add(:base, "Component " + c.comp_id.to_s + " " + c.brand.name + " is not located in the same location from where you are trying to send from")  
+      if self.components_ids != nil 
+        self.components_ids.each do |comp|
+          c = Component.find(comp)
+          if self.origin != c.logcomponents.last.sent_to
+            errors.add(:base, "Component " + c.comp_id.to_s + " " + c.brand.name + " is not located in the same location from where you are trying to send from")  
+          end
         end
+        
       end
-      
     end
     
     

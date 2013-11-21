@@ -18,9 +18,10 @@ class PackagesController < ApplicationController
     @package = Package.new
   end
   def recive
+    
    
-   @package.update_attributes(:arrival_date => params[:arrival_date], :reciver => params[:reciver])
    status = Location.find(@package.destiantion).status
+   @package.update_attributes(:arrival_date => params[:arrival_date], :reciver => params[:reciver], :status => status)
    update_logs(@package,params[:arrival_date], params[:reciver], status)
    redirect_to @package, notice: "Package was updatet"
     

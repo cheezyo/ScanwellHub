@@ -5,7 +5,7 @@ class Unit < ActiveRecord::Base
   has_many :unit_todos
   has_many :logunits
   
-  attr_accessible :available, :comment, :last_check, :location, :unit_id, :company_id, :tracking_id
+  attr_accessible :available, :comment, :last_check, :location, :unit_id, :company_id, :tracking_id, :client_id
   validates :unit_id, presence: true
   validates :unit_id, :uniqueness => {:scope => :unit_id, message: "id allready taken. Must be unique."}
   validate :company_exists

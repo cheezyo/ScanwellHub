@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131121221946) do
+ActiveRecord::Schema.define(version: 20131121221948) do
 
   create_table "activity_logs", force: true do |t|
     t.integer  "user_id"
@@ -58,6 +58,7 @@ ActiveRecord::Schema.define(version: 20131121221946) do
     t.datetime "updated_at"
     t.integer  "company_id"
     t.string   "range"
+    t.integer  "client_id"
   end
 
   create_table "locations", force: true do |t|
@@ -164,6 +165,7 @@ ActiveRecord::Schema.define(version: 20131121221946) do
     t.datetime "updated_at"
     t.integer  "company_id"
     t.integer  "tracking_id"
+    t.integer  "client_id"
   end
 
   create_table "users", force: true do |t|
