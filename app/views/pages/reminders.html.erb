@@ -69,6 +69,7 @@
       <th>Serial number</th>
       <th>Type</th>
       <th>Last check</th>
+      <th>Next check due</th>
       <th>Unit id</th>
       
       <th>Available</th>
@@ -87,6 +88,8 @@
       	<% brand = Brand.find(component.brand_id) %>
         <td><%= link_to brand.name, brand %></td>
         <td><%= component.last_check %></td>
+         <td><%= component.last_check + 1.year %>
+        <% days = (component.last_check + 1.year)- DateTime.now %>
         <% if component.unit_id != nil && Unit.exists?(component.unit_id)%>
         <% unit =  Unit.find(component.unit_id)%>
         <td><%= link_to unit.unit_id, unit %></td>
