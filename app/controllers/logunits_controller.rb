@@ -34,6 +34,7 @@ class LogunitsController < ApplicationController
 
     respond_to do |format|
       if @logunit.save
+         
           unit = Unit.find(@logunit.unit_id)
         #log components
         unit.components.each do |c|
@@ -67,13 +68,14 @@ class LogunitsController < ApplicationController
         #update component log
         unit.components.each do |c|
           logcomp = c.logcomponents.last
-          logcomp.update({arrive_date: @logunit.arrive_date})
-          logcomp.update({recived_by: @logunit.recived_by})
-          logcomp.update({status: @logunit.status})
-          
+          logcomp.update_attributes(:send_date => @logunit.send_date,:sent_by => @logunit.sent_by, 
+          :sent_from => @logunit.sent_from, :sent_to => @logunit.sent_to, :status => @logunit.status,
+          :client_id => @logunit.client_id, :arrive_date => @logunit.arrive_date, :recived_by => @logunit.recived_by,
+          :package_id => @logunit.package_id)
+                    
         end
         
-        format.html { redirect_to unit_path(unit), notice: "Unit checked successfully in" }
+        format.html { redirect_to unit_path(unit), notice: "Log updated" }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

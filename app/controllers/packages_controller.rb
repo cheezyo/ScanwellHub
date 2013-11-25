@@ -35,9 +35,10 @@ class PackagesController < ApplicationController
   def create
     @package = Package.new(package_params)
     add_items
-    set_client_id
+    
     respond_to do |format|
       if @package.save
+        set_client_id
         format.html { redirect_to @package, notice: 'Package was successfully created.' }
         format.json { render action: 'show', status: :created, location: @package }
       else
