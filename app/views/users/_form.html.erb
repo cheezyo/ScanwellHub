@@ -36,7 +36,31 @@
      
     </div>
   </div>
-
+  <% if allow_param? :user, :super_admin %>
+    <div class="control-group">
+    <%= f.label "Super admin", :class => 'control-label' %>
+    <div class="controls">
+    <%= f.check_box :super_admin, :class => 'text_field' %>
+    </div>
+  </div>
+  <% end %>
+  <% if allow_param? :user, :admin %>
+   <div class="control-group">
+    <%= f.label "Admin", :class => 'control-label' %>
+    <div class="controls">
+    <%= f.check_box :admin, :class => 'text_field' %>
+    </div>
+  </div>
+  <% end %>
+  <% if allow_param? :user, :operator %>
+   <div class="control-group">
+    <%= f.label "Operator", :class => 'control-label' %>
+    <div class="controls">
+    <%= f.check_box :operator, :class => 'text_field' %>
+    </div>
+  </div>
+  <% end %>
+  
   <div class="form-actions">
     <%= f.submit nil, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

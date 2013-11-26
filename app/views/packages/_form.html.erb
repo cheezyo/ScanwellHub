@@ -10,27 +10,28 @@
 		      </ul>
 		    </div>
   		<% end %>
-  
+   <% if allow_param? :package, :origin %>
   <div class="control-group">
     <%= f.label :origin, :class => 'control-label' %>
     <div class="controls">
       <%= f.collection_select :origin, Location.all, :id, :name, :include_blank => "Select a origin" %>
     </div>
   </div>
+  <% end %>
   <div class="control-group">
     <%= f.label :destiantion, :class => 'control-label' %>
     <div class="controls">
       <%= f.collection_select :destiantion, Location.all, :id, :name, :include_blank => "Select a destination" %>
     </div>
   </div>
-  
+ <% if allow_param? :package, :client_id %>
  <div class="control-group">
     <%= label_tag "Client",nil, :class => 'control-label' %>
     <div class="controls">
       <%= collection_select "", :client_id, Company.all, :id, :name, :include_blank => "Select a client"%>
     </div>
   </div>
-  
+<% end %>
   <div class="control-group">
     <%= f.label :status, :class => 'control-label' %>
     <div class="controls">

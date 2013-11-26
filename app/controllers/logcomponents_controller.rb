@@ -6,9 +6,10 @@ class LogcomponentsController < ApplicationController
   def index
     @logcomponents = Array.new
     if params[:component_id] != nil
-      @logcomponents = Component.find(params[:component_id]).logcomponents @comp = Component.find(params[:component_id]) if Component.exists?(params[:component_id])
+      @logcomponents = Component.find(params[:component_id]).logcomponents.order("created_at desc")
+      @comp = Component.find(params[:component_id]) if Component.exists?(params[:component_id])
     else
-     @logcomponents = Logcomponent.all
+     @logcomponents = Logcomponent.all.order("created_at desc")
     end
     
   end

@@ -25,6 +25,7 @@ end
 def logunit
   log = Logunit.new
   log.unit_id = self.id
+  log.client_id = self.company_id
   log.send_date = DateTime.now
   log.sent_from = RegisterTest2::Application::LOCATION_SCANWELL_NO
   log.sent_to = RegisterTest2::Application::LOCATION_SCANWELL_NO

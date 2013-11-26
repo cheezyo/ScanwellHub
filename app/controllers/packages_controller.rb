@@ -19,11 +19,10 @@ class PackagesController < ApplicationController
   end
   def recive
     
-   
    status = Location.find(@package.destiantion).status
    @package.update_attributes(:arrival_date => params[:arrival_date], :reciver => params[:reciver], :status => status)
    update_logs(@package,params[:arrival_date], params[:reciver], status)
-   redirect_to @package, notice: "Package was updatet"
+   redirect_to @package, notice: "Package is checked in."
     
   end
   # GET /packages/1/edit
@@ -82,10 +81,18 @@ class PackagesController < ApplicationController
      if @package.unit_ids != nil
       @package.unit_ids.each do |unit|
          u = Unit.find(unit)
-         u.logunits.last.update_attributes(:client_id => params[:client_id])
+         if params[:client_id] != nil
+          u.logunits.last.update_attributes(:client_id => params[:client_id])
+         else
+           u.logunits.last.update_attributes(:client_id => u.logunits[u.logunits.count - 2].client_id)
+         end
          if u.components != nil
            u.components.each do |c|
+             if params[:client_id] != nil
              c.logcomponents.last.update_attributes(:client_id => params[:client_id])
+             else
+               c.logcomponents.last.update_attributes(:client_id => c.logcomponents[c.logcomponents.count - 2].client_id)
+             end
            end
          end
        end
@@ -93,7 +100,11 @@ class PackagesController < ApplicationController
      
      if @package.components_ids != nil 
        @package.components_ids.each do |c|
-         c.logcomponents.last.update_attributes(:client_id => params[:client_id])
+          if params[:client_id] != nil
+             c.logcomponents.last.update_attributes(:client_id => params[:client_id])
+          else
+             c.logcomponents.last.update_attributes(:client_id => c.logcomponents[c.logcomponents.count - 2].client_id)
+          end
        end
      end
    end

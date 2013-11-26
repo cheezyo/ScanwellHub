@@ -19,7 +19,10 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-  
+    if check_current_user
+    else 
+        redirect_to edit_user_path(current_user), notice: "You can only edit your own profile."
+    end
   end
 
   # POST /users
@@ -29,7 +32,7 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        #record_activity("Created new user")
+        
         format.html { redirect_to @user, notice: 'User was successfully created.' }
         format.json { render action: 'show', status: :created, location: @user }
       else
@@ -42,43 +45,52 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1
   # PATCH/PUT /users/1.json
   def update
-    respond_to do |format|
-   
-      if @user.update(user_params)
-        if @old_user != @user
-          record_activity(  "first name changed")
-       end
-        format.html { redirect_to @user, notice: 'User was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: 'edit' }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+    if check_current_user
+      respond_to do |format|
+        
+        if @user.update(user_params)
+          
+          format.html { redirect_to @user, notice: 'User was successfully updated.' }
+          format.json { head :no_content }
+        else
+          format.html { render action: 'edit' }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
       end
-    end
-     
-  
+   else 
+      redirect_to root_path, alert: "Not authorized."
+    
+    end 
   end
 
   # DELETE /users/1
   # DELETE /users/1.json
   def destroy
-    @user.destroy
-    respond_to do |format|
-      format.html { redirect_to users_url }
-      format.json { head :no_content }
-    end
+    if check_current_user
+      @user.destroy
+      respond_to do |format|
+        format.html { redirect_to users_url }
+        format.json { head :no_content }
+      end
+      else 
+        redirect_to root_path, alert: "Not authorized."
+    end 
+     
   end
 
   private
-
+    
+    def check_current_user
+      @user.id == current_user.id || current_user.admin? || current_user.super_admin?
+    end 
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.find(params[:id])
-      @old_user = User.find(params[:id])
+      
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.require(:user).permit(:first_name, :last_name, :email,:company_id, :password, :password_confirmation)
+      params.require(:user).permit(:first_name, :last_name, :email,:company_id, :password, :password_confirmation, :super_admin, :admin, :operator)
     end
 end

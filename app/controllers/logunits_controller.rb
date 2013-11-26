@@ -6,9 +6,9 @@ class LogunitsController < ApplicationController
   def index
     @logunits = Array.new
     if params[:unit_id] != nil
-      @logunits = Unit.find(params[:unit_id]).logunits if Unit.exists?(params[:unit_id])
+      @logunits = Unit.find(params[:unit_id]).logunits.order("created_at desc") if Unit.exists?(params[:unit_id])
     else
-      @logunits = Logunit.all
+      @logunits = Logunit.all.order("created_at desc")
     end
   end
 
@@ -31,9 +31,10 @@ class LogunitsController < ApplicationController
   # POST /logunits.json
   def create
     @logunit = Logunit.new(logunit_params)
-
+    @logunit.sent_by = current_user.id
     respond_to do |format|
       if @logunit.save
+         
          
           unit = Unit.find(@logunit.unit_id)
         #log components

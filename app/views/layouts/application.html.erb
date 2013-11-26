@@ -77,27 +77,42 @@
 							</li>
 
 							<% end %>
-
+							
 						</ul>
 						
-				
-						
-						<%= menu_group :pull => :right do %>
-						<% if current_user %>
-						<%= menu_item "Log Out" +" "+ current_user.first_name + " " + current_user.last_name, "/logout" %></p>
-						<% else %>
-						<%= menu_item "Log in", "/login" %>
-
-						<% end %>
-						<% end %>
-						
-						
-						<%= menu_group :pull => :right do %>
-							<a href="/todos" class="btn"><small>To do</small><span class="badge <% if total_todos > 5 %> badge-orange <% elsif total_todos > 10 %> badge-red <%else%> badge<% end %>"><%= total_todos %></span></a>
-							<a href="/reminders" class="btn"><small>Reminders</small><span class="badge <% if total_reminders > 0 %> badge-red <%end %>"><%= total_reminders %></span></a>
+							<ul class="nav">
+								<li>
+									<%= link_to "New package", new_package_path %>
+								</li>
+							</ul>
 							
+							<% menu_group do %>
+								<%= menu_item "New package", new_package_path %>
+							<% end %>
+							
+							
+							
+							<%= menu_group :pull => :right do %>
+								<% if current_user %>
+									<%= menu_item "Log Out", "/logout" %></p>
+							
+								<% else %>
+									<%= menu_item "Log in", "/login" %>
+	
+								<% end %>
+							<% end %>
+							<%= menu_group :pull => :right do %>
+								<% if current_user %>
+									<%= menu_item current_user.first_name.capitalize, user_path(current_user) %>
+								<% end %>
+							<% end %>
+							
+							
+							<%= menu_group :pull => :right do %>
+								<a href="/todos" class="btn"><small>To do</small><span class="badge <% if total_todos > 5 %> badge-orange <% elsif total_todos > 10 %> badge-red <%else%> badge<% end %>"><%= total_todos %></span></a>
+								<a href="/reminders" class="btn"><small>Reminders</small><span class="badge <% if total_reminders > 0 %> badge-red <%end %>"><%= total_reminders %></span></a>
+							<% end %>
 						
-						<% end %>
 					</div><!--/.nav-collapse -->
 				</div>
 			</div>
@@ -118,6 +133,7 @@
 		   	<li><%= link_to "Type of components", brands_path%></li>
 		   	<li class="divider"></li>
 			<li class="nav-header">Other:</li>
+			<li><%= link_to "Packages", packages_path %></li>
 		    <li><%= link_to "Companies", companies_path%></li>
 		    <li><%= link_to "Locations", locations_path%></li>
 		    <li><%= link_to "Statuses", statuses_path%></li>

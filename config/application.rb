@@ -9,20 +9,12 @@ Bundler.require(:default, Rails.env)
 module RegisterTest2
   class Application < Rails::Application
     
-    #Status for LOG init 
-    #Status id from STATUS Database
-    STATUS_IN_TRANSIT = 3 #2 local 3 live
-    #STATUS_ON_LAND = 2 #4 local 2 live
-    
-    #Location for LOG init
-    #Location id from LOCATION Database
-    LOCATION_SCANWELL_NO = 1 #4 local 1 live
+    #live
+    STATUS_IN_TRANSIT = 3 
+    LOCATION_SCANWELL_NO = 1 
     
     #dev
     #STATUS_IN_TRANSIT = 2 
-    
-    
-   
     #LOCATION_SCANWELL_NO = 5
     
     

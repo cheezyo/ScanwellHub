@@ -52,7 +52,6 @@ RegisterTest2::Application.routes.draw do
   resources :sessions
   resources :units
   root :to => 'pages#index'
-  get 'index', to: 'pages#index', as: 'home'
   get 'reminders', to: 'pages#reminders'
   get 'register', to: 'users#new', as: 'signup'
   get 'login', to: 'sessions#new', as: 'login'

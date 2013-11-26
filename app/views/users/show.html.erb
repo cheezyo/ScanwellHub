@@ -10,8 +10,19 @@
   <dd><%= @user.last_name %></dd>
   <dt><strong><%= model_class.human_attribute_name(:email) %>:</strong></dt>
   <dd><%= @user.email %></dd>
-  <dt><strong>Company</strong></dt>
-  <dd><%=  %></dd>
+  <dt><strong>Company:</strong></dt>
+  <dd><%= @user.company.name %></dd>
+  <dt><strong>Role:</strong></dt>
+  <% if @user.super_admin? %>
+  <dd>Super admin</dd>
+  <% elsif @user.admin? %>
+  <dd>Admin</dd>
+  <% elsif @user.operator? %>
+  <dd>Operator</dd>
+  <% else %>
+  <dd>Member</dd>
+  <% end %>
+	
  
   
 </dl>

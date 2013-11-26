@@ -81,6 +81,7 @@ class Component < ActiveRecord::Base
     
       log = Logcomponent.new
       log.component_id = self.id
+      log.client_id = self.company_id
       log.sent_from = RegisterTest2::Application::LOCATION_SCANWELL_NO
       log.sent_to = RegisterTest2::Application::LOCATION_SCANWELL_NO
       log.send_date = DateTime.now

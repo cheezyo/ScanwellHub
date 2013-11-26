@@ -8,7 +8,10 @@ class PagesController < ApplicationController
   end
   
   def index
-    
+   if current_user
    @companies = Company.all
+   else
+     redirect_to "/login", :alert => "Please log in."
+   end
   end
 end
