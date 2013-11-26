@@ -66,7 +66,7 @@ class UnitsController < ApplicationController
   def destroy
     @unit.destroy
     @unit.components.each do |c|
-      e.available = true
+      c.update_attributes(:available => true)
     end
     
     respond_to do |format|
