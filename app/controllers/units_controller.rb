@@ -65,6 +65,10 @@ class UnitsController < ApplicationController
   # DELETE /units/1.json
   def destroy
     @unit.destroy
+    @unit.components.each do |c|
+      e.available = true
+    end
+    
     respond_to do |format|
       format.html { redirect_to units_url, notice: "Unit was deleted." }
       format.json { head :no_content }
