@@ -4,8 +4,18 @@ class TodosController < ApplicationController
   # GET /todos
   # GET /todos.json
   def index
+  
+   #@unit_todos = UnitTodo.all
+   #@unit_todos = @unit_todo.where("unit_id == ?", params[:unit_id]) if  ! params[:unit_id].blank?
    
-    
+   @unit = nil
+   @comp = nil
+   
+   
+   
+   
+   
+   
     if(params[:unit_id] != nil && params[:unit_id] != "" && Unit.exists?(params[:unit_id]))
       @unit_id = params[:unit_id]
 
@@ -18,7 +28,8 @@ class TodosController < ApplicationController
      
      
     elsif (params[:comp_id] != nil && params[:comp_id] != "" && Component.exists?(params[:comp_id]))
-      @comp_todos = Component.find(params[:comp_id]).comptodos
+      @comp = Component.find(params[:comp_id])
+      @comp_todos = @comp.comptodos
       @unit_todos = Array.new
       
       

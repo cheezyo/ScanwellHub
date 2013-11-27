@@ -4,7 +4,7 @@
 <% if @unit != nil %>
 <h3>Task on unit <%= @unit.unit_id %> <small>and components assigned to this unit</small></h3>
 <% elsif @comp != nil  %>
-<h3>Tasks on component <%= Brand.find(@comp.brand_id).name %> | <%= @comp.comp_id %></h3>
+<h3>Tasks on component <%= @comp.brand.name %> | <%= @comp.comp_id %></h3>
 <% else %>
 <h3>Full list</h3>
 <% end %>
