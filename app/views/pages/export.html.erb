@@ -1,0 +1,17 @@
+<div class="page-header">
+	<h3>Costum reports</h3>
+</div>
+<p>Create report for units:</p>
+<%= form_tag get_report_pages_path(format: "xls"), method: :get do %>
+<div class="control-group">
+    <%= label_tag "Yearly check before", nil, :class => 'control-label' %>
+    <div class="controls">
+      <%= text_field_tag 'yearl_check_date', nil, placeholder: 'Select from date', :class => 'text_field' %>
+    </div>
+     <div class="controls">
+      <%= collection_select nil, :company_id, Company.all, :id, :name, :include_blank => "Select a owner" %>
+     </div>
+    
+  </div>
+  <%= submit_tag "Download report", :class => "btn btn-primary" %>
+<% end %>

@@ -10,6 +10,17 @@ class PackagesController < ApplicationController
   # GET /packages/1
   # GET /packages/1.json
   def show
+    
+    respond_to do|format|
+      format.html
+      format.pdf do 
+        pdf = PackagePdf.new(@package)
+        send_data pdf.render, filename: "package_#{@package.pack_nr}.pdf",
+                            type: "application/pdf",
+                            disposition: "inline"
+      end
+      
+    end
   end
 
   # GET /packages/new
@@ -37,7 +48,7 @@ class PackagesController < ApplicationController
     
     respond_to do |format|
       if @package.save
-        set_client_id
+        
         format.html { redirect_to @package, notice: 'Package was successfully created.' }
         format.json { render action: 'show', status: :created, location: @package }
       else
@@ -77,37 +88,7 @@ class PackagesController < ApplicationController
     def set_package
       @package = Package.find(params[:id])
     end
-   def set_client_id
-     if @package.unit_ids != nil
-      @package.unit_ids.each do |unit|
-         u = Unit.find(unit)
-         if params[:client_id] != nil
-          u.logunits.last.update_attributes(:client_id => params[:client_id])
-         else
-           u.logunits.last.update_attributes(:client_id => u.logunits[u.logunits.count - 2].client_id)
-         end
-         if u.components != nil
-           u.components.each do |c|
-             if params[:client_id] != nil
-             c.logcomponents.last.update_attributes(:client_id => params[:client_id])
-             else
-               c.logcomponents.last.update_attributes(:client_id => c.logcomponents[c.logcomponents.count - 2].client_id)
-             end
-           end
-         end
-       end
-     end
-     
-     if @package.components_ids != nil 
-       @package.components_ids.each do |c|
-          if params[:client_id] != nil
-             c.logcomponents.last.update_attributes(:client_id => params[:client_id])
-          else
-             c.logcomponents.last.update_attributes(:client_id => c.logcomponents[c.logcomponents.count - 2].client_id)
-          end
-       end
-     end
-   end
+  
    def update_logs(package, arrival_date, reciver, status)
    
      if package.unit_ids != nil
@@ -140,6 +121,6 @@ class PackagesController < ApplicationController
     end
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
-      params.require(:package).permit(:origin, :destiantion, :arrival_date, :reciver, :status, :po, :ref, :coment, :pack_nr, :unit_ids, :components_ids)
+      params.require(:package).permit(:client_id, :origin, :destiantion, :arrival_date, :reciver, :status, :po, :ref, :coment, :pack_nr, :unit_ids, :components_ids)
     end
 end

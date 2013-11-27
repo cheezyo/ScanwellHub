@@ -53,7 +53,7 @@
         
         <td><%= Component.find(logcomponent.component_id).comp_id if Component.exists?(logcomponent.component_id) %></td>
         <td><%= Component.find(logcomponent.component_id).company.name if Component.exists?(logcomponent.component_id)%></td>
-        <td>not</td>
+        <td><%= Company.find(logcomponent.client_id).name if logcomponent.client_id != nil %></td>
         <td><%= logcomponent.send_date if logcomponent.send_date != nil %></td>
           <td><%= User.find(logcomponent.sent_by).first_name if User.exists?(logcomponent.sent_by) %></td>
       

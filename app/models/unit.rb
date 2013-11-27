@@ -12,15 +12,7 @@ class Unit < ActiveRecord::Base
    
   after_create :logunit
   before_create :set_available
-   
-def self.to_csv(options = {})
-  CSV.generate(options) do |csv|
-    csv << column_names
-    all.each do |unit|
-      csv << unit.attributes.values_at(*column_names)
-    end
-  end
-end
+
 
 def logunit
   log = Logunit.new

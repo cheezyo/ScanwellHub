@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131125214339) do
+ActiveRecord::Schema.define(version: 20131126220238) do
 
   create_table "activity_logs", force: true do |t|
     t.integer  "user_id"
@@ -119,6 +119,7 @@ ActiveRecord::Schema.define(version: 20131125214339) do
     t.text     "components_ids"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "client_id"
   end
 
   create_table "statuses", force: true do |t|

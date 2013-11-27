@@ -17,12 +17,16 @@ class Package < ActiveRecord::Base
       self.unit_ids.each do | unit |
         u = Unit.find(unit)
         u.update_attribute(:available, false)
+        self.client_id == nil ? client_id = u.logunits.last.client_id : client_id = self.client_id
+          
+        
         l = Logunit.new
         l.unit_id = u.id
         l.sent_from = self.origin
         l.sent_to = self.destiantion
         l.send_date = self.created_at
         l.status = self.status
+        l.client_id = client_id
         l.package_id = self.id
         l.save
         
@@ -34,7 +38,9 @@ class Package < ActiveRecord::Base
              l.sent_to = self.destiantion
              l.send_date = self.created_at
              l.status = self.status
+             l.client_id = client_id
              l.package_id = self.id
+             l.on_unit = u.id
              l.save
           end
         end
@@ -44,12 +50,14 @@ class Package < ActiveRecord::Base
        self.components_ids.each do |comp|
          c = Component.find(comp)
          c.update_attribute(:available, false)
+          self.client_id == nil ? client_id = c.logcomponents.last.client_id : client_id = self.client_id
          l  = Logcomponent.new
         l.component_id = c.id
         l.sent_from = self.origin
         l.sent_to = self.destiantion
         l.send_date = self.created_at
         l.status = self.status
+        l.client_id = self.client_id
         l.package_id = self.id
         l.save
        end

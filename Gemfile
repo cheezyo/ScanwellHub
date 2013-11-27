@@ -25,6 +25,7 @@ gem 'devise', '3.0.0.rc'
 gem 'jquery-rails'
 gem 'twitter-bootstrap-rails'
 gem 'jquery-ui-rails'
+gem 'prawn'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 gem 'jquery-datatables-rails', github: 'rweng/jquery-datatables-rails'

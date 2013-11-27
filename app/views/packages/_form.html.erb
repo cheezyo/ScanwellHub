@@ -26,9 +26,9 @@
   </div>
  <% if allow_param? :package, :client_id %>
  <div class="control-group">
-    <%= label_tag "Client",nil, :class => 'control-label' %>
+    <%= f.label "Client", :class => 'control-label' %>
     <div class="controls">
-      <%= collection_select "", :client_id, Company.all, :id, :name, :include_blank => "Select a client"%>
+      <%= f.collection_select :client_id, Company.all, :id, :name, :include_blank => "Select a client"%>
     </div>
   </div>
 <% end %>

@@ -4,6 +4,9 @@
 ready = ->
   $('#components').dataTable
    bJQueryUI: true
+   
+  $('#component_last_check').datepicker
+    dateFormat: 'yy-mm-dd'
 
 $(document).ready(ready)
 $(document).on('page:load', ready)

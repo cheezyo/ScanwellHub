@@ -18,6 +18,7 @@ module RegisterTest2
     #LOCATION_SCANWELL_NO = 5
     
     
+    
 
   end
 end

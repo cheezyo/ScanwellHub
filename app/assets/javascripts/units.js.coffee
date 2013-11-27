@@ -4,8 +4,9 @@
 ready = ->
   $('#units, #unit-comps').dataTable
    bJQueryUI: true
-
-
+  
+  $('#unit_last_check').datepicker
+    dateFormat: 'yy-mm-dd'
 
   
 $(document).ready(ready)
