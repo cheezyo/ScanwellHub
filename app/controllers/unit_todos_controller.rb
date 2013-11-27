@@ -68,7 +68,7 @@ class UnitTodosController < ApplicationController
   def destroy
     @unit_todo.destroy
     respond_to do |format|
-      format.html { redirect_to unit_todos_url }
+      format.html { redirect_to unit_path(@unit_todo.unit), notice: "Task was deleted" }
       format.json { head :no_content }
     end
   end

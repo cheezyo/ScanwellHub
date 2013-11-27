@@ -10,12 +10,7 @@ class TodosController < ApplicationController
    
    @unit = nil
    @comp = nil
-   
-   
-   
-   
-   
-   
+
     if(params[:unit_id] != nil && params[:unit_id] != "" && Unit.exists?(params[:unit_id]))
       @unit_id = params[:unit_id]
 
@@ -24,18 +19,13 @@ class TodosController < ApplicationController
       @comps = @unit.components
       
       @comp_todos =  CompTodo.where(id: @comps)
-      
-     
-     
+
     elsif (params[:comp_id] != nil && params[:comp_id] != "" && Component.exists?(params[:comp_id]))
       @comp = Component.find(params[:comp_id])
       @comp_todos = @comp.comptodos
       @unit_todos = Array.new
-      
-      
-    else  
-      
-      
+            
+    else       
       @unit_todos = UnitTodo.all
       @comp_todos = CompTodo.all
       

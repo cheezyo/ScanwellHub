@@ -68,7 +68,7 @@ class CompTodosController < ApplicationController
   def destroy
     @comp_todo.destroy
     respond_to do |format|
-      format.html { redirect_to comp_todos_url, notice: "Task was deleted" }
+      format.html { redirect_to component_path(@comp_todo.component), notice: "Task was deleted" }
       format.json { head :no_content }
     end
   end
