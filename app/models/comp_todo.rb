@@ -23,6 +23,6 @@ class CompTodo < ActiveRecord::Base
   end
 
   def destroy_todo
-   # Todo.find(self.todo_id).destroy!
+    Todo.find(self.todo_id).destroy!
   end
 end
