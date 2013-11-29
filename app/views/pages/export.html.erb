@@ -1,12 +1,39 @@
+
 <div class="page-header">
 	<h3>Costum reports</h3>
 </div>
-<p>Create report for units:</p>
-<%= form_tag get_report_pages_path(format: "xls"), method: :get do %>
+<div id="form-wrapper">
+	<div class="form-container">
+<h4>Units report:</h4>
+<hr />
+<%= form_tag get_unit_report_pages_path(format: "xls"), method: :get do %>
 <div class="control-group">
     <%= label_tag "Yearly check before", nil, :class => 'control-label' %>
     <div class="controls">
-      <%= text_field_tag 'yearl_check_date', nil, placeholder: 'Select from date', :class => 'text_field' %>
+      <%= text_field_tag 'unit_yearly_check_date', nil, placeholder: 'Select from date', :class => 'text_field' %>
+    </div>
+</div>
+     <div class="controls">
+      <%= collection_select nil, :company_id, Company.all, :id, :name, :include_blank => "Select a owner" %>
+     </div>
+     <div class="control-group">
+     <%= label_tag "Status", nil, :class => 'control-label' %>
+     <div class="radio-buttons">
+     	
+      <%= collection_radio_buttons nil, :status, Status.all, :id, :name, :include_blank => "Select a status" %>
+     </div>
+  </div>
+  <%= submit_tag "Download report", :class => "btn btn-primary" %>
+<% end %>
+</div>
+<div class="form-container">
+	<h4>Components report:</h4>
+	<hr />
+	<%= form_tag get_component_report_pages_path(format: "xls"), method: :get do %>
+<div class="control-group">
+    <%= label_tag "Yearly check before", nil, :class => 'control-label' %>
+    <div class="controls">
+      <%= text_field_tag 'component_yearly_check_date', nil, placeholder: 'Select from date', :class => 'text_field' %>
     </div>
      <div class="controls">
       <%= collection_select nil, :company_id, Company.all, :id, :name, :include_blank => "Select a owner" %>
@@ -15,3 +42,14 @@
   </div>
   <%= submit_tag "Download report", :class => "btn btn-primary" %>
 <% end %>
+</div>
+</div>
+<div class="form-container">
+	<h4>Unit log:</h4>
+	<hr />
+</div>
+<div class="form-container">
+	<h4>Component log:</h4>
+	<hr />
+</div>
+</div>

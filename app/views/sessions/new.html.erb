@@ -1,10 +1,19 @@
-<div class="container">
-	<div class="span3">
-<%= form_tag sessions_path, class: 'form-signin'  do %>
-   <h2 class="form-signin-heading">Please sign in</h2>
-      <%= text_field :email, nil, class: 'form-control', :placeholder => "Email adress" , :autofocus => true%><br />
-      <%= password_field_tag :password%><br/>
-	  <%= submit_tag "Sign in", :class => 'btn btn-primary btn-block' %>
-  <% end %>
-    </div>
-</div> 
+<div id="flash-wrapper">
+<div id="flash">
+	<%= bootstrap_flash %>
+	</div>
+</div>
+<div id="login-wrapper">
+	
+	<h3 class="scanwell">ScanWell</h3>
+	<div class="login-form">
+		<%= form_tag sessions_path, class: 'form-signin'  do %>
+
+		<%= text_field :email, nil, :placeholder => "Email adress" , :autofocus => true%>
+		<br />
+		<%= password_field_tag :password, nil, :placeholder => "Password"%>
+		<br/>
+		<%= submit_tag "Sign in", :class => 'btn btn-primary btn-block' %>
+		<% end %>
+	</div>
+</div>

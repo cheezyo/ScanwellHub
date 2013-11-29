@@ -56,7 +56,10 @@ RegisterTest2::Application.routes.draw do
   resources :pages do
     collection do
       get :create_report
-      get :get_report
+      get :get_unit_report
+      get :get_component_report
+      get :get_component_log_report
+      get :get_unit_log_report
     end
   end
   get 'export', to: 'pages#export'

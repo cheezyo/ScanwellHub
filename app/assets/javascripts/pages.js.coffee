@@ -1,7 +1,7 @@
 ready = ->
  
   
-  $('#yearl_check_date').datepicker
+  $('#unit_yearly_check_date, #component_yearly_check_date').datepicker
     dateFormat: 'yy-mm-dd'
 
   

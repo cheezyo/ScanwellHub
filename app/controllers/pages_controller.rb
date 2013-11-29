@@ -23,17 +23,20 @@ class PagesController < ApplicationController
  
   end
   
-  def get_report
+  def get_unit_report
     
     @units = Unit.all
     
     @units = @units.where("company_id == ? ", params[:company_id]) if ! params[:company_id].blank?
+    
     if ! params[:yearl_check_date].blank?
       date = DateTime.parse(params[:yearl_check_date]).to_date
       date = date - 1.year
       @units = @units.where("last_check <= ?", date )
     end
    
+      @units = @units.reject {|u| u.logunits.last.status != params[:status].to_i}  if ! params[:status].blank?
+
      if @units.empty? 
         redirect_to "/export", notice: "No data to export with you search parameters."
     else
