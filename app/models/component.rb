@@ -16,6 +16,7 @@ class Component < ActiveRecord::Base
   validate :unit_id_change
   after_validation :set_avilability
   after_save :log_events
+  before_destroy :delete_log_and_todos
 
  
   
@@ -24,9 +25,7 @@ class Component < ActiveRecord::Base
   #Import from CSV file
   def self.import(file)
     CSV.foreach(file.path, headers: true) do |row|
-      component = find_by_comp_id(row["comp_id"]) || new 
-      component.attributes = row.to_hash
-      component.save!
+      Component.create! row.to_hash
 
     end
   end
@@ -34,6 +33,16 @@ class Component < ActiveRecord::Base
 
   
   private 
+    
+    def delete_log_and_todos
+      self.logcomponents.each do |l|
+        l.destroy
+      end
+      self.comp_todos.each do |t|
+        t.destroy
+      end
+      
+    end
     
     def save_old_unit_id
        @old_unit_id = self.unit_id_was
