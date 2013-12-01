@@ -17,7 +17,7 @@ class Component < ActiveRecord::Base
   after_validation :set_avilability
   after_save :log_events
 
-
+ 
   
 
   
