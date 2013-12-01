@@ -9,9 +9,9 @@ module Permissions
       
       allow :logcomponents, [:show, :index]
       allow :logunits, [:show, :index]
-      allow :packages, [:index]
+      allow :packages, [:index, :show]
      
-      allow :pages, [:show, :index, :reminders]
+      allow :pages, [:show, :index, :reminders, :export]
       allow :sessions, [:new, :create, :destroy]
       allow :statuses, [:show, :index]
       allow :todos, [:show, :index]
