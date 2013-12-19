@@ -14,7 +14,7 @@
 <div class="form-actions">
 <% if is_in_transit_comp(@component) %>
 		<%= link_to "Go to package", @component.logcomponents.last.package, :class => 'btn btn-primary' %>
-	<% end %>
+<% end %>
 <%= link_to "History log", logcomponents_path(:component_id => @component.id), :class => 'btn btn-primary' %>
 
 <a data-toggle="modal" href="#add-task-comp" class="btn btn-primary">Add a task</a>

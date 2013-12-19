@@ -109,8 +109,10 @@
 							
 							
 							<%= menu_group :pull => :right do %>
-								<a href="/todos" class="btn"><small>To do</small><span class="badge <% if total_todos > 5 %> badge-orange <% elsif total_todos > 10 %> badge-red <%else%> badge<% end %>"><%= total_todos %></span></a>
-								<a href="/reminders" class="btn"><small>Reminders</small><span class="badge <% if total_reminders > 0 %> badge-red <%end %>"><%= total_reminders %></span></a>
+								<a href="/todos" class="btn"><small>To do</small><span class="badge <% if @total_todos > 5 %> badge-orange <% elsif @total_todos > 10 %> badge-red <%else%> badge<% end %>"><%= @total_todos %></span>
+									
+								</a>
+								<a href="/reminders" class="btn"><small>Reminders</small><span class="badge <% if @total_reminders > 0 %> badge-red <%end %>"><%= @total_reminders %></span></a>
 							<% end %>
 						
 					</div><!--/.nav-collapse -->

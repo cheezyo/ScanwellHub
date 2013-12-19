@@ -19,16 +19,18 @@ footer{
 .btn-primary:visited, .btn-danger:visited{
 	color:#fff;
 }
-
+a {
+	color:#1E0FC4;
+}
 tr a:visited {
-	color:#000;
+	color:#1E0FC4;
 }
 tr {
 	color:#000;
 }
 tr a:hover{
 	background:none;
-	color:#000;
+	color:#1E0FC4;
 }
 
 #small select{
@@ -93,7 +95,9 @@ tr a:hover{
 footer {
 	display: block;
 }
-
+.nav-list li a {
+	color:#000;
+}
 .nav-list li a:hover{
 	background: #0078CC;
 	color:#fff;
