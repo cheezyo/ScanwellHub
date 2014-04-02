@@ -21,6 +21,12 @@
       <%= f.collection_select :sent_by, User.all, :id, :first_name, :include_blank => "Select a person" %>
     </div>
   </div>
+   <div class="control-group">
+    <%= f.label :client_id, :class => 'control-label' %>
+    <div class="controls">
+        <%= f.collection_select :client_id, Company.all, :id, :name, :include_blank => "Select a Client" %>
+    </div>
+  </div>
   <div class="control-group">
     <%= f.label :sent_from, :class => 'control-label' %>
     <div class="controls">
