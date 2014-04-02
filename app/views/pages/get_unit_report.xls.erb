@@ -24,7 +24,10 @@
         <Cell><Data ss:Type="String">Location</Data></Cell>
         <Cell><Data ss:Type="String">Comment</Data></Cell>
       </Row>
+      <Row> </Row>
+      
     <% @units.each do |unit| %>
+      
       <Row>
         <Cell><Data ss:Type="Number"><%= unit.unit_id %></Data></Cell>
         <Cell><Data ss:Type="String"><%= unit.company.name %> </Data></Cell>
