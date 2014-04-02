@@ -22,16 +22,16 @@
         <Cell><Data ss:Type="String">Last check</Data></Cell>
         <Cell><Data ss:Type="String">Next check</Data></Cell>
         <Cell><Data ss:Type="String">Location</Data></Cell>
-        <Cell><Data ss:Type="String">Status</Data></Cell>
+        <Cell><Data ss:Type="String">Comment</Data></Cell>
       </Row>
     <% @units.each do |unit| %>
       <Row>
         <Cell><Data ss:Type="Number"><%= unit.unit_id %></Data></Cell>
-        <Cell><Data ss:Type="String"></Data></Cell>
-        <Cell><Data ss:Type="Date"></Data></Cell>
-        <Cell><Data ss:Type="Date"></Data></Cell>
-        <Cell><Data ss:Type="String"></Data></Cell>
-        <Cell><Data ss:Type="String"></Data></Cell>
+        <Cell><Data ss:Type="String"><%= unit.company.name %> </Data></Cell>
+        <Cell><Data ss:Type="Date"><%= unit.last_check %></Data> </Cell>
+        <Cell><Data ss:Type="Date"><%= unit.last_check + 1.year %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= Location.find(unit.logunits.last.sent_to).name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= unit.comment %></Data></Cell>
       </Row>
     <% end %>
     </Table>
