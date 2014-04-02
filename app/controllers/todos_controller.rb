@@ -18,14 +18,15 @@ class TodosController < ApplicationController
       @unit_todos = @unit.unit_todos
       @comps = @unit.components
       
-      @comp_todos =  CompTodo.where(id: @comps)
+      @comp_todos =  CompTodo.where(component_id: @comps)
 
     elsif (params[:comp_id] != nil && params[:comp_id] != "" && Component.exists?(params[:comp_id]))
       @comp = Component.find(params[:comp_id])
-      @comp_todos = @comp.comptodos
+      @comp_todos = @comp.comp_todos
       @unit_todos = Array.new
             
-    else       
+    else    
+   
       @unit_todos = UnitTodo.all
       @comp_todos = CompTodo.all
       

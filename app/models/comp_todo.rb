@@ -16,8 +16,8 @@ class CompTodo < ActiveRecord::Base
   
   def new_todo
     todo = Todo.new
+    todo.done = false
     todo.save!
-    
     self.todo_id = todo.id
     
   end

@@ -43,7 +43,7 @@ class PagesController < ApplicationController
     respond_to do |format|
     format.html
     format.csv { send_data to_csv(@components,@comp_column_names) }
-    format.xls 
+    format.xsl  
     
       end
     end 
