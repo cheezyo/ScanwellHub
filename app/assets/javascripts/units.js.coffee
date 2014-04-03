@@ -4,7 +4,7 @@
 ready = ->
   $('#units, #unit-comps').dataTable
    bJQueryUI: true
-   aaSorting: [[ 5, "asc" ]]
+   aaSorting: [[ 5, "desc" ]]
   
   $('#unit_last_check').datepicker
     dateFormat: 'yy-mm-dd'

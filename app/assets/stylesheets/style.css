@@ -15,8 +15,10 @@ footer{
 .navbar a:hover{
 	background:none;
 }
-
-.btn-primary:visited, .btn-danger:visited{
+.btn-mini:visited{
+	color:#000;
+}
+.btn-primary:visited, .btn-danger:visited {
 	color:#fff;
 }
 a {
@@ -25,6 +27,7 @@ a {
 tr a:visited {
 	color:#1E0FC4;
 }
+
 tr {
 	color:#000;
 }
