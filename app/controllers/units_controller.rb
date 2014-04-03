@@ -95,17 +95,17 @@ class UnitsController < ApplicationController
   end
   
   def sort_direction
-    %w[asc desc].include?(params[:direction]) ? params[:direction] : "asc"
+    %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
   end
   
   def get_by_status_id 
      if(params[:owner] != "" && params[:owner] != nil && Company.exists?(params[:owner]))
        @owner = Company.find(params[:owner])
        @owner_id = @owner.id
-       units = Unit.where("company_id = ?", params[:owner]).order(sort_column + " " + sort_direction)
+       units = Unit.where("company_id = ?", params[:owner]).order("last_check asc")
      else
-      
-     units = Unit.order(sort_column + " " + sort_direction)
+     
+     units = Unit.order("last_check asc")
      end
      @units = Array.new
      
@@ -113,8 +113,8 @@ class UnitsController < ApplicationController
           
       @status = params[:status_id]
       @status_name = Status.find(params[:status_id]).name
-      units = Unit.all
-      @units = Array.new
+      #units = Unit.all
+      #@units = Array.new
       units.each do |u|
        if u.logunits.last.status == @status.to_i
          @units << u
