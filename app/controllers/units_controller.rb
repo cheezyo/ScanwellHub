@@ -104,9 +104,11 @@ class UnitsController < ApplicationController
        @owner_id = @owner.id
        units = Unit.where("company_id = ?", params[:owner]).order(sort_column + " " + sort_direction)
      else
+      
      units = Unit.order(sort_column + " " + sort_direction)
      end
      @units = Array.new
+     
     if (params[:status_id] != "" && params[:status_id] != nil && Status.exists?(params[:status_id]))
           
       @status = params[:status_id]
