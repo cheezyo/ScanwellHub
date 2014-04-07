@@ -99,7 +99,7 @@
   <% if ! @log.empty?  %>
   
   <% @log.each do |l| %>
-  	<p><%= l.unit.unit_id %> | <%= l.unit.company.name %></p>
+  	<p><%= l.unit.unit_id %> | <%= l.unit.company.name %> | <%= Location.find(l.sent_from).name %></p>
   	<% end %>
   <% else %>
   "No matches"
