@@ -23,16 +23,10 @@ class PagesController < ApplicationController
  
   end
   def get_unit_location
-    unit = Unit.all
-    if ! params[:unit_id].blank?
-      unit = unit.where({:id => params[:unit_id]})
-    end
-    if ! params[:company_id].blank?
-     unit =  unit.where(:company_id => params[:company_id])
-    end 
-    
-    @log = unit #Unit.where({ :id => params[:unit_id], :company_id => params[:company_id] })
-    
+   @log = Logunit.all
+   if ! params[:unit_location_start_date].blank?
+     @log.where("send_date >= ?", params[:unit_location_start_date]).order("send_date asc")
+   end
      render 'export'
     
   end
