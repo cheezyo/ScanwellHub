@@ -14,7 +14,7 @@ module RegisterTest2
     LOCATION_SCANWELL_NO = 1 
     
     #dev
-   # STATUS_IN_TRANSIT = 2 
+    #STATUS_IN_TRANSIT = 2 
     #LOCATION_SCANWELL_NO = 5
     
     

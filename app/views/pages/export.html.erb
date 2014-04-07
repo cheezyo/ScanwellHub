@@ -2,54 +2,113 @@
 <div class="page-header">
 	<h3>Costum reports</h3>
 </div>
-<div id="form-wrapper">
-	<div class="form-container">
-<h4>Units report:</h4>
-<hr />
-<%= form_tag get_unit_report_pages_path(format: "xls"), method: :get do %>
-<div class="control-group">
-    <%= label_tag "Yearly check before", nil, :class => 'control-label' %>
-    <div class="controls">
-      <%= text_field_tag 'unit_yearly_check_date', nil, placeholder: 'Select from date', :class => 'text_field' %>
-    </div>
-</div>
-     <div class="controls">
-      <%= collection_select nil, :company_id, Company.all, :id, :name, :include_blank => "Select a owner" %>
-     </div>
-     <div class="control-group">
-     <%= label_tag "Status", nil, :class => 'control-label' %>
-     <div class="radio-buttons">
-     	
-      <%= collection_radio_buttons nil, :status, Status.all, :id, :name, :include_blank => "Select a status" %>
-     </div>
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#units-report" data-toggle="tab">Unit report</a></li>
+  <li><a href="#xls" data-toggle="tab">XSL</a></li>
+  <li><a href="#messages" data-toggle="tab">Messages</a></li>
+  <li><a href="#settings" data-toggle="tab">Settings</a></li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  <div class="tab-pane active" id="units-report">
+  	<%= form_tag get_unit_location_pages_path, method: :get do %>
+  			<div class="control-group">
+			    <div class="controls">
+			      <%= text_field_tag 'unit_location_start_date', nil, placeholder: 'Select start date', :class => 'text_field' %>
+			       <%= text_field_tag 'unit_location_end_date', nil, placeholder: 'Select end date', :class => 'text_field' %>
+			    </div>
+			</div>
+			<div class="control-group">
+				
+				<div class="controls">
+					 <%= label_tag "Select unit", nil, :class => 'control-label' %>
+				      <%= collection_select nil, :unit_id, Unit.all, :id, :unit_id, :include_blank => "All" %>
+				      <%= label_tag "Select company", nil, :class => 'control-label' %>
+				      <%= collection_select nil, :company_id, Company.all, :id, :name, :include_blank => "All" %>
+				    <!--
+				     <%= label_tag "Select location", nil, :class => 'control-label' %>
+				      <%= collection_select nil, :location_id, Location.all, :id, :name, :include_blank => "All" %>
+				    -->
+				     </div>
+				     </div>
+			<%= submit_tag "Get report", :class => "btn btn-primary" %>
+  	<% end %>
+  	
   </div>
-  <%= submit_tag "Download report", :class => "btn btn-primary" %>
-<% end %>
+  
+  
+  <div class="tab-pane" id="xls">
+			  	<div id="form-wrapper">
+				<div class="form-container">
+			<h4>Units report:</h4>
+			<hr />
+			<%= form_tag get_unit_report_pages_path(format: "xls"), method: :get do %>
+			<div class="control-group">
+			    <%= label_tag "Yearly check before", nil, :class => 'control-label' %>
+			    <div class="controls">
+			      <%= text_field_tag 'unit_yearly_check_date', nil, placeholder: 'Select from date', :class => 'text_field' %>
+			    </div>
+			</div>
+			     <div class="controls">
+			      <%= collection_select nil, :company_id, Company.all, :id, :name, :include_blank => "Select a owner" %>
+			     </div>
+			     <div class="control-group">
+			     <%= label_tag "Status", nil, :class => 'control-label' %>
+			     <div class="radio-buttons">
+			     	
+			      <%= collection_radio_buttons nil, :status, Status.all, :id, :name, :include_blank => "Select a status" %>
+			     </div>
+			  </div>
+			  <%= submit_tag "Download report", :class => "btn btn-primary" %>
+			<% end %>
+			</div>
+			<div class="form-container">
+				<h4>Components report:</h4>
+				<hr />
+				<%= form_tag get_component_report_pages_path(format: "xls"), method: :get do %>
+			<div class="control-group">
+			    <%= label_tag "Yearly check before", nil, :class => 'control-label' %>
+			    <div class="controls">
+			      <%= text_field_tag 'component_yearly_check_date', nil, placeholder: 'Select from date', :class => 'text_field' %>
+			    </div>
+			     <div class="controls">
+			      <%= collection_select nil, :company_id, Company.all, :id, :name, :include_blank => "Select a owner" %>
+			     </div>
+			    
+			  </div>
+			  <%= submit_tag "Download report", :class => "btn btn-primary" %>
+			<% end %>
+			</div>
+			</div>
+			<div class="form-container">
+				<h4>Unit log:</h4>
+				<hr />
+			</div>
+			<div class="form-container">
+				<h4>Component log:</h4>
+				<hr />
+			</div>
+			
 </div>
-<div class="form-container">
-	<h4>Components report:</h4>
-	<hr />
-	<%= form_tag get_component_report_pages_path(format: "xls"), method: :get do %>
-<div class="control-group">
-    <%= label_tag "Yearly check before", nil, :class => 'control-label' %>
-    <div class="controls">
-      <%= text_field_tag 'component_yearly_check_date', nil, placeholder: 'Select from date', :class => 'text_field' %>
-    </div>
-     <div class="controls">
-      <%= collection_select nil, :company_id, Company.all, :id, :name, :include_blank => "Select a owner" %>
-     </div>
-    
-  </div>
-  <%= submit_tag "Download report", :class => "btn btn-primary" %>
-<% end %>
+  <div class="tab-pane" id="messages">ss</div>
+  <div class="tab-pane" id="settings">asa</div>
+  
+  <% if ! @log.empty?  %>
+  
+  <% @log.each do |l| %>
+  	<p><%= l.unit_id %> | <%= l.company.name %></p>
+  	<% end %>
+  <% else %>
+  "No matches"
+  <% end %>
 </div>
-</div>
-<div class="form-container">
-	<h4>Unit log:</h4>
-	<hr />
-</div>
-<div class="form-container">
-	<h4>Component log:</h4>
-	<hr />
-</div>
-</div>
+
+
+
+
+
+
+

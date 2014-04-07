@@ -16,13 +16,26 @@ class PagesController < ApplicationController
   end
   
   def export
-    
+    @log = Array.new
   end
   
   def create_report
  
   end
-  
+  def get_unit_location
+    unit = Unit.all
+    if ! params[:unit_id].blank?
+      unit = unit.where({:id => params[:unit_id]})
+    end
+    if ! params[:company_id].blank?
+     unit =  unit.where(:company_id => params[:company_id])
+    end 
+    
+    @log = unit #Unit.where({ :id => params[:unit_id], :company_id => params[:company_id] })
+    
+     render 'export'
+    
+  end
   def get_unit_report
     
     @units = Unit.all
@@ -43,7 +56,7 @@ class PagesController < ApplicationController
     respond_to do |format|
     format.html
     format.csv { send_data to_csv(@components,@comp_column_names) }
-    format.xsl  
+    format.xls  
     
       end
     end 
