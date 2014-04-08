@@ -24,10 +24,9 @@
 			<div class="control-group">
 				
 				<div class="controls">
-					 <%= label_tag "Select unit", nil, :class => 'control-label' %>
-				      <%= collection_select nil, :unit_id, Unit.all, :id, :unit_id, :include_blank => "All" %>
-				      <%= label_tag "Select company", nil, :class => 'control-label' %>
-				      <%= collection_select nil, :company_id, Company.all, :id, :name, :include_blank => "All" %>
+					 
+				      <%= label_tag "Select Location", nil, :class => 'control-label' %>
+				      <%= collection_select nil, :sent_from, Location.all, :id, :name, :include_blank => "All" %>
 				    <!--
 				     <%= label_tag "Select location", nil, :class => 'control-label' %>
 				      <%= collection_select nil, :location_id, Location.all, :id, :name, :include_blank => "All" %>
@@ -37,6 +36,16 @@
 			<%= submit_tag "Get report", :class => "btn btn-primary" %>
   	<% end %>
   	
+  	  <% if ! @log.empty?  %>
+  <h4>Results: <%= @log.count %></h4>
+  <% @log.each do |l| %>
+  	<p><b> <%= l.send_date %></b> <%= l.unit.unit_id %> sent from: | <b><%= Location.find(l.sent_from).name %></b>
+  		to: <b><%= Location.find(l.sent_to).name %> <%= l.arrive_date %></b>	
+  	</p>
+  	<% end %>
+  <% else %>
+  "No matches"
+  <% end %>
   </div>
   
   
@@ -96,14 +105,7 @@
   <div class="tab-pane" id="messages">ss</div>
   <div class="tab-pane" id="settings">asa</div>
   
-  <% if ! @log.empty?  %>
-  
-  <% @log.each do |l| %>
-  	<p><%= l.unit.unit_id %> | <%= l.unit.company.name %> | <%= Location.find(l.sent_from).name %></p>
-  	<% end %>
-  <% else %>
-  "No matches"
-  <% end %>
+	
 </div>
 
 
