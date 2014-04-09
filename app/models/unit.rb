@@ -1,11 +1,12 @@
 class Unit < ActiveRecord::Base
 
   belongs_to :company
+  belongs_to :unit_name
   has_many :components
   has_many :unit_todos
   has_many :logunits
   
-  attr_accessible :available, :comment, :last_check, :location, :unit_id, :company_id, :tracking_id, :client_id
+  attr_accessible :available, :comment, :last_check, :location, :unit_id, :unit_name_id, :company_id, :tracking_id, :client_id
   validates :unit_id, presence: true
   validates :last_check, presence: true
   validates :unit_id, :uniqueness => {:scope => :unit_id, message: "id allready taken. Must be unique."}

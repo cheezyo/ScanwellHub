@@ -1,4 +1,6 @@
 RegisterTest2::Application.routes.draw do
+  resources :unit_names
+
   resources :packages do 
     collection do
       put :recive

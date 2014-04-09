@@ -1,4 +1,5 @@
 <%- model_class = Unit -%>
+
 <div class="page-header">
   <h3><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %> 
   	
@@ -13,7 +14,7 @@
   	<% owner_param = @owner.id %>
   	<%= @owner.name %>
   	<% end %></h3>
-  	
+  
   	
 </div>
 <div class="control-group">
@@ -52,8 +53,15 @@
     </div>
   </div>
 
-  
-
+  <ul class="nav nav-tabs">
+  <li class="active"><a href="#lms" data-toggle="tab">LMS</a></li>
+  <li><a href="#ams" data-toggle="tab">AMS</a></li>
+  <li><a href="#twm" data-toggle="tab">TWM</a></li>
+  <li><a href="#modelh" data-toggle="tab">Model H</a></li>
+</ul>
+<div class="tab-content">
+  <div class="tab-pane active" id="lms">
+  	
 <table class="table table-striped" id="units">
   <thead>
     <tr>
@@ -116,3 +124,12 @@
     <% end %>
   </tbody>
 </table>
+</div>
+
+ <div class="tab-pane active" id="ams">
+  	</div>
+  	 <div class="tab-pane active" id="twm">
+  	</div>
+  	 <div class="tab-pane active" id="modelh">
+  	</div>
+  	</div>

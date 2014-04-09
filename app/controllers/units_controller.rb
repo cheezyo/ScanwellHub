@@ -87,7 +87,7 @@ class UnitsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def unit_params
-      params.require(:unit).permit(:unit_id, :location, :last_check, :available, :comment,:company_id, :tracking_id, :client_id)
+      params.require(:unit).permit(:unit_id, :unit_name_id, :location, :last_check, :available, :comment,:company_id, :tracking_id, :client_id)
     end
       
   def sort_column
