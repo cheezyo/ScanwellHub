@@ -50,9 +50,11 @@
     <tr>
      
       <th></th>
+      <th>Unit or Component</th>
       <th>Title</th>
       <th>Date</th>
       <th>Task</th>
+      
       
       </tr>
     </thead>
@@ -65,6 +67,7 @@
 	<% if ! todo.done %>
 <tr>  
 	<td><%= check_box_tag "todo_ids[]", todo.id %></td>	
+	<td><%= link_to "Unit " + u.unit.unit_id.to_s, u.unit %></td>
   	<td><%= link_to u.title, unit_todo_path(u)%> </td>
   	<td><%= u.created_at.strftime("%d %B %Y") %></td>
   	<td><%= u.task %></td>
@@ -77,6 +80,7 @@
 	
   <tr>  
 	  <td><%= check_box_tag "todo_ids[]", todo.id %></td>
+	  <td><%= link_to u.component.brand.name + " " + u.component.comp_id.to_s, u.component%></td>
 	 <td> <%= link_to u.title, comp_todo_path(u)%></td>
 	 <td><%= u.created_at.strftime("%d %B %Y") %></td>
   	<td><%= u.task %></td>
