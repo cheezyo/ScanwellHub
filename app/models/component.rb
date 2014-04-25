@@ -5,12 +5,14 @@ class Component < ActiveRecord::Base
   has_many :comp_todos
   has_many :logcomponents
   
-  attr_accessible :available, :calibrated, :commet, :comp_id, :last_check, :brand_id, :unit_id, :company_id, :range
+  attr_accessible :available, :calibrated, :commet, :comp_id, :serial_nr, :last_check, :brand_id, :unit_id, :company_id, :range
   
   before_validation :save_old_unit_id
-  validate :serial_number  
-  validates :comp_id, :uniqueness => {:scope => :comp_id,
+  validates :serial_nr, :uniqueness => {:scope => :serial_nr,
     message: "Serial number must be unique" }
+  
+  validates :comp_id, :uniqueness => {:scope => :comp_id,
+    message: "ID must be unique" }
   validate :brand_id_present
   validate :company_id_present
   validate :unit_id_change

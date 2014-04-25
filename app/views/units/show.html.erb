@@ -189,8 +189,8 @@
       	<th>Serial number</th>
 	    <th>Type</th>
 	    <th>Next check</th>
-	    <th>Calibrated</th>
-	    <th>Comment</th>
+	   
+	   
     
     
     </tr>
@@ -204,7 +204,7 @@
         <td><%= link_to c.comp_id, c %></td>
          <td><%= Brand.find(c.brand_id).name %></td>
          <% d = (c.last_check + 1.year)- DateTime.now%>
-        <td><%= (c.last_check + 1.year).strftime("%d %b %y") %>
+        <td><%= c.last_check + 1.year %>
         <% if d > 90 %>
         	<span style="color:#00ff00;">
         	<% elsif d < 90 && d > 30 %>
@@ -212,15 +212,12 @@
         	<% else %>
         	<span style="color:#bb0000;">
         	<% end %>
-        	(in <%= d.to_i %> days)
+        	(<%= d.to_i %> days)
         	</span>
         	
         </td>
-        <td><%= c.calibrated %></td>
-        <td><% if c.commet != nil %>
-        	<%= c.commet.truncate(15)%>
-        	<%end %>
-        </td>
+        
+       
         </tr>
         
       

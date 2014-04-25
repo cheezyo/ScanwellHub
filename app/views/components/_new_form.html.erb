@@ -9,19 +9,26 @@
       </ul>
     </div>
   <% end %>
-  
-  <div class="control-group">
-    <%= f.label 'Serial number', :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :comp_id, :class => 'text_field' %>
-    </div>
-  </div>
-    <div class="control-group">
+      <div class="control-group">
     <%= f.label "Type of component", :class => 'control-label' %>
     <div class="controls">
     <%= f.collection_select :brand_id, Brand.all, :id, :name, :include_blank => "Select a type" %>
     </div>
   </div>
+  <div class="control-group">
+    <%= f.label 'Component id', :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :comp_id, :class => 'text_field' %>
+    </div>
+  </div>
+  
+    <div class="control-group">
+    <%= f.label 'Serial number', :class => 'control-label' %>
+    <div class="controls">
+      <%= f.text_field :serial_nr, :class => 'text_field' %>
+    </div>
+  </div>
+
     <div class="control-group">
     <%= f.label :unit_id, :class => 'control-label' %>
     <div class="controls">
@@ -42,13 +49,13 @@
     </div>
   </div>
 
-
   <div class="control-group">
-    <%= f.label :calibrated, :class => 'control-label' %>
+    <%= f.label :range, :class => 'control-label' %>
     <div class="controls">
-      <%= f.check_box  :calibrated, :class => 'text_field' %>
+      <%= f.text_field :range, :class => 'text_field' %>
     </div>
   </div>
+
   <div class="control-group">
     <%= f.label :commet, :class => 'control-label' %>
     <div class="controls">

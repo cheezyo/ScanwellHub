@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140409223906) do
+ActiveRecord::Schema.define(version: 20140425131630) do
 
   create_table "activity_logs", force: true do |t|
     t.integer  "user_id"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20140409223906) do
     t.integer  "company_id"
     t.string   "range"
     t.integer  "client_id"
+    t.string   "serial_nr"
   end
 
   create_table "locations", force: true do |t|
@@ -164,7 +165,7 @@ ActiveRecord::Schema.define(version: 20140409223906) do
   end
 
   create_table "units", force: true do |t|
-    t.integer  "unit_id"
+    t.string   "unit_id"
     t.integer  "location"
     t.date     "last_check"
     t.boolean  "available"

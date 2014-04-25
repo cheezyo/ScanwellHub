@@ -70,12 +70,11 @@
     	<th></th>
       <th>Serial number</th>
       <th>Type</th>
-      <th>Last check</th>
+      <th>Next check</th>
       <th>Unit id</th>
       
       <th>Available</th>
-      <th>Calibrated</th>
-      <th>Comment</th>
+      
      
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
       
@@ -88,12 +87,24 @@
       	<td><%= link_to component.comp_id, component %></td>
       	<% brand = Brand.find(component.brand_id) %>
         <td><%= link_to brand.name, brand %></td>
-        <td><%= component.last_check %></td>
+         <% d = (component.last_check + 1.year)- DateTime.now%>
+        <td><%= component.last_check + 1.year %>
+        <% if d > 90 %>
+        	<span style="color:#00ff00;">
+        	<% elsif d < 90 && d > 30 %>
+        	<span style="color:#FF9900;">
+        	<% else %>
+        	<span style="color:#bb0000;">
+        	<% end %>
+        	(<%= d.to_i %> days)
+        	</span>
+        	
+        </td>
         <% if component.unit_id != nil && Unit.exists?(component.unit_id)%>
         <% unit =  Unit.find(component.unit_id)%>
         <td><%= link_to unit.unit_id, unit %></td>
         <% else %>
-        <td>No assigned</td>
+        <td>Not assigned</td>
         
         <% end %>
         
@@ -104,16 +115,8 @@
         	No
         	<% end %>
         </td>
-        <td><% if component.calibrated %>
-        	Yes
-        	<% else %>
-        	No
-        	<% end %>
-        </td>
-        <td><% if component.commet != nil %>
-        	<%= component.commet.truncate(15)%>
-        	<% end %>
-        </td>
+       
+    
        
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),

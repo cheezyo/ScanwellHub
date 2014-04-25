@@ -128,8 +128,10 @@
 </div>
 
 <dl class="dl-horizontal">
-  <dt><strong>Serial number:</strong></dt>
+  <dt><strong>ID:</strong></dt>
   <dd><%= @component.comp_id %></dd>
+  <dt>Serial number:</dt>
+  <dd><%= @component.serial_nr %></dd>
   <dt><strong>Owner:</strong></dt>
   <dd><%= Company.find(@component.company_id).name if Company.exists?(@component.company_id) %></dd>
   <dt><strong><%= model_class.human_attribute_name(:last_check) %>:</strong></dt>
@@ -156,13 +158,7 @@
   	No
   	<% end %>
   </dd>
-  <dt><strong><%= model_class.human_attribute_name(:calibrated) %>:</strong></dt>
-  <dd><% if @component.calibrated %>
-  	Yes
-  	<% else %>
-  	No
-  	<% end %>
-  </dd>
+
   <dt><strong><%= model_class.human_attribute_name(:commet) %>:</strong></dt>
   <dd><%= @component.commet %></dd>
 </dl>

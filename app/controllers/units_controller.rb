@@ -1,11 +1,16 @@
 class UnitsController < ApplicationController
   before_action :set_unit, only: [:show, :edit, :update, :destroy]
-  helper_method :sort_column, :sort_direction, :setup_new_registration_for_tracking, :get_by_status_id
+  helper_method :sort_column, :sort_direction, :setup_new_registration_for_tracking, :get_by_status_id, :check_comp_calibration
   # GET /units
   # GET /units.json
   def index
-   get_by_status_id
-    #@units = Unit.all
+   #get_by_status_id
+   
+    @units = Unit.all
+    
+    lms = UnitName.where("title == ? ", "LMS")
+    @lms = Unit.where("unit_name_id == ?", lms)
+    
     respond_to do |format|
     format.html
     format.csv { send_data @units.to_csv }
@@ -78,7 +83,20 @@ class UnitsController < ApplicationController
 
   private
   
+   def check_comp_calibration(unit)
+   alert = 0
    
+   unit.components.each do |c|
+     if (c.last_check + 1.year) <= DateTime.now + 30.days
+       alert = alert + 1
+       
+     end
+     
+   end
+   return alert
+   
+ end
+  
     # Use callbacks to share common setup or constraints between actions.
     def set_unit
       @unit = Unit.find(params[:id])

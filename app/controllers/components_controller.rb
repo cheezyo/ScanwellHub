@@ -123,7 +123,7 @@ class ComponentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def component_params
-      params.require(:component).permit(:comp_id, :last_check, :unit_id, :brand_id, :available, :calibrated, :commet, :company_id, :component_ids, :components, :range)
+      params.require(:component).permit(:serial_nr, :comp_id, :last_check, :unit_id, :brand_id, :available, :calibrated, :commet, :company_id, :component_ids, :components, :range)
     end
     
       def sort_column

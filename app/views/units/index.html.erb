@@ -74,13 +74,13 @@
       
       <th>Next check</th>
       
-      <th>Comment</th>
+      <th>Alerts</th>
     
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
   <tbody>
-    <% @units.each do |unit| %>
+    <% @lms.each do |unit| %>
       <tr>
         
         <td><%= link_to unit.unit_id, unit %></td>
@@ -109,7 +109,7 @@
         	
         </td>
         
-        <td><%= unit.comment.truncate(15) %></td>
+        <td><%= check_comp_calibration(unit) %></td>
        
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
@@ -126,10 +126,10 @@
 </table>
 </div>
 
- <div class="tab-pane active" id="ams">
+ <div class="tab-pane " id="ams">
   	</div>
-  	 <div class="tab-pane active" id="twm">
+  	 <div class="tab-pane " id="twm">
   	</div>
-  	 <div class="tab-pane active" id="modelh">
+  	 <div class="tab-pane " id="modelh">
   	</div>
   	</div>
