@@ -8,8 +8,8 @@ class UnitsController < ApplicationController
    
     @units = Unit.all
     
-    lms = UnitName.where("title == ? ", "LMS")
-    @lms = Unit.where("unit_name_id == ?", lms)
+    #lms = UnitName.where("title == ? ", "LMS")
+    #@lms = Unit.where("unit_name_id == ?", lms)
     
     respond_to do |format|
     format.html
