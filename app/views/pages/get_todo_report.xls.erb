@@ -16,7 +16,7 @@
       </Row>
     <% @unit_todos.each do |ut| %>
       <Row>
-        <Cell><Data ss:Type="Date"><%= ut.created_at.strftime("%d/%m/%Y") %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ut.created_at.strftime("%d/%m/%Y") %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ut.unit.unit_id.to_s %></Data></Cell>
         <Cell><Data ss:Type="String"><%= Location.find(ut.unit.logunits.last.sent_to).name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ut.title %></Data></Cell>
@@ -30,12 +30,12 @@
     
       <% @comp_todos.each do |ct| %>
       <Row>
-      	<Cell><Data ss:Type="Date"><%= ct.created_at.strftime("%d/%m/%Y") %></Data></Cell>
+      	<Cell><Data ss:Type="String"><%= ct.created_at.strftime("%d/%m/%Y") %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ct.component.comp_id.to_s %></Data></Cell>
        <Cell><Data ss:Type="String"><%= Location.find(ct.component.logcomponents.last.sent_to).name %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ct.title %></Data></Cell>
         <Cell><Data ss:Type="String"><%= ct.task %></Data></Cell>
-         <Cell><Data ss:Type="String"><%= (ct.component.last_check + 1.year).strftime("%d/%m/%y") %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= (ct.component.last_check + 1.year).strftime("%d/%m/%y") %></Data></Cell>
       </Row>
     <% end %>
     </Table>
