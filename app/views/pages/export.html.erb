@@ -39,7 +39,7 @@
   	  <% if ! @log.empty?  %>
   <h4>Results: <%= @log.count %></h4>
   <% @log.each do |l| %>
-  	<p><b> <%= l.send_date %></b> <%= l.unit.unit_id %> sent from: | <b><%= Location.find(l.sent_from).name %></b>
+  	<p><b> <%= l.send_date %></b> <%= l.unit.unit_id %> sent from: <b><%= Location.find(l.sent_from).name %></b>
   		to: <b><%= Location.find(l.sent_to).name %> <%= l.arrive_date %></b>	
   	</p>
   	<% end %>

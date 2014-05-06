@@ -23,7 +23,7 @@ class PagesController < ApplicationController
  
   end
   def get_unit_location
-   @log = Logunit.order("created_at desc ")
+   @log = Logunit.order("send_date desc ")
      if ! params[:unit_location_start_date].blank?
      date = Date.parse(params[:unit_location_start_date])
      @log = @log.where("send_date >= ?", date)
