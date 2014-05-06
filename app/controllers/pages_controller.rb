@@ -28,16 +28,18 @@ class PagesController < ApplicationController
      if ! params[:sent_from].blank?
        @from = params[:sent_from].to_i
      @log = @log.where(:sent_from => @from)
-   
+     @log = @log.reject {|l| l.sent_to == @from}
+  
      end
    
      if ! params[:unit_location_start_date].blank?
-     date = Date.parse(params[:unit_location_start_date])
-     @log = @log.where("send_date >= ?", date)
+     @date = Date.parse(params[:unit_location_start_date])
+     @log = @log.reject {|l| l.send_date <= @date} #  ("send_date >= ?", date)
+     
     end
     if ! params[:unit_location_end_date].blank?
-     end_date = Date.parse(params[:unit_location_end_date])
-     @log = @log.where("send_date <= ?", end_date)
+     @end_date = Date.parse(params[:unit_location_end_date])
+     @log = @log.reject {|l| l.send_date >= @end_date}  #("send_date <= ?", @end_date)
    end
  
   

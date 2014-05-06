@@ -38,12 +38,17 @@
   	
   	  <% if ! @log.empty?  %>
   <h4>Results: <%= @log.count %></h4>
+
+  	<h5>Shippments  <%= "from " + Location.find(@from).name if ! @from.blank? %> <%= @date if ! @date.blank? %> <% if @end_date %> to <%= @end_date%> <% end %> </h5>
+  
+  <ul class="report">
   <% @log.each do |l| %>
-  	<p><b> <%= l.send_date %></b> <%= link_to l.unit.unit_id, l.unit %> sent from: <b><%= Location.find(l.sent_from).name %></b>
-  		to: <b><%= Location.find(l.sent_to).name %> <%= l.arrive_date %></b>	
-  	</p>
+  	
+  	<li><b> <%= l.send_date %></b> <%= link_to l.unit.unit_id, l.unit %> sent from: <b><%= Location.find(l.sent_from).name %></b>
+  		to: <b><%= Location.find(l.sent_to).name %> <%= l.arrive_date %></b> <%= link_to "Go to package -->", l.package %>	
+  	</li>
   	<% end %>
-  	from: <%= @from.class %>
+</ul>
   <% else %>
   "No matches"
   <% end %>
