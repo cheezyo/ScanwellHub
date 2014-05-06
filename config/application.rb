@@ -8,7 +8,7 @@ Bundler.require(:default, Rails.env)
 
 module RegisterTest2
   class Application < Rails::Application
-    
+      
     #live
     STATUS_IN_TRANSIT = 3 
     LOCATION_SCANWELL_NO = 1 

@@ -5,7 +5,7 @@ class UnitsController < ApplicationController
   # GET /units.json
   def index
    #get_by_status_id
-   
+    @unitnames = UnitName.count
     @units = Unit.all
     
     #lms = UnitName.where("title == ? ", "LMS")

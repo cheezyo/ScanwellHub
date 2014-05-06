@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
+  xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+  xmlns:html="http://www.w3.org/TR/REC-html40">
+  <Worksheet ss:Name="Sheet1">
+    <Table>
+      <Row>
+        <Cell><Data ss:Type="String">Date</Data></Cell>
+        <Cell><Data ss:Type="String">Equipment ID</Data></Cell>
+        <Cell><Data ss:Type="String">Location</Data></Cell>
+        <Cell><Data ss:Type="String">Description</Data></Cell>
+        <Cell><Data ss:Type="String">Missing/Broken</Data></Cell>
+        <Cell><Data ss:Type="String">Next maintanance</Data></Cell>
+      </Row>
+    <% @unit_todos.each do |ut| %>
+      <Row>
+        <Cell><Data ss:Type="Date"><%= ut.created_at.strftime("%d/%m/%Y") %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ut.unit.unit_id.to_s %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= Location.find(ut.unit.logunits.last.sent_to).name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ut.title %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ut.task %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= (ut.unit.last_check + 1.year).strftime("%d/%m/%y") %></Data></Cell>
+        
+       
+        
+      </Row>
+    <% end %>
+    
+      <% @comp_todos.each do |ct| %>
+      <Row>
+      	<Cell><Data ss:Type="Date"><%= ct.created_at.strftime("%d/%m/%Y") %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ct.component.comp_id.to_s %></Data></Cell>
+       <Cell><Data ss:Type="String"><%= Location.find(ct.component.logcomponents.last.sent_to).name %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ct.title %></Data></Cell>
+        <Cell><Data ss:Type="String"><%= ct.task %></Data></Cell>
+         <Cell><Data ss:Type="String"><%= (ct.component.last_check + 1.year).strftime("%d/%m/%y") %></Data></Cell>
+      </Row>
+    <% end %>
+    </Table>
+  </Worksheet>
+</Workbook>
+   

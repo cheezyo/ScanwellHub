@@ -66,6 +66,29 @@ class PagesController < ApplicationController
     end 
   end
   
+  def get_todo_report
+  @unit_todos = Array.new
+  UnitTodo.all.each do |ut|
+  todo = Todo.find(ut.todo_id)
+   if ! todo.done 
+      @unit_todos << ut
+   end
+  end 
+  
+   @comp_todos = Array.new
+  CompTodo.all.each do |ct|
+  todo = Todo.find(ct.todo_id)
+   if ! todo.done 
+      @comp_todos << ct
+   end
+  end
+    respond_to do |format|
+    format.html
+    #format.csv { send_data to_csv(@components,@comp_column_names) }
+    format.xls 
+    end  
+  end
+  
     def to_csv(list,column_names, options = {})
     CSV.generate(options) do |csv|
     csv << column_names
