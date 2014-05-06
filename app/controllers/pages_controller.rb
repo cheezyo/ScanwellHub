@@ -24,6 +24,13 @@ class PagesController < ApplicationController
   end
   def get_unit_location
    @log = Logunit.order("send_date desc ")
+    
+     if ! params[:sent_from].blank?
+       from = params[:sent_from].to_i
+     @log = @log.where("sent_from == ?", from)
+   
+     end
+   
      if ! params[:unit_location_start_date].blank?
      date = Date.parse(params[:unit_location_start_date])
      @log = @log.where("send_date >= ?", date)
@@ -32,9 +39,7 @@ class PagesController < ApplicationController
      end_date = Date.parse(params[:unit_location_end_date])
      @log = @log.where("send_date <= ?", end_date)
    end
-   if ! params[:sent_from].blank?
-     @log = @log.where("sent_from == ?", params[:sent_from].to_i)
-   end
+ 
   
   
      render 'export'
