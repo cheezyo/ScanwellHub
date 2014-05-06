@@ -43,6 +43,7 @@
   		to: <b><%= Location.find(l.sent_to).name %> <%= l.arrive_date %></b>	
   	</p>
   	<% end %>
+  	from: <%= @from.class %>
   <% else %>
   "No matches"
   <% end %>

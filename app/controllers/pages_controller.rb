@@ -26,8 +26,8 @@ class PagesController < ApplicationController
    @log = Logunit.order("send_date desc ")
     
      if ! params[:sent_from].blank?
-       from = params[:sent_from].to_i
-     @log = @log.where("sent_from == ?", from)
+       @from = params[:sent_from].to_i
+     @log = @log.where(:sent_from => @from)
    
      end
    
