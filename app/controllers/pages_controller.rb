@@ -34,12 +34,12 @@ class PagesController < ApplicationController
    
      if ! params[:unit_location_start_date].blank?
      @date = Date.parse(params[:unit_location_start_date])
-     @log = @log.reject {|l| l.send_date <= @date} #  ("send_date >= ?", date)
+     @log = @log.reject {|l| l.send_date < @date} #  ("send_date >= ?", date)
      
     end
     if ! params[:unit_location_end_date].blank?
      @end_date = Date.parse(params[:unit_location_end_date])
-     @log = @log.reject {|l| l.send_date >= @end_date}  #("send_date <= ?", @end_date)
+     @log = @log.reject {|l| l.send_date > @end_date}  #("send_date <= ?", @end_date)
    end
  
   
