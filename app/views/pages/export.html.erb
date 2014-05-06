@@ -45,7 +45,7 @@
   <% @log.each do |l| %>
   	
   	<li><b> <%= l.send_date %></b> <%= link_to l.unit.unit_id, l.unit %> sent from: <b><%= Location.find(l.sent_from).name %></b>
-  		to: <b><%= Location.find(l.sent_to).name %> <%= l.arrive_date %></b> <%= link_to "Go to package -->", l.package %>	
+  		to: <b><%= Location.find(l.sent_to).name %> <% if l.arrive_date.blank? %> in transit <% else %> <%= l.arrive_date %> <% end %> </b> <%= link_to "Go to package -->", l.package %>	
   	</li>
   	<% end %>
 </ul>
