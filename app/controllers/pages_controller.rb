@@ -33,7 +33,7 @@ class PagesController < ApplicationController
      @log = @log.where("send_date <= ?", end_date)
    end
    if ! params[:sent_from].blank?
-     @log = @log.where("sent_from == ?", params[:sent_from])
+     @log = @log.where("sent_from == ?", params[:sent_from].to_i)
    end
   
   
