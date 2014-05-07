@@ -5,12 +5,12 @@
 <table class="table table-striped" id="packages">
   <thead>
     <tr>
-      	
+      	<th><%= model_class.human_attribute_name(:pack_nr) %></th>
        	<th>Sent</th>
       	<th>From</th>
       	<th>To</th>
-      
-      	
+      	<th>Arrived</th>
+      	<th>Recived by</th>
       	<th><%= model_class.human_attribute_name(:status) %></th>
       
       
@@ -21,12 +21,12 @@
   <tbody>
     <% @packages.each do |package| %>
       <tr>
-       
+        <td><%= package.pack_nr  == nil ? "no number" : package.pack_nr%></td>
         <td><%= package.created_at.strftime("%d %b %Y") %></td>
         <td><%= Location.find(package.origin).name if Location.exists?(package.origin)  %></td>
         <td><%= Location.find(package.destiantion).name if Location.exists?(package.destiantion)  %></td>
-       
-       
+        <td><%= package.arrival_date == nil ? "Not arrived" : package.arrival_date.strftime("%d %b %Y") %></td>
+        <td><%= User.find(package.reciver).first_name if User.exists?(package.reciver)  %></td>
         <td><%= Status.find( package.status).name if Status.exists?( package.status)  %></td>
         
        
