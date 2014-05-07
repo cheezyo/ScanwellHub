@@ -25,7 +25,7 @@ class Package < ActiveRecord::Base
         l.sent_from = self.origin
         l.sent_to = self.destiantion
         l.send_date = self.created_at
-        l.status = self.status
+        l.status = RegisterTest2::Application::STATUS_IN_TRANSIT
         l.client_id = client_id
         l.package_id = self.id
         l.save
@@ -37,7 +37,7 @@ class Package < ActiveRecord::Base
              l.sent_from = self.origin
              l.sent_to = self.destiantion
              l.send_date = self.created_at
-             l.status = self.status
+             l.status = RegisterTest2::Application::STATUS_IN_TRANSIT
              l.client_id = client_id
              l.package_id = self.id
              l.on_unit = u.id
@@ -56,7 +56,7 @@ class Package < ActiveRecord::Base
         l.sent_from = self.origin
         l.sent_to = self.destiantion
         l.send_date = self.created_at
-        l.status = self.status
+        l.status = RegisterTest2::Application::STATUS_IN_TRANSIT
         l.client_id = self.client_id
         l.package_id = self.id
         l.save

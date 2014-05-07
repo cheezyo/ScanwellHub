@@ -10,66 +10,90 @@
 		      </ul>
 		    </div>
   		<% end %>
-   <% if allow_param? :package, :origin %>
-  <div class="control-group">
-    <%= f.label :origin, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.collection_select :origin, Location.all, :id, :name, :include_blank => "Select a origin" %>
-    </div>
-  </div>
-  <% end %>
-  <div class="control-group">
-    <%= f.label :destiantion, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.collection_select :destiantion, Location.all, :id, :name, :include_blank => "Select a destination" %>
-    </div>
-  </div>
- <% if allow_param? :package, :client_id %>
- <div class="control-group">
-    <%= f.label "Client", :class => 'control-label' %>
-    <div class="controls">
-      <%= f.collection_select :client_id, Company.all, :id, :name, :include_blank => "Select a client"%>
-    </div>
-  </div>
-<% end %>
-  <div class="control-group">
-    <%= f.label :status, :class => 'control-label' %>
-    <div class="controls">
-     <%= f.collection_select :status, Status.all, :id, :name, :include_blank => "Select a status" %>
-    </div>
-  </div>
-    <div class="control-group">
-    <%= f.label :pack_nr, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :pack_nr, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :po, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :po, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :ref, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_field :ref, :class => 'text_field' %>
-    </div>
-  </div>
-  <div class="control-group">
-    <%= f.label :coment, :class => 'control-label' %>
-    <div class="controls">
-      <%= f.text_area :coment, :class => 'text_field' %>
-    </div>
-  </div>
   
+  <table class="new-package">
+  	
+  	<tbody>
+  		<tr>
+  			<td>
+  				From
+  			</td>
+  			<td>
+  				To
+  			</td>
+  			<td>Client</td>
+  		</tr>
+  		<tr>
+  		<td>
+  			 <%= f.collection_select :origin, Location.all, :id, :name, :include_blank => "-" %>
+  		</td>
+  		<td>
+  			<%= f.collection_select :destiantion, Location.all, :id, :name, :include_blank => "-" %>
+  		</td>
+  		<% if allow_param? :package, :client_id %>
+  		<td>
+  			<%= f.collection_select :client_id, Company.all, :id, :name, :include_blank => "-"%>
+  			
+  		</td>
+  		<% end %>
+  		</tr>
+  		<tr>
+  			<td>
+  				Package number
+  			</td>
+  			<td>
+  				PO
+  			</td>
+  			<td>
+  				PMO
+  			</td>
+  		</tr>
+  		<tr>
+  		<td>
+  			 <%= f.text_field :pack_nr, :class => 'text_field' %>
+  		</td>
+  		<td>
+  			<%= f.text_field :po,  :class => 'text_field' %>
+  		</td>
+  		<td>
+  			<%= text_field_tag :pmo%>
+  		</td>
+  		</tr>
+  		<tr>
+  			<td>
+  				Ref. person
+  			</td>
+  		</tr>
+  		<tr>
+  			<td>
+  				<%= f.text_field :ref,  :class => 'text_field' %>
+  			</td>
+  		</tr>
+  		<tr>
+  			<td>
+  				Comments
+  			</td>
+  		</tr>
+  		<tr>
+  			<td>
+  				<%= f.text_area :coment,:placeholder => "Any remarks", :class => 'text_field' %>
+  			</td>
+  		</tr>
+  	</tbody>
+  </table>		
+  		
+  <br />
+ <hr />
+	
+
   
 	<h3>Units</h3>
 	 <table class="table table-striped" id="units">
 				  <thead>
 				    <tr>
 				      <th>Add</th>
-				      <th>Name</th>
+				      <th>ID</th>
+				      <th>Location</th>
 				    </tr>
 				    </thead>
 				    <tbody>
@@ -86,6 +110,7 @@
 				    		<%= link_to unit.unit_id, unit %>
 		      				
 				    	</td>
+				    	<td><%= Location.find(unit.logunits.last.sent_to).name %></td>
 				    </tr>
 				    <% end %>
 				    </tbody>
@@ -96,7 +121,8 @@
 				  <thead>
 				    <tr>
 				      <th>Add</th>
-				      <th>Name</th>
+				      <th>ID</th>
+				      <th>Location</th>
 				    </tr>
 				    </thead>
 				    <tbody>
@@ -113,6 +139,7 @@
 				    		<%= link_to component.comp_id, component %>
 		      				<% brand = Brand.find(component.brand_id) %>
 				    	</td>
+				    	<td><%= Location.find(component.logcomponents.last.sent_to).name%></td>
 				    </tr>
 				    <% end %>
 				    </tbody>
