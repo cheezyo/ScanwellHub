@@ -9,7 +9,7 @@
        	<th>Sent</th>
       	<th>From</th>
       	<th>To</th>
-      	<th>Arrived</th>
+      
       	
       	<th><%= model_class.human_attribute_name(:status) %></th>
       
@@ -25,7 +25,7 @@
         <td><%= package.created_at.strftime("%d %b %Y") %></td>
         <td><%= Location.find(package.origin).name if Location.exists?(package.origin)  %></td>
         <td><%= Location.find(package.destiantion).name if Location.exists?(package.destiantion)  %></td>
-        <td><%= package.arrival_date.strftime("%d %b %Y") %></td>
+       
        
         <td><%= Status.find( package.status).name if Status.exists?( package.status)  %></td>
         
