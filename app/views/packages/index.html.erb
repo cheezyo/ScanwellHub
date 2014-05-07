@@ -5,7 +5,7 @@
 <table class="table table-striped" id="packages">
   <thead>
     <tr>
-      	<th><%= model_class.human_attribute_name(:pack_nr) %></th>
+      	
        	<th>Sent</th>
       	<th>From</th>
       	<th>To</th>
@@ -21,7 +21,7 @@
   <tbody>
     <% @packages.each do |package| %>
       <tr>
-        <td><%= package.pack_nr  == nil ? "no number" : package.pack_nr%></td>
+       
         <td><%= package.created_at.strftime("%d %b %Y") %></td>
         <td><%= Location.find(package.origin).name if Location.exists?(package.origin)  %></td>
         <td><%= Location.find(package.destiantion).name if Location.exists?(package.destiantion)  %></td>
