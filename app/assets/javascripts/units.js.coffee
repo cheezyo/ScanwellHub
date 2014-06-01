@@ -2,10 +2,14 @@
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
 ready = ->
-  $('#units, #unit-comps').dataTable
+  $('#units').dataTable
    bJQueryUI: true
    aaSorting: [[5, "asc"]]
   
+  $('#unit-comps').dataTable
+   bJQueryUI: true
+   aaSorting: [[3, "asc"]]
+   
   $('#unit_last_check').datepicker
     dateFormat: 'yy-mm-dd'
 
