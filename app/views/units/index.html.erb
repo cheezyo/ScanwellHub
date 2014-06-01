@@ -87,7 +87,7 @@
         <td><%= Location.find(unit.logunits.last.sent_to).name if Location.exists?(unit.logunits.last.sent_to)  %></td> 
         
        
-        <td><%= (unit.last_check + 1.year).strftime("%d %b %y") %>
+        <td><%= (unit.last_check + 1.year).strftime("%d-%b-%y") %>
         	<% days = (unit.last_check + 1.year)- DateTime.now %>
         	<% if days > 90 %>
         	<span style="color:#00ff00;">
