@@ -2,22 +2,19 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize.titleize %></h1>
 </div>
-<table class="table table-striped">
+<table class="table table-striped" id="packages">
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:id) %></th>
-      <th><%= model_class.human_attribute_name(:origin) %></th>
-      <th><%= model_class.human_attribute_name(:destiantion) %></th>
-      <th><%= model_class.human_attribute_name(:arrival_date) %></th>
-      <th><%= model_class.human_attribute_name(:reciver) %></th>
+       <th>Sent</th>
+      <th>From</th>
+      <th>To</th>
+      <th>Arrived</th>
+      <th>Recived by</th>
       <th><%= model_class.human_attribute_name(:status) %></th>
-      <th><%= model_class.human_attribute_name(:po) %></th>
-      <th><%= model_class.human_attribute_name(:ref) %></th>
-      <th><%= model_class.human_attribute_name(:coment) %></th>
       <th><%= model_class.human_attribute_name(:pack_nr) %></th>
-      <th><%= model_class.human_attribute_name(:unit_ids) %></th>
-      <th><%= model_class.human_attribute_name(:components_ids) %></th>
-      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      
+     
       <th><%=t '.actions', :default => t("helpers.actions") %></th>
     </tr>
   </thead>
@@ -25,18 +22,15 @@
     <% @packages.each do |package| %>
       <tr>
         <td><%= link_to package.id, package_path(package) %></td>
-        <td><%= package.origin %></td>
-        <td><%= package.destiantion %></td>
-        <td><%= package.arrival_date %></td>
-        <td><%= package.reciver %></td>
-        <td><%= package.status %></td>
-        <td><%= package.po %></td>
-        <td><%= package.ref %></td>
-        <td><%= package.coment %></td>
+        <td><%= package.created_at.strftime("%d %b %Y") %></td>
+        <td><%= Location.find(package.origin).name if Location.exists?(package.origin)  %></td>
+        <td><%= Location.find(package.destiantion).name if Location.exists?(package.destiantion)  %></td>
+        <td><%= package.arrival_date.strftime("%d %b %Y") %></td>
+        <td><%= User.find(package.reciver).first_name if User.exists?(package.reciver)  %></td>
+        <td><%= Status.find( package.status).name if Status.exists?( package.status)  %></td>
         <td><%= package.pack_nr %></td>
-        <td><%= package.unit_ids %></td>
-        <td><%= package.components_ids %></td>
-        <td><%=l package.created_at %></td>
+       
+        
         <td>
           <%= link_to t('.edit', :default => t("helpers.links.edit")),
                       edit_package_path(package), :class => 'btn btn-mini' %>

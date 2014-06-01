@@ -2,13 +2,14 @@
 <div class="page-header">
   <h1>
   	<%= @unit.unit_id %>
-    <% days = (@unit.last_check + 1.year)- DateTime.now %>
+    
     <small> 
     <% if @unit.logunits.count > 0 %>
     	<%= Status.find(@unit.logunits.last.status).name if Status.exists?(@unit.logunits.last.status)%>
-    	@ <%= Location.find(@unit.logunits.last.sent_to).name %> 
+    	@ <% loc = Location.find(@unit.logunits.last.sent_to) %> 
+    	<%= loc.name %> (<%= loc.company.name %>)
     <% end %>
-    (<%= days.to_i %> days)
+    
 	
 	</small>
   </h1>
@@ -80,6 +81,8 @@
 
     </ul>
  </div> 
+ <% days = (@unit.last_check + 1.year)- DateTime.now %>
+ <h4 style="float:right"><%= days.to_i %> days</h4>
 </div>
   
  <!-- Modal -->
@@ -161,8 +164,8 @@
  <dt><strong>Owner:</strong></dt>
   <dd><%= Company.find(@unit.company_id).name %></dd>
  <% end %>
-  <dt><strong>Working for:</strong></dt>
-  <dd><%= @unit.logunits.last.client_id != nil ? Company.find(@unit.logunits.last.client_id).name : "not set"   %></dd>
+  <dt><strong>Leased by:</strong></dt>
+  <dd><%= @unit.logunits.last.client_id != nil ? Company.find(@unit.logunits.last.client_id).name : "none"   %></dd>
   <dt><strong><%= model_class.human_attribute_name(:last_check) %>:</strong></dt>
   <dd><%= @unit.last_check %></dd>
   <dt><strong><%= model_class.human_attribute_name(:available) %>:</strong></dt>
