@@ -10,12 +10,12 @@ module RegisterTest2
   class Application < Rails::Application
     
     #live
-    STATUS_IN_TRANSIT = 3 
-    LOCATION_SCANWELL_NO = 1 
+    #STATUS_IN_TRANSIT = 3 
+    #LOCATION_SCANWELL_NO = 1 
     
     #dev
-   # STATUS_IN_TRANSIT = 2 
-    #LOCATION_SCANWELL_NO = 5
+    STATUS_IN_TRANSIT = 2 
+    LOCATION_SCANWELL_NO = 5
     
     
     

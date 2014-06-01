@@ -63,7 +63,7 @@
       <th>Status</th>
       <th>Location</th>
       
-      <th>Last check</th>
+      
       <th>Next check</th>
       
       <th>Comment</th>
@@ -86,8 +86,8 @@
         <td><%= Status.find(unit.logunits.last.status).name if Status.exists?(unit.logunits.last.status) %></td>
         <td><%= Location.find(unit.logunits.last.sent_to).name if Location.exists?(unit.logunits.last.sent_to)  %></td> 
         
-        <td><%= unit.last_check %></td>
-        <td><%= unit.last_check + 1.year %>
+       
+        <td><%= (unit.last_check + 1.year).strftime("%d %b %y") %>
         	<% days = (unit.last_check + 1.year)- DateTime.now %>
         	<% if days > 90 %>
         	<span style="color:#00ff00;">
