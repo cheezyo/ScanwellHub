@@ -4,7 +4,7 @@
 ready = ->
   $('#units').dataTable
    bJQueryUI: true
-   aaSorting: [[5, "asc"]]
+   aaSorting: [[4, "asc"]]
   
   $('#unit-comps').dataTable
    bJQueryUI: true
